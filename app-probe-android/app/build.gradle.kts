@@ -5,7 +5,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -58,6 +57,11 @@ android {
         buildConfig = true
     }
 
+    // Kotlin 1.9.24 → Compose Compiler 1.5.14 (mapping oficial JetBrains)
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -66,8 +70,8 @@ android {
 }
 
 dependencies {
-    // Compose BOM mantiene versiones consistentes
-    val composeBom = platform("androidx.compose:compose-bom:2024.09.02")
+    // Compose BOM 2024.06.00 → ships compose-ui 1.6.8, ABI compatible con compiler 1.5.14
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
     implementation(composeBom)
 
     implementation("androidx.core:core-ktx:1.13.1")
