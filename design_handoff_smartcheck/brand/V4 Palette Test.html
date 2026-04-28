@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SmartCheck — V4 en paleta nueva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:'Inter',sans-serif}
+  .sc-display{font-family:'Geist','Inter',sans-serif;letter-spacing:-0.02em}
+  .sc-mono{font-family:'JetBrains Mono',ui-monospace}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="brand/design-canvas.jsx"></script>
+
+<script type="text/babel">
+// New palette
+const INK = '#151930';       // deep navy
+const LIME = '#C6FFAD';      // soft lime
+const LIME_DARK = '#7acf5c'; // derived darker for text on white
+const OFFWHITE = '#FAFAF7';
+
+// V4 — Monogram SC in rounded square, adapted to new palette
+// Variant: color options
+const V4 = ({bg=INK, fg=LIME, dot=LIME, stroke=null}) => (
+  <svg width="260" height="72" viewBox="0 0 260 72">
+    <rect x="12" y="12" width="48" height="48" rx="14" fill={bg} stroke={stroke||'none'} strokeWidth={stroke?1.5:0}/>
+    <text x="36" y="47" textAnchor="middle" className="sc-display" fontSize="26" fontWeight="800" fill={fg} letterSpacing="-1">SC</text>
+    <circle cx="52" cy="20" r="4" fill={dot}/>
+    <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={bg===OFFWHITE || bg==='#fff' ? INK : (bg===LIME ? INK : '#fff')}>SmartCheck</text>
+  </svg>
+);
+
+// Mark only, sized up
+const V4Mark = ({bg=INK, fg=LIME, dot=LIME, size=120, rx=28, stroke=null}) => (
+  <svg width={size} height={size} viewBox="0 0 72 72">
+    <rect x="4" y="4" width="64" height="64" rx={rx} fill={bg} stroke={stroke||'none'} strokeWidth={stroke?1.5:0}/>
+    <text x="36" y="47" textAnchor="middle" className="sc-display" fontSize="32" fontWeight="800" fill={fg} letterSpacing="-1.2">SC</text>
+    <circle cx="54" cy="14" r="5" fill={dot}/>
+  </svg>
+);
+
+function Swatch({hex, name, text}) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',gap:10,width:220}}>
+      <div style={{width:'100%',height:140,background:hex,borderRadius:6,boxShadow:'0 1px 3px rgba(0,0,0,0.08)'}}/>
+      <div>
+        <div className="sc-display" style={{fontSize:14,fontWeight:600,color:INK}}>{name}</div>
+        <div className="sc-mono" style={{fontSize:10,color:'#6b7280',marginTop:2,letterSpacing:'0.08em'}}>{hex}</div>
+        <div style={{fontSize:11,color:'#6b7280',marginTop:6,lineHeight:1.4}}>{text}</div>
+      </div>
+    </div>
+  );
+}
+
+function Card({label, children, bg='#fff', w=340, h=160, pad=0}) {
+  return (
+    <DCArtboard label={label} width={w} height={h} style={{background:bg}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%',padding:pad,boxSizing:'border-box'}}>
+        {children}
+      </div>
+    </DCArtboard>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas>
+      <div style={{padding:'0 60px 40px',maxWidth:900}}>
+        <div className="sc-mono" style={{fontSize:11,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(60,50,40,0.5)'}}>Brand · V4 palette test</div>
+        <div className="sc-display" style={{fontSize:40,fontWeight:700,color:'#1a1a1a',marginTop:10,letterSpacing:-1}}>Monograma SC · nueva paleta</div>
+        <div style={{fontSize:15,color:'rgba(40,40,40,0.65)',marginTop:10,maxWidth:640,lineHeight:1.55}}>
+          Probando el V4 con lima suave <b>#C6FFAD</b> como acento y navy profundo <b>#151930</b> como base. La combinación es más vegetal y menos "fintech" — más cálida, más LATAM.
+        </div>
+      </div>
+
+      {/* Palette */}
+      <DCSection title="La paleta" subtitle="Dos tonos que tensan contraste sin saturar.">
+        <Swatch hex="#151930" name="Ink navy" text="Base. Fondos primarios, tipografía, contenedores oscuros."/>
+        <Swatch hex="#C6FFAD" name="Lime soft" text="Acento único. CTAs, resaltados, estados 'OK' en diagnóstico."/>
+        <Swatch hex="#FAFAF7" name="Off-white" text="Canvas. Superficies claras con ligero tinte cálido."/>
+        <Swatch hex="#7ACF5C" name="Lime contrast" text="Derivado del acento para tipografía sobre blanco (accesible AA)."/>
+      </DCSection>
+
+      {/* V4 combinations */}
+      <DCSection title="V4 en 8 combinaciones" subtitle="Mismo logo, distintas asignaciones de color.">
+        <Card label="A · Navy + lime (principal)" bg={OFFWHITE}>
+          <V4 bg={INK} fg={LIME} dot={LIME}/>
+        </Card>
+        <Card label="B · Lime block + navy" bg={OFFWHITE}>
+          <V4 bg={LIME} fg={INK} dot={INK}/>
+        </Card>
+        <Card label="C · Outline + lime punto" bg={OFFWHITE}>
+          <V4 bg="#fff" fg={INK} dot={LIME} stroke={INK}/>
+        </Card>
+        <Card label="D · Navy sobre navy (dark)" bg={INK}>
+          <V4 bg={LIME} fg={INK} dot={INK}/>
+        </Card>
+        <Card label="E · Solo silueta (navy)" bg={LIME}>
+          <V4 bg={INK} fg={LIME} dot={LIME}/>
+        </Card>
+        <Card label="F · Monocromo navy" bg={OFFWHITE}>
+          <V4 bg={INK} fg="#fff" dot={LIME}/>
+        </Card>
+        <Card label="G · Inverso full-dark" bg={INK}>
+          <V4 bg="rgba(255,255,255,0.08)" fg="#fff" dot={LIME} stroke="rgba(255,255,255,0.15)"/>
+        </Card>
+        <Card label="H · Lime full-bleed" bg={LIME}>
+          <V4 bg="#fff" fg={INK} dot={INK} stroke={INK}/>
+        </Card>
+      </DCSection>
+
+      {/* Scale test */}
+      <DCSection title="Tamaños · del favicon al billboard" subtitle="Chequeamos legibilidad a distintas escalas.">
+        <Card label="Favicon · 32px" bg={OFFWHITE} w={140} h={140}>
+          <V4Mark size={32} rx={8}/>
+        </Card>
+        <Card label="Button · 40px" bg={OFFWHITE} w={140} h={140}>
+          <V4Mark size={48} rx={11}/>
+        </Card>
+        <Card label="App icon · 120px" bg={OFFWHITE} w={200} h={200}>
+          <V4Mark size={120} rx={28}/>
+        </Card>
+        <Card label="Hero · 240px" bg={OFFWHITE} w={320} h={320}>
+          <V4Mark size={240} rx={56}/>
+        </Card>
+        <Card label="Sobre lime" bg={LIME} w={320} h={320}>
+          <V4Mark size={220} rx={52} bg={INK} fg={LIME} dot={LIME}/>
+        </Card>
+      </DCSection>
+
+      {/* App icon treatment */}
+      <DCSection title="App icon" subtitle="El punto lima es la firma. Se lee incluso en el home screen.">
+        <DCArtboard label="iOS app icon · principal" width={260} height={260} style={{background:'linear-gradient(135deg,#232845,#0b0e1f)'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>
+            <V4Mark size={180} rx={42} bg={INK} fg={LIME} dot={LIME} stroke="rgba(255,255,255,0.08)"/>
+          </div>
+        </DCArtboard>
+        <DCArtboard label="App icon · variante lima" width={260} height={260} style={{background:'linear-gradient(135deg,#232845,#0b0e1f)'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>
+            <V4Mark size={180} rx={42} bg={LIME} fg={INK} dot={INK}/>
+          </div>
+        </DCArtboard>
+        <DCArtboard label="Home screen mock" width={260} height={520} style={{background:'linear-gradient(180deg,#2c3250,#0b0e1f)',padding:20,boxSizing:'border-box'}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,paddingTop:40}}>
+            {Array.from({length:16}).map((_,i) => (
+              <div key={i} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:4}}>
+                {i===5 ? (
+                  <V4Mark size={52} rx={12} bg={INK} fg={LIME} dot={LIME} stroke="rgba(255,255,255,0.1)"/>
+                ) : (
+                  <div style={{width:52,height:52,borderRadius:12,background:`hsl(${(i*47)%360} 40% 50% / 0.6)`}}/>
+                )}
+                <div style={{fontSize:8,color:'rgba(255,255,255,0.8)'}}>{i===5?'SmartCheck':'App'}</div>
+              </div>
+            ))}
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* In-product context */}
+      <DCSection title="En la app" subtitle="Cómo se siente dentro del flujo de diagnóstico.">
+        <DCArtboard label="Splash screen" width={280} height={560} style={{background:INK}}>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:24,height:'100%'}}>
+            <V4Mark size={100} rx={24} bg={LIME} fg={INK} dot={INK}/>
+            <div className="sc-display" style={{color:'#fff',fontSize:22,fontWeight:700}}>SmartCheck</div>
+            <div className="sc-mono" style={{fontSize:10,color:'rgba(255,255,255,0.4)',letterSpacing:'0.15em',textTransform:'uppercase'}}>Cargando diagnóstico</div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard label="Navbar del landing" width={520} height={100} style={{background:OFFWHITE}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 24px',height:'100%'}}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <V4Mark size={36} rx={9} bg={INK} fg={LIME} dot={LIME}/>
+              <span className="sc-display" style={{fontSize:18,fontWeight:700,color:INK}}>SmartCheck</span>
+            </div>
+            <div style={{display:'flex',gap:18,alignItems:'center',fontSize:13,color:'#6b7280'}}>
+              <span>Cómo funciona</span><span>Precios</span><span>FAQ</span>
+              <button style={{background:LIME,color:INK,border:'none',padding:'9px 18px',borderRadius:10,fontWeight:600,fontSize:13,fontFamily:'Geist'}}>Probar gratis</button>
+            </div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard label="Tarjeta de reporte" width={340} height={420} style={{background:INK,padding:20,boxSizing:'border-box'}}>
+          <div style={{display:'flex',flexDirection:'column',gap:14,color:'#fff',height:'100%'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <V4Mark size={34} rx={8} bg={LIME} fg={INK} dot={INK}/>
+              <span className="sc-mono" style={{fontSize:9,color:'rgba(255,255,255,0.4)',letterSpacing:'0.12em'}}>REPORTE #A3F8</span>
+            </div>
+            <div style={{marginTop:14}}>
+              <div className="sc-mono" style={{fontSize:10,color:'rgba(255,255,255,0.4)',letterSpacing:'0.12em',textTransform:'uppercase'}}>Score</div>
+              <div className="sc-display" style={{fontSize:64,fontWeight:700,color:LIME,lineHeight:1,marginTop:4}}>94<span style={{fontSize:22,color:'rgba(255,255,255,0.5)'}}>/100</span></div>
+            </div>
+            <div style={{fontSize:13,color:'rgba(255,255,255,0.8)'}}>Equipo operativo · sin reportes de robo</div>
+            <div style={{marginTop:'auto',display:'flex',gap:8}}>
+              <div style={{flex:1,background:LIME,color:INK,padding:'10px 14px',borderRadius:10,textAlign:'center',fontWeight:600,fontSize:13,fontFamily:'Geist'}}>Descargar PDF</div>
+              <div style={{background:'rgba(255,255,255,0.1)',color:'#fff',padding:'10px 14px',borderRadius:10,fontSize:13,fontFamily:'Geist'}}>Compartir</div>
+            </div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard label="Business card" width={360} height={220} style={{background:OFFWHITE}}>
+          <div style={{padding:24,display:'flex',flexDirection:'column',justifyContent:'space-between',height:'100%',boxSizing:'border-box'}}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <V4Mark size={40} rx={10} bg={INK} fg={LIME} dot={LIME}/>
+              <span className="sc-display" style={{fontSize:18,fontWeight:700,color:INK}}>SmartCheck</span>
+            </div>
+            <div>
+              <div className="sc-display" style={{fontSize:14,fontWeight:600,color:INK}}>Martina Ríos</div>
+              <div className="sc-mono" style={{fontSize:10,color:'#6b7280',marginTop:2,letterSpacing:'0.08em'}}>HEAD OF PRODUCT</div>
+              <div style={{fontSize:11,color:'#6b7280',marginTop:8}}>martina@smartcheck.app · +54 11 2345 6789</div>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* Verdict */}
+      <DCSection title="Recomendación" subtitle="Combo A (navy con monograma lima) como principal; B como variante viva.">
+        <DCArtboard label="Sistema final" width={780} height={260} style={{background:OFFWHITE}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-around',height:'100%',padding:'0 30px'}}>
+            <V4 bg={INK} fg={LIME} dot={LIME}/>
+            <div style={{width:1,height:80,background:'rgba(0,0,0,0.1)'}}/>
+            <V4 bg={LIME} fg={INK} dot={INK}/>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCPostIt top={80} right={60} rotate={2} width={220}>
+        El lima #C6FFAD le da un carácter más "orgánico-tech" — menos fintech genérica, más característico de LATAM.
+      </DCPostIt>
+
+      <div style={{height:80}}/>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

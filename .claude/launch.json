@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "smartcheck",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd /tmp/smartcheck_serve && exec ruby -run -e httpd . -p 8765"],
+      "port": 8765
+    }
+  ]
+}

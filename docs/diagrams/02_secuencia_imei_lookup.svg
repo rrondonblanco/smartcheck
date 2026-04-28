@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#151930"/>
+    </marker>
+    <style>
+      .h1 { font-family: 'Geist', Inter, sans-serif; font-weight: 700; font-size: 22px; fill: #151930; }
+      .actor { font-family: 'Geist', Inter, sans-serif; font-weight: 700; font-size: 14px; fill: #151930; }
+      .msg { font-family: Inter, sans-serif; font-size: 12px; fill: #151930; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #37417F; }
+      .lifeline { stroke: #999; stroke-width: 1; stroke-dasharray: 4 4; }
+      .bar { fill: #EEF2FF; stroke: #37417F; stroke-width: 1; }
+      .arrow { stroke: #151930; stroke-width: 1.5; fill: none; }
+      .dashed { stroke: #22C55E; stroke-width: 1.5; fill: none; stroke-dasharray: 5 3; }
+      .note { fill: #FFF8DC; stroke: #B76E00; stroke-width: 1; rx: 4; }
+      .note-text { font-family: Inter, sans-serif; font-size: 10.5px; fill: #151930; }
+    </style>
+  </defs>
+
+  <text x="600" y="34" class="h1" text-anchor="middle">Secuencia — IMEI Lookup y flujo adaptativo</text>
+
+  <!-- Actores -->
+  <g>
+    <rect x="70" y="60" width="140" height="36" rx="6" fill="#FAFAF7" stroke="#151930" stroke-width="1.5"/>
+    <text x="140" y="84" class="actor" text-anchor="middle">Operador</text>
+    <line x1="140" y1="96" x2="140" y2="730" class="lifeline"/>
+
+    <rect x="260" y="60" width="180" height="36" rx="6" fill="#EEF2FF" stroke="#37417F" stroke-width="1.5"/>
+    <text x="350" y="84" class="actor" text-anchor="middle">Web App (React)</text>
+    <line x1="350" y1="96" x2="350" y2="730" class="lifeline"/>
+
+    <rect x="490" y="60" width="180" height="36" rx="6" fill="#E8F3FF" stroke="#4B75F7" stroke-width="1.5"/>
+    <text x="580" y="84" class="actor" text-anchor="middle">API /api/lookup</text>
+    <line x1="580" y1="96" x2="580" y2="730" class="lifeline"/>
+
+    <rect x="720" y="60" width="180" height="36" rx="6" fill="#FFF3E0" stroke="#B76E00" stroke-width="1.5"/>
+    <text x="810" y="84" class="actor" text-anchor="middle">DB TAC interna</text>
+    <line x1="810" y1="96" x2="810" y2="730" class="lifeline"/>
+
+    <rect x="950" y="60" width="200" height="36" rx="6" fill="#F5F5F5" stroke="#666" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="1050" y="84" class="actor" text-anchor="middle">GSMA / Sickw</text>
+    <line x1="1050" y1="96" x2="1050" y2="730" class="lifeline"/>
+  </g>
+
+  <!-- 1. Captura IMEI -->
+  <rect x="335" y="130" width="30" height="80" class="bar"/>
+  <path d="M 145 145 L 340 145" class="arrow" marker-end="url(#arr)"/>
+  <text x="155" y="138" class="msg">1. Ingresa IMEI (*#06# o foto)</text>
+  <text x="155" y="162" class="code">validateImeiLuhn(imei) → true</text>
+  <text x="155" y="180" class="code">const tac = imei.substring(0, 8)</text>
+
+  <!-- 2. fetch TAC -->
+  <rect x="565" y="215" width="30" height="140" class="bar"/>
+  <path d="M 365 225 L 575 225" class="arrow" marker-end="url(#arr)"/>
+  <text x="375" y="218" class="msg">2. GET /api/lookup/:tac</text>
+
+  <!-- 3. DB query -->
+  <rect x="795" y="240" width="30" height="40" class="bar"/>
+  <path d="M 595 255 L 805 255" class="arrow" marker-end="url(#arr)"/>
+  <text x="605" y="248" class="msg">3. SELECT * FROM tac WHERE tac=$1</text>
+
+  <path d="M 795 275 L 595 275" class="arrow" marker-end="url(#arr)" stroke-dasharray="3 2"/>
+  <text x="605" y="270" class="code">brand=Samsung, model=S23, os=Android</text>
+
+  <!-- 4. Hit interno -->
+  <rect x="460" y="300" width="250" height="40" class="note"/>
+  <text x="470" y="318" class="note-text">¿Miss en DB interna? (modelo &lt; 2 años)</text>
+  <text x="470" y="333" class="note-text">→ fallback a API externa (paso 4b)</text>
+
+  <!-- 4b. fallback -->
+  <rect x="1035" y="360" width="30" height="60" class="bar"/>
+  <path d="M 595 375 L 1045 375" class="dashed" marker-end="url(#arr)"/>
+  <text x="605" y="368" class="msg">4b. (fallback) GET TAC externo</text>
+
+  <path d="M 1035 405 L 595 405" class="dashed" marker-end="url(#arr)"/>
+  <text x="610" y="400" class="code">→ cache en DB local (30 días)</text>
+
+  <!-- 5. validaciones paralelas -->
+  <rect x="460" y="430" width="680" height="60" class="note"/>
+  <text x="470" y="450" class="note-text" font-weight="bold">5. Validaciones en paralelo (Promise.all):</text>
+  <text x="470" y="466" class="note-text">• stolen DB · carrier blacklist · iCloud/FRP · warranty · ICCID cross</text>
+  <text x="470" y="481" class="note-text">(reemplaza setInterval decorativo actual en ImeiCheckScreen lines 474-545)</text>
+
+  <!-- 6. response -->
+  <path d="M 575 525 L 365 525" class="arrow" marker-end="url(#arr)"/>
+  <text x="375" y="518" class="msg">6. 200 OK { device, checks[] }</text>
+  <text x="375" y="542" class="code">state.device = { brand, model, os, year, capabilities }</text>
+
+  <!-- 7. Rama adaptativa -->
+  <rect x="230" y="560" width="900" height="95" class="note" fill="#E8FFE0" stroke="#22C55E"/>
+  <text x="240" y="580" class="note-text" font-weight="bold">7. Rama adaptativa por state.device.os:</text>
+  <text x="240" y="598" class="note-text">• iOS      → muestra tests compatibles + bloque OCR "Subir captura Ajustes → Batería → Salud"</text>
+  <text x="240" y="614" class="note-text">• Android  → muestra todos los tests + CTA "Descargar SmartCheck Probe" (QR con deep-link)</text>
+  <text x="240" y="630" class="note-text">• Desconocido → modo genérico; operador pre-selecciona brand/model manualmente</text>
+  <text x="240" y="648" class="note-text" font-style="italic">Cambio concreto: TestsScreen filtra por device.capabilities en lugar de mostrar todos</text>
+
+  <!-- 8. render -->
+  <path d="M 345 685 L 155 685" class="arrow" marker-end="url(#arr)"/>
+  <text x="165" y="678" class="msg">8. Muestra tests adaptados</text>
+  <text x="165" y="702" class="code">TestsScreen renderiza solo device.capabilities</text>
+
+  <!-- Footer -->
+  <text x="600" y="755" class="msg" text-anchor="middle" font-style="italic">
+    Tiempo objetivo total: &lt; 2.5s (p95) · Si falla lookup → modo manual con "Continuar sin detectar"
+  </text>
+</svg>

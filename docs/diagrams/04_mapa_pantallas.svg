@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#151930"/>
+    </marker>
+    <style>
+      .h1 { font-family: 'Geist', Inter, sans-serif; font-weight: 700; font-size: 22px; fill: #151930; }
+      .screen { fill: #FAFAF7; stroke: #151930; stroke-width: 1.8; rx: 8; }
+      .screen-new { fill: #E8FFE0; stroke: #22C55E; stroke-width: 2; rx: 8; }
+      .screen-major { fill: #FFE8E8; stroke: #C53030; stroke-width: 2; rx: 8; }
+      .screen-minor { fill: #FFF3E0; stroke: #B76E00; stroke-width: 1.8; rx: 8; }
+      .title { font-family: 'Geist', Inter, sans-serif; font-weight: 700; font-size: 12px; fill: #151930; }
+      .sub { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; fill: #37417F; }
+      .tag { font-family: Inter, sans-serif; font-size: 9px; fill: #FAFAF7; font-weight: 700; }
+      .arrow { stroke: #37417F; stroke-width: 1.5; fill: none; opacity: 0.7; }
+      .note { font-family: Inter, sans-serif; font-size: 10.5px; fill: #151930; }
+      .legend { font-family: Inter, sans-serif; font-size: 11px; fill: #151930; }
+    </style>
+  </defs>
+
+  <text x="600" y="34" class="h1" text-anchor="middle">Mapa de 15 pantallas — app v2.html → cambios técnicos por pantalla</text>
+
+  <!-- Row 1 -->
+  <g>
+    <!-- 1 Landing -->
+    <rect x="30" y="70" width="160" height="105" class="screen"/>
+    <text x="110" y="92" class="title" text-anchor="middle">1. Landing / Inicio</text>
+    <text x="110" y="108" class="sub" text-anchor="middle">HomeScreen</text>
+    <text x="40" y="128" class="sub">lines 1-80</text>
+    <text x="40" y="145" class="note">CTA "Iniciar análisis"</text>
+    <text x="40" y="163" class="note">Sin cambios</text>
+
+    <!-- 2 Device type -->
+    <rect x="210" y="70" width="160" height="105" class="screen-minor"/>
+    <text x="290" y="92" class="title" text-anchor="middle">2. Tipo dispositivo</text>
+    <text x="290" y="108" class="sub" text-anchor="middle">DeviceTypeScreen</text>
+    <text x="220" y="128" class="sub">~lines 100-200</text>
+    <text x="220" y="145" class="note">Marca tipo manual</text>
+    <text x="220" y="163" class="note">→ Se vuelve opcional</text>
+
+    <!-- 3 IMEI -->
+    <rect x="390" y="70" width="160" height="105" class="screen-minor"/>
+    <text x="470" y="92" class="title" text-anchor="middle">3. Captura IMEI</text>
+    <text x="470" y="108" class="sub" text-anchor="middle">ImeiScreen</text>
+    <text x="400" y="128" class="sub">lines 376-472</text>
+    <text x="400" y="145" class="note">OCR + *#06#</text>
+    <text x="400" y="163" class="note">+ validación Luhn OK</text>
+
+    <!-- 4 IMEI Check -->
+    <rect x="570" y="70" width="180" height="105" class="screen-major"/>
+    <rect x="720" y="75" width="26" height="14" fill="#C53030"/>
+    <text x="733" y="86" class="tag" text-anchor="middle">MAJOR</text>
+    <text x="660" y="92" class="title" text-anchor="middle">4. IMEI Check</text>
+    <text x="660" y="108" class="sub" text-anchor="middle">ImeiCheckScreen</text>
+    <text x="580" y="128" class="sub">lines 474-545</text>
+    <text x="580" y="145" class="note">Animación decorativa</text>
+    <text x="580" y="163" class="note">→ fetch /api/lookup real</text>
+
+    <!-- 5 Device info (NEW) -->
+    <rect x="770" y="70" width="180" height="105" class="screen-new"/>
+    <rect x="920" y="75" width="26" height="14" fill="#22C55E"/>
+    <text x="933" y="86" class="tag" text-anchor="middle">NEW</text>
+    <text x="860" y="92" class="title" text-anchor="middle">5. Device info</text>
+    <text x="860" y="108" class="sub" text-anchor="middle">DeviceInfoScreen</text>
+    <text x="780" y="128" class="sub">insertar post-lookup</text>
+    <text x="780" y="145" class="note">Muestra brand/model</text>
+    <text x="780" y="163" class="note">Confirma o edita</text>
+
+    <!-- 6 Tests menu -->
+    <rect x="970" y="70" width="200" height="105" class="screen-major"/>
+    <rect x="1140" y="75" width="26" height="14" fill="#C53030"/>
+    <text x="1153" y="86" class="tag" text-anchor="middle">MAJOR</text>
+    <text x="1070" y="92" class="title" text-anchor="middle">6. Menú de tests</text>
+    <text x="1070" y="108" class="sub" text-anchor="middle">TestsMenuScreen</text>
+    <text x="980" y="128" class="sub">~lines 555-600</text>
+    <text x="980" y="145" class="note">Lista fija</text>
+    <text x="980" y="163" class="note">→ filtra por capabilities</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g>
+    <!-- 7 Screen test -->
+    <rect x="30" y="215" width="160" height="105" class="screen-minor"/>
+    <text x="110" y="237" class="title" text-anchor="middle">7. Test pantalla</text>
+    <text x="110" y="253" class="sub" text-anchor="middle">ScreenTest</text>
+    <text x="40" y="273" class="sub">~lines 700-800</text>
+    <text x="40" y="290" class="note">Ya funcional</text>
+    <text x="40" y="308" class="note">+ log resultado real</text>
+
+    <!-- 8 Touch test -->
+    <rect x="210" y="215" width="160" height="105" class="screen"/>
+    <text x="290" y="237" class="title" text-anchor="middle">8. Touch test</text>
+    <text x="290" y="253" class="sub" text-anchor="middle">TouchTest</text>
+    <text x="220" y="273" class="sub">~lines 800-900</text>
+    <text x="220" y="290" class="note">Pointer events</text>
+    <text x="220" y="308" class="note">Sin cambios</text>
+
+    <!-- 9 Camera test -->
+    <rect x="390" y="215" width="160" height="105" class="screen-minor"/>
+    <text x="470" y="237" class="title" text-anchor="middle">9. Cámara</text>
+    <text x="470" y="253" class="sub" text-anchor="middle">CameraTest</text>
+    <text x="400" y="273" class="sub">~lines 900-1000</text>
+    <text x="400" y="290" class="note">getUserMedia</text>
+    <text x="400" y="308" class="note">+ permisos fallback</text>
+
+    <!-- 10 Micro -->
+    <rect x="570" y="215" width="160" height="105" class="screen-minor"/>
+    <text x="650" y="237" class="title" text-anchor="middle">10. Micrófono</text>
+    <text x="650" y="253" class="sub" text-anchor="middle">MicTest</text>
+    <text x="580" y="273" class="sub">~lines 1000-1090</text>
+    <text x="580" y="290" class="note">Web Audio API</text>
+    <text x="580" y="308" class="note">+ nivel RMS</text>
+
+    <!-- 11 Battery -->
+    <rect x="750" y="215" width="200" height="105" class="screen-major"/>
+    <rect x="920" y="220" width="26" height="14" fill="#C53030"/>
+    <text x="933" y="231" class="tag" text-anchor="middle">MAJOR</text>
+    <text x="850" y="237" class="title" text-anchor="middle">11. Batería</text>
+    <text x="850" y="253" class="sub" text-anchor="middle">BatteryTest</text>
+    <text x="760" y="273" class="sub">lines 1095-1145</text>
+    <text x="760" y="290" class="note">navigator.getBattery</text>
+    <text x="760" y="308" class="note">→ rama por os + Probe</text>
+
+    <!-- 12 Conectividad -->
+    <rect x="970" y="215" width="200" height="105" class="screen"/>
+    <text x="1070" y="237" class="title" text-anchor="middle">12. Conectividad</text>
+    <text x="1070" y="253" class="sub" text-anchor="middle">ConnectivityTest</text>
+    <text x="980" y="273" class="sub">~lines 1150-1250</text>
+    <text x="980" y="290" class="note">WiFi/BT/GPS info</text>
+    <text x="980" y="308" class="note">Limitado en web</text>
+  </g>
+
+  <!-- Row 3 -->
+  <g>
+    <!-- 13 Botones -->
+    <rect x="30" y="360" width="160" height="105" class="screen"/>
+    <text x="110" y="382" class="title" text-anchor="middle">13. Botones físicos</text>
+    <text x="110" y="398" class="sub" text-anchor="middle">ButtonsTest</text>
+    <text x="40" y="418" class="sub">~lines 1250-1320</text>
+    <text x="40" y="435" class="note">keyup/down</text>
+    <text x="40" y="453" class="note">Sin cambios</text>
+
+    <!-- 14 Resumen -->
+    <rect x="210" y="360" width="200" height="105" class="screen-minor"/>
+    <text x="310" y="382" class="title" text-anchor="middle">14. Resumen / Score</text>
+    <text x="310" y="398" class="sub" text-anchor="middle">SummaryScreen</text>
+    <text x="220" y="418" class="sub">~lines 1320-1450</text>
+    <text x="220" y="435" class="note">Score compuesto</text>
+    <text x="220" y="453" class="note">+ decisión + export</text>
+
+    <!-- 15 Folio -->
+    <rect x="430" y="360" width="200" height="105" class="screen-minor"/>
+    <text x="530" y="382" class="title" text-anchor="middle">15. Folio / Reporte</text>
+    <text x="530" y="398" class="sub" text-anchor="middle">ReportScreen</text>
+    <text x="440" y="418" class="sub">~lines 1450-1580</text>
+    <text x="440" y="435" class="note">QR + ID único</text>
+    <text x="440" y="453" class="note">+ guardar en backend</text>
+  </g>
+
+  <!-- Arrows between screens -->
+  <g opacity="0.55">
+    <path d="M 190 122 L 210 122" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 370 122 L 390 122" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 550 122 L 570 122" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 750 122 L 770 122" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 950 122 L 970 122" class="arrow" marker-end="url(#a4)"/>
+    <!-- row 1 to row 2 -->
+    <path d="M 1070 175 L 1070 195 L 110 195 L 110 215" class="arrow" marker-end="url(#a4)"/>
+    <!-- row 2 internal -->
+    <path d="M 190 267 L 210 267" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 370 267 L 390 267" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 550 267 L 570 267" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 730 267 L 750 267" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 950 267 L 970 267" class="arrow" marker-end="url(#a4)"/>
+    <!-- row 2 to row 3 -->
+    <path d="M 1070 320 L 1070 340 L 110 340 L 110 360" class="arrow" marker-end="url(#a4)"/>
+    <!-- row 3 -->
+    <path d="M 190 412 L 210 412" class="arrow" marker-end="url(#a4)"/>
+    <path d="M 410 412 L 430 412" class="arrow" marker-end="url(#a4)"/>
+  </g>
+
+  <!-- Bloque de state schema -->
+  <rect x="700" y="490" width="470" height="250" fill="#FAFAF7" stroke="#151930" stroke-width="1.5" rx="8"/>
+  <text x="935" y="515" class="title" text-anchor="middle">Extensión del state — propuesta</text>
+  <text x="715" y="540" class="sub">const [state, setState] = useState({</text>
+  <text x="725" y="555" class="sub">  screen: 'landing',</text>
+  <text x="725" y="570" class="sub">  deviceType: null,            // ← deja de ser obligatorio</text>
+  <text x="725" y="585" class="sub">  imei: '',</text>
+  <text x="725" y="600" class="sub">  imeiCheck: { status, checks: [] },</text>
+  <text x="725" y="615" class="sub">  device: {                    // NEW — viene de /api/lookup</text>
+  <text x="725" y="630" class="sub">    brand, model, os, year,</text>
+  <text x="725" y="645" class="sub">    designCapacityMAh,</text>
+  <text x="725" y="660" class="sub">    capabilities: []           // gating de tests</text>
+  <text x="725" y="675" class="sub">  },</text>
+  <text x="725" y="690" class="sub">  tests: { screen, touch, camera, mic, battery, ... },</text>
+  <text x="725" y="705" class="sub">  score: 0,</text>
+  <text x="725" y="720" class="sub">  reportId: null,</text>
+  <text x="715" y="735" class="sub">})</text>
+
+  <!-- Legend -->
+  <rect x="30" y="510" width="260" height="230" fill="#FAFAF7" stroke="#151930" stroke-width="1" rx="6"/>
+  <text x="40" y="530" class="title">Leyenda</text>
+  <rect x="40" y="545" width="30" height="18" class="screen"/>
+  <text x="78" y="559" class="legend">Sin cambios</text>
+  <rect x="40" y="575" width="30" height="18" class="screen-minor"/>
+  <text x="78" y="589" class="legend">Cambio menor</text>
+  <rect x="40" y="605" width="30" height="18" class="screen-major"/>
+  <text x="78" y="619" class="legend">Cambio MAJOR</text>
+  <rect x="40" y="635" width="30" height="18" class="screen-new"/>
+  <text x="78" y="649" class="legend">Pantalla NEW</text>
+  <text x="40" y="680" class="legend" font-style="italic">Referencias de líneas:</text>
+  <text x="40" y="698" class="legend" font-style="italic">app v2.html (1586 líneas)</text>
+  <text x="40" y="716" class="legend" font-style="italic">Rob, 21 abr 2026 — Claude Code</text>
+</svg>

@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+tools/key.pem
+tools/cert.pem
+app v2.html.bak-*
+.gradle/
+build/
+*.apk
+*.keystore
+.idea/
+*.iml

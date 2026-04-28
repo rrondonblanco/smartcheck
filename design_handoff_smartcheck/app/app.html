@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<title>SmartCheck — Diagnóstico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display:['Geist','ui-sans-serif','system-ui'],
+        sans:['Inter','ui-sans-serif','system-ui'],
+        mono:['JetBrains Mono','ui-monospace','monospace']
+      },
+      colors: {
+        ink: { 50:'#f3f4f8',100:'#e5e7ef',200:'#c4c8d8',300:'#9096ae',400:'#575d7a',500:'#333855',600:'#232845',700:'#1b1f3a',800:'#181b33',900:'#151930' },
+        mint: { 300:'#C6FFAD',400:'#a8ef84',500:'#C6FFAD',600:'#8ad963',700:'#6cbd47' },
+        canvas: '#FAFAF7'
+      }
+    }
+  }
+}
+</script>
+<style>
+  html,body{background:#151930;color:#fff;font-family:'Inter',sans-serif;overscroll-behavior:none}
+  .font-display{font-family:'Geist',sans-serif;letter-spacing:-0.02em}
+  .font-mono{font-family:'JetBrains Mono',ui-monospace}
+  @keyframes ping-soft{75%,100%{transform:scale(2);opacity:0}}
+  .ping-soft{animation:ping-soft 2s cubic-bezier(0,0,0.2,1) infinite}
+  @keyframes pulse-soft{0%,100%{opacity:1}50%{opacity:0.4}}
+  .pulse-soft{animation:pulse-soft 1.6s ease-in-out infinite}
+  @keyframes spin-slow{to{transform:rotate(360deg)}}
+  .spin-slow{animation:spin-slow 1.4s linear infinite}
+  @keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .fade-up{animation:fade-up .35s ease-out both}
+  .hide-scroll::-webkit-scrollbar{display:none}
+  .hide-scroll{scrollbar-width:none}
+  .bg-grid{background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="../landing/src/icons.jsx"></script>
+<script type="text/babel" src="app/shell.jsx"></script>
+<script type="text/babel" src="app/screens-a.jsx"></script>
+<script type="text/babel" src="app/screens-b.jsx"></script>
+<script type="text/babel" src="app/screens-c.jsx"></script>
+<script type="text/babel" src="app/app.jsx"></script>
+</body>
+</html>

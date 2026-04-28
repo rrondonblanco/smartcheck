@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo SC sobre fondo mint, igual al ícono de la web -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Letras SC en ink-900 -->
+    <path
+        android:fillColor="#151930"
+        android:pathData="M44,40 L52,40 L52,46 L48,46 L48,50 L52,50 L52,56 L44,56 L44,52 L48,52 L48,48 L44,48 Z M58,40 L66,40 L66,46 L62,46 L62,52 L66,52 L66,56 L58,56 Z" />
+    <!-- Punto verde ink-900 (status dot) -->
+    <path
+        android:fillColor="#151930"
+        android:pathData="M68,38 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+</vector>

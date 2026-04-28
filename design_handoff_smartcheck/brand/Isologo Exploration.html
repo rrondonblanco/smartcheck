@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SmartCheck — Exploración de isologo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:'Inter',sans-serif}
+  .sc-display{font-family:'Geist','Inter',sans-serif;letter-spacing:-0.02em}
+  .sc-grotesk{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.01em}
+  .sc-mono{font-family:'JetBrains Mono',ui-monospace}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="brand/design-canvas.jsx"></script>
+
+<script type="text/babel">
+// SmartCheck isologo explorations
+// Palette: ink-900 #0A2540, mint-500 #00D4A3, white #FAFAFA
+
+const INK = '#0A2540';
+const MINT = '#00D4A3';
+const MINT_DARK = '#007c62';
+
+// ═══════════════════════════════════════════════════════════
+// INDIVIDUAL LOGO VARIANTS (each returns SVG)
+// ═══════════════════════════════════════════════════════════
+
+// V1 — Shield + checkmark, horizontal. Most literal.
+const V1 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <path d="M36 10 L58 18 V34 C58 48 48 58 36 62 C24 58 14 48 14 34 V18 Z" fill={MINT}/>
+        <path d="M24 35 L33 44 L49 26" fill="none" stroke={INK} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V2 — Bracketed check. Code-inspired, for the developer/tech audience.
+const V2 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <path d="M22 14 H14 V58 H22" fill="none" stroke={fg} strokeWidth="4" strokeLinecap="round"/>
+        <path d="M50 14 H58 V58 H50" fill="none" stroke={fg} strokeWidth="4" strokeLinecap="round"/>
+        <path d="M24 36 L32 44 L48 28" fill="none" stroke={MINT} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V3 — Circle scan with concentric check. Ring suggests sweep/scan.
+const V3 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g transform="translate(36 36)">
+        <circle r="24" fill="none" stroke={MINT} strokeWidth="2.5" strokeDasharray="3 4"/>
+        <circle r="17" fill={INK}/>
+        <path d="M-8 1 L-2 7 L8 -5" fill="none" stroke={MINT} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V4 — Monogram SC in a rounded square. Clean app-icon-ready.
+const V4 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <rect x="12" y="12" width="48" height="48" rx="14" fill={INK}/>
+        <text x="36" y="47" textAnchor="middle" className="sc-display" fontSize="26" fontWeight="800" fill={MINT} letterSpacing="-1">SC</text>
+        <circle cx="52" cy="20" r="4" fill={MINT}/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V5 — Pulse waveform ending in a check. Diagnostic heartbeat metaphor.
+const V5 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <path d="M10 36 L22 36 L28 20 L36 52 L42 28 L48 40 L54 36 L62 36"
+          fill="none" stroke={fg} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M50 38 L56 44 L66 30" fill="none" stroke={MINT} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="78" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V6 — Hexagonal badge (chip-like) with check. Hardware-leaning.
+const V6 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <path d="M36 8 L58 20 V52 L36 64 L14 52 V20 Z" fill="none" stroke={INK} strokeWidth="3"/>
+        <path d="M36 16 L51 24 V48 L36 56 L21 48 V24 Z" fill={MINT}/>
+        <path d="M26 36 L34 44 L48 28" fill="none" stroke={INK} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V7 — Check inside device corners (viewfinder / scan bracket).
+const V7 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g fill="none" stroke={fg} strokeWidth="3" strokeLinecap="round">
+        <path d="M14 20 V14 H22"/>
+        <path d="M50 14 H58 V20"/>
+        <path d="M58 52 V58 H50"/>
+        <path d="M22 58 H14 V52"/>
+      </g>
+      <path d="M22 36 L31 45 L50 24" fill="none" stroke={MINT} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V8 — Wordmark with checkmark over the 'i' dot, no mark.
+const V8 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="300" height="72" viewBox="0 0 300 72">
+      <text x="14" y="50" className="sc-display" fontSize="42" fontWeight="800" fill={fg} letterSpacing="-1.5">Smart</text>
+      <text x="138" y="50" className="sc-display" fontSize="42" fontWeight="800" fill={MINT_DARK} letterSpacing="-1.5">Check</text>
+      {/* check replacing the dot on 'i' */}
+      <path d="M170 14 L176 20 L188 8" fill="none" stroke={MINT} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+};
+
+// V9 — Slash-cut ring (scan in progress aesthetic) + check
+const V9 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g transform="translate(36 36)">
+        <circle r="22" fill="none" stroke={INK} strokeWidth="4" strokeLinecap="round"
+          strokeDasharray="110 30" transform="rotate(-45)"/>
+        <path d="M-9 1 L-2 8 L10 -6" fill="none" stroke={MINT} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V10 — Ticket/receipt (report) with fold + check. References the report artifact.
+const V10 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <path d="M16 12 H48 L58 22 V60 H16 Z" fill={INK}/>
+        <path d="M48 12 V22 H58" fill={MINT} stroke={MINT} strokeWidth="1"/>
+        <path d="M24 40 L32 48 L48 30" fill="none" stroke={MINT} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="74" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// V11 — Stacked wordmark with bar accent, no mark. Minimal editorial.
+const V11 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="88" viewBox="0 0 260 88">
+      <rect x="14" y="14" width="28" height="4" fill={MINT}/>
+      <text x="14" y="50" className="sc-display" fontSize="30" fontWeight="800" fill={fg} letterSpacing="-1">SMART</text>
+      <text x="14" y="78" className="sc-display" fontSize="30" fontWeight="400" fill={fg} letterSpacing="-0.5">check</text>
+    </svg>
+  );
+};
+
+// V12 — Signal bars + check (diagnostic health metaphor).
+const V12 = ({dark}) => {
+  const fg = dark ? '#fff' : INK;
+  return (
+    <svg width="260" height="72" viewBox="0 0 260 72">
+      <g>
+        <rect x="14" y="44" width="6" height="14" fill={fg} rx="1.5"/>
+        <rect x="24" y="36" width="6" height="22" fill={fg} rx="1.5"/>
+        <rect x="34" y="26" width="6" height="32" fill={fg} rx="1.5"/>
+        <rect x="44" y="16" width="6" height="42" fill={MINT} rx="1.5"/>
+        <path d="M54 22 L58 26 L66 18" fill="none" stroke={MINT} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="78" y="46" className="sc-display" fontSize="30" fontWeight="700" fill={fg}>SmartCheck</text>
+    </svg>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// SUPPORTING DISPLAYS
+// ═══════════════════════════════════════════════════════════
+
+function LogoCard({ children, bg='#fff', label, sub, w=340, h=140 }) {
+  return (
+    <DCArtboard label={label} width={w} height={h} style={{background:bg}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%',position:'relative'}}>
+        {children}
+        {sub && <div style={{position:'absolute',bottom:10,left:12,fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase',fontFamily:'JetBrains Mono',color: bg==='#fff'?'#95a4b7':'rgba(255,255,255,0.5)'}}>{sub}</div>}
+      </div>
+    </DCArtboard>
+  );
+}
+
+const variants = [
+  { id:'V1', name:'Escudo + check', rationale:'Confianza, protección. Más literal.', Comp:V1 },
+  { id:'V2', name:'Brackets de código', rationale:'Técnico, desarrolladores y talleres.', Comp:V2 },
+  { id:'V3', name:'Escaneo concéntrico', rationale:'Sugiere análisis, radar, sweep.', Comp:V3 },
+  { id:'V4', name:'Monograma SC', rationale:'App icon friendly. Versátil.', Comp:V4 },
+  { id:'V5', name:'Pulso diagnóstico', rationale:'Ritmo cardíaco = salud del equipo.', Comp:V5 },
+  { id:'V6', name:'Chip hexagonal', rationale:'Hardware-leaning, tech industrial.', Comp:V6 },
+  { id:'V7', name:'Viewfinder', rationale:'Escaneo fotográfico. Preciso.', Comp:V7 },
+  { id:'V8', name:'Wordmark tipográfico', rationale:'Sin marca. Editorial y minimalista.', Comp:V8 },
+  { id:'V9', name:'Anillo cortado', rationale:'Movimiento, scan en progreso.', Comp:V9 },
+  { id:'V10', name:'Reporte/certificado', rationale:'Metáfora del reporte final.', Comp:V10 },
+  { id:'V11', name:'Stack editorial', rationale:'Sin mark, tipográfico con acento.', Comp:V11 },
+  { id:'V12', name:'Señal + check', rationale:'Barras de salud diagnóstica.', Comp:V12 },
+];
+
+// Isotype-only version (just the mark, for favicons/app icons)
+function IsotypeOnly({Comp, dark}) {
+  const C = Comp;
+  return (
+    <div style={{transform:'scale(1.6)',transformOrigin:'center'}}>
+      <svg width="72" height="72" viewBox="0 0 72 72">
+        <foreignObject x="-5" y="0" width="82" height="72">
+          <C dark={dark}/>
+        </foreignObject>
+      </svg>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// MAIN CANVAS
+// ═══════════════════════════════════════════════════════════
+
+function App() {
+  return (
+    <DesignCanvas>
+      {/* Title */}
+      <div style={{padding:'0 60px 40px',maxWidth:900}}>
+        <div className="sc-mono" style={{fontSize:11,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(60,50,40,0.5)'}}>Brand · isologo exploration</div>
+        <div className="sc-display" style={{fontSize:40,fontWeight:700,color:'#1a1a1a',marginTop:10,letterSpacing:-1}}>SmartCheck — 12 direcciones de marca</div>
+        <div style={{fontSize:15,color:'rgba(40,40,40,0.65)',marginTop:10,maxWidth:640,lineHeight:1.55}}>
+          Doce propuestas exploran distintas metáforas: escudo, escaneo, diagnóstico, reporte y tipografía pura. Todas usan la paleta base (ink #0A2540 + mint #00D4A3).
+          Cada fila muestra la versión horizontal estándar, una en fondo oscuro, y el isotipo aislado.
+        </div>
+      </div>
+
+      {/* SECTION — main grid of all variants */}
+      <DCSection title="Las 12 direcciones" subtitle="Lockup horizontal estándar. Base blanca.">
+        {variants.map(v => (
+          <LogoCard key={v.id} label={`${v.id} · ${v.name}`} sub={v.rationale}>
+            <v.Comp/>
+          </LogoCard>
+        ))}
+      </DCSection>
+
+      {/* SECTION — Dark versions */}
+      <DCSection title="Sobre fondo oscuro" subtitle="Inversión para usos sobre ink-900 (hero, dark mode).">
+        {variants.map(v => (
+          <LogoCard key={v.id} label={v.id} bg={INK} w={340} h={140}>
+            <v.Comp dark/>
+          </LogoCard>
+        ))}
+      </DCSection>
+
+      {/* SECTION — Isotypes only (app icon / favicon) */}
+      <DCSection title="Isotipos aislados" subtitle="Para favicons, app icons y redes sociales.">
+        {variants.slice(0,7).map(v => (
+          <DCArtboard key={v.id} label={`${v.id} · 96×96`} width={140} height={140} style={{background:'#fff'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%'}}>
+              <svg width="100" height="100" viewBox="14 8 50 56">
+                <v.Comp/>
+              </svg>
+            </div>
+          </DCArtboard>
+        ))}
+      </DCSection>
+
+      <DCSection title="Isotipos — fondo mint" subtitle="Como app icon principal, sobre la marca de acento.">
+        {variants.slice(0,7).map(v => {
+          // Render the mark with swapped colors: white bg, mint flipped to ink
+          return (
+            <DCArtboard key={v.id} label={v.id} width={140} height={140} style={{background:MINT, borderRadius:24}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%'}}>
+                <svg width="100" height="100" viewBox="14 8 50 56" style={{filter:'brightness(0) invert(0.1)'}}>
+                  {/* Can't easily recolor — show the V4 monogram as the preferred app icon */}
+                </svg>
+                <div style={{position:'absolute',color:INK,fontFamily:'Geist',fontSize:42,fontWeight:800,letterSpacing:-1.5}}>
+                  {v.id==='V4' || v.id==='V11' ? 'SC' : ''}
+                  {v.id==='V1' && <svg width="60" height="60" viewBox="0 0 72 72"><path d="M36 10 L58 18 V34 C58 48 48 58 36 62 C24 58 14 48 14 34 V18 Z" fill={INK}/><path d="M24 35 L33 44 L49 26" fill="none" stroke={MINT} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {v.id==='V2' && <svg width="60" height="60" viewBox="0 0 72 72"><path d="M22 14 H14 V58 H22" fill="none" stroke={INK} strokeWidth="4" strokeLinecap="round"/><path d="M50 14 H58 V58 H50" fill="none" stroke={INK} strokeWidth="4" strokeLinecap="round"/><path d="M24 36 L32 44 L48 28" fill="none" stroke={INK} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {v.id==='V3' && <svg width="60" height="60" viewBox="0 0 72 72"><g transform="translate(36 36)"><circle r="24" fill="none" stroke={INK} strokeWidth="2.5" strokeDasharray="3 4"/><circle r="17" fill={INK}/><path d="M-8 1 L-2 7 L8 -5" fill="none" stroke={MINT} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/></g></svg>}
+                  {v.id==='V5' && <svg width="70" height="60" viewBox="0 0 72 60"><path d="M6 30 L18 30 L24 14 L32 46 L38 22 L44 34 L50 30 L62 30" fill="none" stroke={INK} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {v.id==='V6' && <svg width="60" height="60" viewBox="0 0 72 72"><path d="M36 8 L58 20 V52 L36 64 L14 52 V20 Z" fill={INK}/><path d="M26 36 L34 44 L48 28" fill="none" stroke={MINT} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {v.id==='V7' && <svg width="60" height="60" viewBox="0 0 72 72"><g fill="none" stroke={INK} strokeWidth="3" strokeLinecap="round"><path d="M14 20 V14 H22"/><path d="M50 14 H58 V20"/><path d="M58 52 V58 H50"/><path d="M22 58 H14 V52"/></g><path d="M22 36 L31 45 L50 24" fill="none" stroke={INK} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                </div>
+              </div>
+            </DCArtboard>
+          );
+        })}
+      </DCSection>
+
+      {/* SECTION — Context mockups */}
+      <DCSection title="En contexto" subtitle="Aplicación sobre la app real, para evaluar presencia.">
+        {/* Phone mockup with logo in statusbar */}
+        {[variants[0], variants[3], variants[4], variants[5]].map(v => (
+          <DCArtboard key={v.id} label={`${v.id} · app splash`} width={260} height={520} style={{background:INK}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%',flexDirection:'column',gap:24}}>
+              <svg width="200" height="60" viewBox="14 0 230 72" style={{overflow:'visible'}}>
+                <v.Comp dark/>
+              </svg>
+              <div style={{fontSize:10,fontFamily:'JetBrains Mono',color:'rgba(255,255,255,0.4)',letterSpacing:'0.15em',textTransform:'uppercase'}}>Diagnóstico en curso</div>
+            </div>
+          </DCArtboard>
+        ))}
+
+        {/* Business card */}
+        {[variants[0], variants[3], variants[7]].map(v => (
+          <DCArtboard key={'bc-'+v.id} label={`${v.id} · tarjeta`} width={340} height={200} style={{background:'#fff'}}>
+            <div style={{padding:24,display:'flex',flexDirection:'column',justifyContent:'space-between',height:'100%',boxSizing:'border-box'}}>
+              <svg width="200" height="48" viewBox="0 0 260 72" style={{overflow:'visible'}}>
+                <v.Comp/>
+              </svg>
+              <div>
+                <div className="sc-display" style={{fontSize:14,fontWeight:600,color:INK}}>Martina Ríos</div>
+                <div className="sc-mono" style={{fontSize:10,color:'#95a4b7',marginTop:2,letterSpacing:'0.08em'}}>Head of Product · martina@smartcheck.app</div>
+              </div>
+            </div>
+          </DCArtboard>
+        ))}
+      </DCSection>
+
+      {/* SECTION — Recommendation */}
+      <DCSection title="Nuestra recomendación" subtitle="V3 como principal por concepto (scan) + V4 como icono de app complementario.">
+        <DCArtboard label="Sistema final — principal" width={520} height={280} style={{background:'#fff'}}>
+          <div style={{padding:40,display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:30,height:'100%',boxSizing:'border-box'}}>
+            <svg width="340" height="88" viewBox="0 0 260 72" style={{overflow:'visible'}}>
+              <V3/>
+            </svg>
+            <div className="sc-mono" style={{fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#95a4b7'}}>V3 · ESCANEO CONCÉNTRICO</div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard label="App icon" width={280} height={280} style={{background:INK}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>
+            <div style={{width:180,height:180,borderRadius:44,background:MINT,display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 20px 60px rgba(0,212,163,0.3)'}}>
+              <svg width="100" height="100" viewBox="0 0 72 72">
+                <g transform="translate(36 36)">
+                  <circle r="28" fill="none" stroke={INK} strokeWidth="3" strokeDasharray="3 4"/>
+                  <circle r="20" fill={INK}/>
+                  <path d="M-10 1 L-2 9 L10 -6" fill="none" stroke={MINT} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard label="Por qué V3" width={340} height={280} style={{background:INK}}>
+          <div style={{padding:28,color:'#fff',height:'100%',boxSizing:'border-box',display:'flex',flexDirection:'column',gap:14}}>
+            <div className="sc-mono" style={{fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:MINT}}>Rationale</div>
+            <div style={{fontSize:14,lineHeight:1.55,opacity:0.85}}>
+              El anillo punteado comunica <b style={{color:MINT}}>scan y movimiento</b>, no solo validación estática. El check interno cierra la historia: "analizo y apruebo". Legible a 16px. Única pieza que funciona bien como loader animado (el anillo rota).
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* Floating notes */}
+      <DCPostIt top={60} right={60} rotate={3} width={210}>
+        V4 (monograma) es el ganador si priorizás reconocimiento de app icon. V3 gana en narrativa de marca.
+      </DCPostIt>
+
+      <div style={{height:80}}/>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

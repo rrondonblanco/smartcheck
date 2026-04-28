@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartCheck Probe</string>
+
+    <!-- Consent -->
+    <string name="consent_title">Diagnóstico de batería</string>
+    <string name="consent_subtitle">SmartCheck Probe va a leer datos de tu batería para enviarlos al diagnóstico que iniciaste en el navegador.</string>
+    <string name="consent_what_title">Qué se mide</string>
+    <string name="consent_what_1">Salud de la batería (capacidad actual vs. de fábrica)</string>
+    <string name="consent_what_2">Ciclos de carga totales</string>
+    <string name="consent_what_3">Temperatura, voltaje y tecnología</string>
+    <string name="consent_what_4">Modelo, fabricante y versión de Android</string>
+    <string name="consent_where_title">A dónde se envía</string>
+    <string name="consent_where">Sólo al backend de SmartCheck asociado a tu sesión actual. No usamos servicios de terceros, ni publicidad, ni analítica.</string>
+    <string name="consent_keep_title">Cuánto se conserva</string>
+    <string name="consent_keep">Se borra automáticamente a los 90 días. Podés solicitar el borrado en cualquier momento.</string>
+    <string name="consent_no_collect">No recolectamos: ubicación, contactos, fotos, audio, identificadores publicitarios.</string>
+    <string name="consent_accept">Acepto y continuar</string>
+    <string name="consent_cancel">Cancelar</string>
+    <string name="consent_session_label">Sesión</string>
+    <string name="consent_no_session">No detecté la sesión. Volvé al diagnóstico web y escaneá el QR de nuevo.</string>
+
+    <!-- Measuring -->
+    <string name="measuring_title">Midiendo batería…</string>
+    <string name="measuring_subtitle">Esto demora 3 a 5 segundos.</string>
+
+    <!-- Done -->
+    <string name="done_title">¡Listo!</string>
+    <string name="done_subtitle">Volvé al diagnóstico web. La batería ya quedó verificada.</string>
+    <string name="done_health">Salud de batería</string>
+    <string name="done_cycles">Ciclos</string>
+    <string name="done_temp">Temperatura</string>
+    <string name="done_close">Cerrar</string>
+
+    <!-- Errors -->
+    <string name="error_upload">No pudimos enviar la medición. Revisá tu conexión y volvé a intentarlo.</string>
+    <string name="error_retry">Reintentar</string>
+</resources>

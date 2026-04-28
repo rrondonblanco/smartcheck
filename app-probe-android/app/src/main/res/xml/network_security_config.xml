@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  En DEBUG aceptamos cleartext + cert autofirmado para poder hablar con el server
+  local de Rob (192.168.x.x:8767/8768) durante el desarrollo.
+  En RELEASE el equipo TI configurará el dominio real (smartcheck.reuse.cl) con
+  cert válido público y se borrará este archivo o se restringirá a producción.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

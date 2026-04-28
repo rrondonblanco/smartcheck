@@ -1,0 +1,428 @@
+{
+  "_meta": {
+    "version": "0.1.0-mock",
+    "generated": "2026-04-27",
+    "source": "Mock data for SmartCheck MVP. Real TACs sourced from GSMA registry public references and device specs. Some entries use representative TACs that may differ slightly from production registry data.",
+    "purpose": "End-to-end functional testing of /api/lookup/:tac without GSMA contract.",
+    "totalEntries": 40,
+    "fields": {
+      "tac": "Type Allocation Code (first 8 digits of IMEI)",
+      "brand": "Manufacturer name",
+      "model": "Commercial model name",
+      "modelNumber": "Internal SKU / Model Number",
+      "os": "iOS | Android",
+      "year": "Release year",
+      "designCapacityMAh": "Battery design capacity (mAh)",
+      "category": "phone | tablet",
+      "capabilities": "Tests applicable to this device"
+    }
+  },
+  "tacs": {
+    "35202611": {
+      "brand": "Apple",
+      "model": "iPhone 13",
+      "modelNumber": "A2633",
+      "os": "iOS",
+      "year": 2021,
+      "designCapacityMAh": 3240,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35376611": {
+      "brand": "Apple",
+      "model": "iPhone 13 Pro",
+      "modelNumber": "A2638",
+      "os": "iOS",
+      "year": 2021,
+      "designCapacityMAh": 3095,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35193511": {
+      "brand": "Apple",
+      "model": "iPhone 12",
+      "modelNumber": "A2402",
+      "os": "iOS",
+      "year": 2020,
+      "designCapacityMAh": 2815,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35299411": {
+      "brand": "Apple",
+      "model": "iPhone 12 Pro",
+      "modelNumber": "A2407",
+      "os": "iOS",
+      "year": 2020,
+      "designCapacityMAh": 2815,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35304711": {
+      "brand": "Apple",
+      "model": "iPhone 14",
+      "modelNumber": "A2882",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 3279,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35335711": {
+      "brand": "Apple",
+      "model": "iPhone 14 Pro",
+      "modelNumber": "A2890",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 3200,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35451317": {
+      "brand": "Apple",
+      "model": "iPhone 15",
+      "modelNumber": "A3090",
+      "os": "iOS",
+      "year": 2023,
+      "designCapacityMAh": 3349,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35384917": {
+      "brand": "Apple",
+      "model": "iPhone 15 Pro",
+      "modelNumber": "A3101",
+      "os": "iOS",
+      "year": 2023,
+      "designCapacityMAh": 3274,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35212018": {
+      "brand": "Apple",
+      "model": "iPad (10th gen)",
+      "modelNumber": "A2757",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 7606,
+      "category": "tablet",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35416718": {
+      "brand": "Apple",
+      "model": "iPad Pro 11\" (M2)",
+      "modelNumber": "A2761",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 7538,
+      "category": "tablet",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35614718": {
+      "brand": "Apple",
+      "model": "iPad Air (M2)",
+      "modelNumber": "A2902",
+      "os": "iOS",
+      "year": 2024,
+      "designCapacityMAh": 7606,
+      "category": "tablet",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+    },
+    "35306414": {
+      "brand": "Samsung",
+      "model": "Galaxy S22",
+      "modelNumber": "SM-S901B",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 3700,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35353215": {
+      "brand": "Samsung",
+      "model": "Galaxy S23",
+      "modelNumber": "SM-S911B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 3900,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35421816": {
+      "brand": "Samsung",
+      "model": "Galaxy S24",
+      "modelNumber": "SM-S921B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35429612": {
+      "brand": "Samsung",
+      "model": "Galaxy A54 5G",
+      "modelNumber": "SM-A546E",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35351413": {
+      "brand": "Samsung",
+      "model": "Galaxy A14",
+      "modelNumber": "SM-A146P",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35501614": {
+      "brand": "Samsung",
+      "model": "Galaxy A55",
+      "modelNumber": "SM-A556E",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35712417": {
+      "brand": "Samsung",
+      "model": "Galaxy Tab S9",
+      "modelNumber": "SM-X716B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 8400,
+      "category": "tablet",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35918114": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 12",
+      "modelNumber": "23021RAAEG",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35876815": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 13",
+      "modelNumber": "23129RAAEG",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35124014": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi 13",
+      "modelNumber": "2211133G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35290414": {
+      "brand": "Google",
+      "model": "Pixel 7",
+      "modelNumber": "GVU6C",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4355,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35317817": {
+      "brand": "Google",
+      "model": "Pixel 8",
+      "modelNumber": "GZPF0",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4575,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35492018": {
+      "brand": "Google",
+      "model": "Pixel 8 Pro",
+      "modelNumber": "GC3VE",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5050,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35876613": {
+      "brand": "Motorola",
+      "model": "Edge 40",
+      "modelNumber": "XT2303-1",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4400,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35945712": {
+      "brand": "Motorola",
+      "model": "Moto G84",
+      "modelNumber": "XT2347-1",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35234714": {
+      "brand": "OnePlus",
+      "model": "OnePlus 11",
+      "modelNumber": "CPH2449",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35781517": {
+      "brand": "OnePlus",
+      "model": "OnePlus 12",
+      "modelNumber": "CPH2581",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5400,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35521413": {
+      "brand": "Oppo",
+      "model": "Oppo A78",
+      "modelNumber": "CPH2483",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35321713": {
+      "brand": "Huawei",
+      "model": "P60 Pro",
+      "modelNumber": "MNA-LX9",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4815,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "notes": "Sin Google Mobile Services. Battery probe limitada."
+    },
+    "35621416": {
+      "brand": "Honor",
+      "model": "Honor 90",
+      "modelNumber": "REA-NX9",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35987612": {
+      "brand": "Realme",
+      "model": "Realme 11 Pro",
+      "modelNumber": "RMX3771",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35265910": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 20 Ultra 5G",
+      "modelNumber": "SM-N986B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "notes": "Variante global 5G, la más común en LATAM"
+    },
+    "35268250": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 20 Ultra 5G",
+      "modelNumber": "SM-N986B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "notes": "TAC verificado contra equipo real (Rob, Reuse) — IMEI1 slot"
+    },
+    "35964620": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 20 Ultra 5G",
+      "modelNumber": "SM-N986B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "notes": "TAC verificado contra equipo real (Rob, Reuse) — IMEI2 slot dual SIM"
+    },
+    "35307410": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 20 Ultra LTE",
+      "modelNumber": "SM-N985F",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "notes": "Variante LTE global"
+    },
+    "35408510": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 20 Ultra 5G (US)",
+      "modelNumber": "SM-N986U",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "notes": "Variante US 5G"
+    },
+    "35376710": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 20",
+      "modelNumber": "SM-N981B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4300,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35224110": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 10+",
+      "modelNumber": "SM-N975F",
+      "os": "Android",
+      "year": 2019,
+      "designCapacityMAh": 4300,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    },
+    "35177410": {
+      "brand": "Samsung",
+      "model": "Galaxy Note 10",
+      "modelNumber": "SM-N970F",
+      "os": "Android",
+      "year": 2019,
+      "designCapacityMAh": 3500,
+      "category": "phone",
+      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+    }
+  }
+}

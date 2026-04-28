@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720">
+  <defs>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#151930"/>
+    </marker>
+    <style>
+      .h1 { font-family: 'Geist', Inter, sans-serif; font-weight: 700; font-size: 22px; fill: #151930; }
+      .box { fill: #FAFAF7; stroke: #151930; stroke-width: 2; rx: 10; }
+      .box-ios { fill: #EEF2FF; stroke: #37417F; stroke-width: 2; rx: 10; }
+      .box-and { fill: #E8FFE0; stroke: #22C55E; stroke-width: 2; rx: 10; }
+      .decision { fill: #FFF3E0; stroke: #B76E00; stroke-width: 2; }
+      .title { font-family: 'Geist', Inter, sans-serif; font-weight: 700; font-size: 15px; fill: #151930; }
+      .msg { font-family: Inter, sans-serif; font-size: 12px; fill: #151930; }
+      .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #37417F; }
+      .arrow { stroke: #151930; stroke-width: 1.8; fill: none; }
+      .lbl { font-family: Inter, sans-serif; font-size: 11px; fill: #37417F; font-weight: 600; }
+    </style>
+  </defs>
+
+  <text x="600" y="34" class="h1" text-anchor="middle">Flujo de análisis de batería — rama por sistema operativo</text>
+
+  <!-- Inicio -->
+  <ellipse cx="600" cy="80" rx="90" ry="26" fill="#151930"/>
+  <text x="600" y="86" class="msg" text-anchor="middle" fill="#FAFAF7" font-weight="700">BatteryTest start</text>
+
+  <!-- Decision: OS? -->
+  <polygon points="600,130 720,185 600,240 480,185" class="decision"/>
+  <text x="600" y="180" class="title" text-anchor="middle">state.device.os</text>
+  <text x="600" y="200" class="msg" text-anchor="middle">?</text>
+
+  <!-- Branch iOS -->
+  <text x="270" y="200" class="lbl" text-anchor="middle">= 'iOS'</text>
+  <path d="M 480 185 L 280 215" class="arrow" marker-end="url(#a3)"/>
+
+  <rect x="80" y="240" width="380" height="140" class="box-ios"/>
+  <text x="270" y="270" class="title" text-anchor="middle">Rama iOS — OCR en navegador</text>
+  <text x="90" y="295" class="msg">1. Pedir screenshot: Ajustes → Batería → Salud</text>
+  <text x="90" y="315" class="msg">2. Tesseract.js v5.1.0 (ya presente línea 51)</text>
+  <text x="90" y="335" class="msg">3. Parsear: "Capacidad máxima: 87%"</text>
+  <text x="90" y="355" class="msg">4. Guardar { healthPct, rawText, confidence }</text>
+  <text x="90" y="373" class="code">fallback: entrada manual si OCR confidence &lt; 0.7</text>
+
+  <!-- Branch Android -->
+  <text x="930" y="200" class="lbl" text-anchor="middle">= 'Android'</text>
+  <path d="M 720 185 L 920 215" class="arrow" marker-end="url(#a3)"/>
+
+  <rect x="740" y="240" width="380" height="140" class="box-and"/>
+  <text x="930" y="270" class="title" text-anchor="middle">Rama Android — APK Probe</text>
+  <text x="750" y="295" class="msg">1. QR con deep-link → Play Store / APK firmado</text>
+  <text x="750" y="315" class="msg">2. APK lee BatteryManager + /sys/class/power_supply/</text>
+  <text x="750" y="335" class="msg">3. Calcula health = current/design capacity</text>
+  <text x="750" y="355" class="msg">4. POST /api/probe/upload con sessionId</text>
+  <text x="750" y="373" class="code">fallback: navigator.getBattery() (sólo level %)</text>
+
+  <!-- Branch Desconocido -->
+  <text x="600" y="260" class="lbl" text-anchor="middle">otro / desconocido</text>
+  <path d="M 600 240 L 600 395" class="arrow" marker-end="url(#a3)"/>
+
+  <rect x="460" y="395" width="280" height="80" class="box"/>
+  <text x="600" y="420" class="title" text-anchor="middle">Modo manual</text>
+  <text x="600" y="442" class="msg" text-anchor="middle">Operador selecciona brand/model</text>
+  <text x="600" y="460" class="msg" text-anchor="middle">e ingresa % salud si la conoce</text>
+
+  <!-- Confluencia -->
+  <path d="M 270 380 L 600 495" class="arrow" marker-end="url(#a3)"/>
+  <path d="M 930 380 L 600 495" class="arrow" marker-end="url(#a3)"/>
+  <path d="M 600 475 L 600 500" class="arrow" marker-end="url(#a3)"/>
+
+  <rect x="420" y="500" width="360" height="80" class="box"/>
+  <text x="600" y="525" class="title" text-anchor="middle">Normalizar resultado</text>
+  <text x="600" y="548" class="msg" text-anchor="middle">tests.battery = { healthPct, method, raw, confidence }</text>
+  <text x="600" y="566" class="code" text-anchor="middle">method ∈ {'ios-ocr', 'android-probe', 'manual', 'web-only'}</text>
+
+  <!-- Scoring -->
+  <path d="M 600 580 L 600 610" class="arrow" marker-end="url(#a3)"/>
+  <rect x="350" y="610" width="500" height="60" class="box" fill="#E8F3FF" stroke="#4B75F7"/>
+  <text x="600" y="632" class="title" text-anchor="middle">Scoring + ponderación en reporte final</text>
+  <text x="600" y="654" class="msg" text-anchor="middle">&gt;80% verde · 70-80 ámbar · &lt;70 rojo · &lt;60 descarte / reprecio</text>
+</svg>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paleta Reuse — sincronizada con app v2.html (web) -->
+<resources>
+    <color name="ink_900">#151930</color>
+    <color name="ink_800">#181B33</color>
+    <color name="ink_700">#1B1F3A</color>
+    <color name="ink_500">#333855</color>
+    <color name="mint_500">#C6FFAD</color>
+    <color name="mint_400">#A8EF84</color>
+    <color name="canvas">#FAFAF7</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
+    <color name="white_20">#33FFFFFF</color>
+    <color name="white_10">#1AFFFFFF</color>
+    <color name="red_400">#F87171</color>
+</resources>

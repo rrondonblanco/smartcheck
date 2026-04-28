@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(cp \"/Users/robertorondon/.claude/projects/-Users-robertorondon-Library-CloudStorage-GoogleDrive-rrondon-reuse-cl-Otros-ordenadores-Mi-iMac--1--REUSE-UX-UI-REUSE-SmartCheck/a44e23c1-31c9-4c67-a1f9-29578331fd73/tool-results/webfetch-1776708008791-rjwrt9.bin\" /tmp/design.gz)",
+      "Bash(gunzip -f /tmp/design.gz)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "Bash(mkdir -p /tmp/design_extracted)",
+      "Bash(tar -xf /tmp/design -C /tmp/design_extracted)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ln -sfn \"/Users/robertorondon/Library/CloudStorage/GoogleDrive-rrondon@reuse.cl/Otros ordenadores/Mi iMac \\(1\\)/REUSE/UX:UI REUSE/SmartCheck\" /tmp/smartcheck_serve)",
+      "Bash(sed -i '' 's|<script type=\"text/babel\" data-type=\"module\">|<script type=\"text/babel\">|' \"/tmp/smartcheck_serve/app v2.html\")",
+      "Bash(sed -i '' 's|<script type=\"text/babel\" data-type=\"module\">|<script type=\"text/babel\">|' \"/Users/robertorondon/Library/CloudStorage/GoogleDrive-rrondon@reuse.cl/Otros ordenadores/Mi iMac \\(1\\)/REUSE/UX:UI REUSE/SmartCheck/app v2.html\")",
+      "Bash(ipconfig getifaddr *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://172.30.1.129:8765/app%20v2.html\")",
+      "Bash(sw_vers -productVersion)",
+      "Bash(openssl req *)",
+      "Bash(ruby serve_https.rb)",
+      "Bash(curl -ks https://127.0.0.1:8766/ -o /dev/null -w \"%{http_code}\\\\n\")",
+      "Bash(curl -ks \"https://127.0.0.1:8766/app%20v2.html\" -o /dev/null -w \"HTTPS %{http_code}\\\\n\")",
+      "Bash(curl -ks \"https://127.0.0.1:8766/app%20v2.html\" -o /dev/null -w \"%{http_code}\\\\n\")",
+      "Bash(curl -ks \"https://127.0.0.1:8766/reuse-logo.png\" -o /dev/null -w \"%{http_code}\\\\n\")"
+    ]
+  }
+}
