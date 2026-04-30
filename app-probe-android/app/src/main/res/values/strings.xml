@@ -28,8 +28,17 @@
     <string name="done_title">¡Listo!</string>
     <string name="done_subtitle">Volvé al diagnóstico web. La batería ya quedó verificada.</string>
     <string name="done_health">Salud de batería</string>
+    <string name="done_health_unavailable">No disponible</string>
+    <string name="done_health_restricted_note">Tu fabricante restringe el acceso a Salud y Ciclos para apps sin permisos de sistema. En producción esto se obtiene vía partnership con el OEM. Mientras tanto, te dejo todo lo que sí pude leer.</string>
     <string name="done_cycles">Ciclos</string>
     <string name="done_temp">Temperatura</string>
+    <string name="done_voltage">Voltaje</string>
+    <string name="done_level">Carga</string>
+    <string name="done_capacity">Capacidad</string>
+    <string name="done_technology">Tecnología</string>
+    <string name="done_charging">Estado</string>
+    <string name="done_charging_yes">Cargando</string>
+    <string name="done_charging_no">Descargando</string>
     <string name="done_close">Cerrar</string>
 
     <!-- Errors -->
