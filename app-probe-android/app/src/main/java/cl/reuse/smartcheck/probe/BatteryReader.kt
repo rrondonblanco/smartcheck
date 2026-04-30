@@ -16,7 +16,7 @@ import java.io.File
  *      en µAh, corriente instantánea.
  *   2. ACTION_BATTERY_CHANGED (sticky broadcast): temperatura, voltaje, status, plugged,
  *      tecnología.
- *   3. /sys/class/power_supply/battery/* (lectura directa): charge_full, charge_full_design,
+ *   3. /sys/class/power_supply/battery/... (lectura directa): charge_full, charge_full_design,
  *      cycle_count. Esta es la pieza diferencial frente al navegador — accesible
  *      públicamente en la mayoría de Androids vendidos en LATAM (Samsung, Xiaomi,
  *      Motorola, OPPO/Realme). Puede no estar en algunos OEM exóticos.
@@ -110,7 +110,7 @@ object BatteryReader {
 
         val healthStatus = batteryIntent?.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)?.let { mapHealth(it) }
 
-        // --- /sys/class/power_supply/battery/* ---
+        // --- /sys/class/power_supply/battery/... ---
         val sysfsRoot = SYSFS_CANDIDATES.firstOrNull { File(it).exists() }
         val chargeFull = sysfsRoot?.let { readLongFromFile("$it/charge_full") }
         val chargeFullDesign = sysfsRoot?.let { readLongFromFile("$it/charge_full_design") }
