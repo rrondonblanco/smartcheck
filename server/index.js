@@ -96,6 +96,34 @@ app.get('/health', (_req, res) => {
   });
 });
 
+// GET /api/devices → lista todos los modelos conocidos (para dropdown manual)
+// El frontend lo usa cuando un TAC no resuelve, para que el operador pueda
+// elegir el modelo a mano y continuar el flujo sin abortar la demo.
+app.get('/api/devices', (_req, res) => {
+  const seen = new Set();
+  const list = [];
+  for (const [tac, d] of Object.entries(TAC_DB.tacs)) {
+    // Dedupe por brand+model (varios TACs apuntan al mismo modelo, ej. variantes 5G/LTE)
+    const key = `${d.brand}|${d.model}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    list.push({
+      tac,
+      brand: d.brand,
+      model: d.model,
+      modelNumber: d.modelNumber,
+      os: d.os,
+      year: d.year,
+      designCapacityMAh: d.designCapacityMAh,
+      category: d.category,
+      capabilities: d.capabilities,
+    });
+  }
+  // Orden: marca asc, año desc (modelos más nuevos arriba dentro de cada marca)
+  list.sort((a, b) => a.brand.localeCompare(b.brand) || (b.year || 0) - (a.year || 0));
+  res.json({ count: list.length, devices: list });
+});
+
 // GET /api/lookup/:tac → resuelve TAC → device info
 app.get('/api/lookup/:tac', (req, res) => {
   const tac = req.params.tac;

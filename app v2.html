@@ -490,6 +490,11 @@ function ImeiCheckScreen({ state, set, next, back }) {
   const [globalStatus, setGlobalStatus] = React.useState(null);
   const [done, setDone] = React.useState(false);
   const [error, setError] = React.useState(null);
+  // Cuando el TAC no resuelve, mostramos un dropdown para que el operador elija el modelo
+  // a mano. Mantiene la demo viva sin tener que abortar.
+  const [needsManualPick, setNeedsManualPick] = React.useState(false);
+  const [allDevices, setAllDevices] = React.useState([]);
+  const [pickedKey, setPickedKey] = React.useState('');
 
   React.useEffect(() => {
     let cancelled = false;
@@ -526,14 +531,21 @@ function ImeiCheckScreen({ state, set, next, back }) {
         if (cancelled) return;
         clearInterval(t);
         console.warn('[SmartCheck] Lookup falló, modo manual:', err);
-        // Si el TAC no está en la DB pero el backend responde con fallback, lo usamos
+        // Si el TAC no está en la DB → activamos picker manual (mejor UX que mostrar
+        // "Modelo no detectado" y caer a battery-web-only).
         if (err && err.fallback) {
           setDevice(err.fallback);
           setChecks([]);
           setGlobalStatus('warning');
           setProgress(100);
           setDone(true);
+          setNeedsManualPick(true);
           set({ device: err.fallback, imeiCheck: { status: 'warning', checks: [] }, imeiOk: true });
+          // Cargamos la lista completa para el dropdown
+          fetch(`${apiBase}/api/devices`)
+            .then(r => r.json())
+            .then(j => { if (!cancelled && j.devices) setAllDevices(j.devices); })
+            .catch(() => { /* sin lista, el operador puede continuar con el genérico */ });
         } else {
           setError(err.message || 'No se pudo conectar al backend de SmartCheck');
           setProgress(100);
@@ -590,6 +602,56 @@ function ImeiCheckScreen({ state, set, next, back }) {
             </div>
           </div>
         </div>
+
+        {needsManualPick && (
+          <div className="mt-4 rounded-2xl bg-yellow-500/10 ring-1 ring-yellow-500/30 p-4 fade-up">
+            <div className="flex items-start gap-2.5 mb-3">
+              <div className="w-7 h-7 rounded-full bg-yellow-400 text-ink-900 flex items-center justify-center shrink-0 text-[13px] font-bold">!</div>
+              <div className="flex-1">
+                <div className="text-white text-[13.5px] font-semibold">No identificamos tu modelo automáticamente</div>
+                <div className="text-white/60 text-[11.5px] mt-0.5">El TAC <span className="font-mono">{state.imei.substring(0,8)}</span> no está en nuestra base mock. Elegí tu modelo y seguimos.</div>
+              </div>
+            </div>
+            <select
+              value={pickedKey}
+              onChange={(e) => {
+                const key = e.target.value;
+                setPickedKey(key);
+                if (!key) return;
+                const picked = allDevices.find(d => `${d.brand}|${d.model}` === key);
+                if (picked) {
+                  setDevice(picked);
+                  set({ device: picked });
+                }
+              }}
+              className="w-full rounded-xl bg-ink-900 ring-1 ring-white/15 text-white text-[13px] py-3 px-3 outline-none focus:ring-mint-500"
+            >
+              <option value="">— Elegí tu marca y modelo —</option>
+              {Object.entries(allDevices.reduce((acc, d) => {
+                (acc[d.brand] = acc[d.brand] || []).push(d);
+                return acc;
+              }, {})).map(([brand, devs]) => (
+                <optgroup key={brand} label={brand}>
+                  {devs.map(d => (
+                    <option key={`${d.brand}|${d.model}`} value={`${d.brand}|${d.model}`}>
+                      {d.model} {d.year ? `(${d.year})` : ''} · {d.designCapacityMAh ? `${d.designCapacityMAh} mAh` : ''}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+            {pickedKey && (
+              <div className="mt-2 text-[11px] text-mint-400">
+                ✓ Modelo seleccionado. Continuá con los tests.
+              </div>
+            )}
+            <button
+              onClick={() => { setNeedsManualPick(false); }}
+              className="mt-3 w-full text-white/55 text-[11.5px] py-1.5 underline">
+              Continuar con detección genérica (tests limitados)
+            </button>
+          </div>
+        )}
 
         <div className="mt-4 space-y-2">
           {visibleChecks.map((c, i) => {
@@ -1221,15 +1283,16 @@ function SensorsTest({ save, back, skip }) {
 }
 
 // BatteryTest tiene 3 ramas según device.os y device.capabilities:
-//   - Android + 'battery-probe'  → QR al APK + polling
-//   - iOS / 'battery-web-only'   → fallback web (getBattery)
-//   - sin device                 → fallback web (compat con flujos antiguos)
+//   - Android + 'battery-probe'  → QR al APK + polling (Coulomb counting)
+//   - iOS + 'battery-ocr'        → OCR de Ajustes → Batería → Estado de la batería
+//   - resto / 'battery-web-only' → fallback web (getBattery)
 function BatteryTest({ state, set, save, back, skip }) {
   const device = state?.device || null;
-  const isAndroidProbe = device?.os === 'Android' && (device?.capabilities || []).includes('battery-probe');
-  if (isAndroidProbe) {
-    return <BatteryTestAndroidProbe state={state} set={set} save={save} back={back} skip={skip}/>;
-  }
+  const caps = device?.capabilities || [];
+  const isAndroidProbe = device?.os === 'Android' && caps.includes('battery-probe');
+  const isIosOcr = device?.os === 'iOS' && caps.includes('battery-ocr');
+  if (isAndroidProbe) return <BatteryTestAndroidProbe state={state} set={set} save={save} back={back} skip={skip}/>;
+  if (isIosOcr)       return <BatteryTestIosOcr state={state} set={set} save={save} back={back} skip={skip}/>;
   return <BatteryTestWebOnly state={state} save={save} back={back} skip={skip}/>;
 }
 
@@ -1322,6 +1385,14 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
     ? `smartcheck://probe?sessionId=${sessionId}` + (state?.device?.designCapacityMAh ? `&designCapacityMAh=${state.device.designCapacityMAh}` : '')
     : '';
 
+  // Detectamos si el usuario está navegando desde un Android. En ese caso, en vez de
+  // QR, ofrecemos botones directos: Instalar APK + Abrir App (deep-link). El QR queda
+  // como fallback para el caso "estoy mirando esto desde mi PC".
+  // El APK se sirve desde el mismo HTTPS server local: /smartcheck-probe.apk
+  const isAndroidUA = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent || '');
+  const apkUrl = `${typeof location !== 'undefined' ? location.origin : ''}/smartcheck-probe.apk`;
+  const [showQR, setShowQR] = React.useState(!isAndroidUA);
+
   return (
     <TestShell title="Batería" back={back} onSkip={skip} canPass={canPass}
       onPass={()=>save('battery',{
@@ -1340,34 +1411,64 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
       <div className="px-5 mt-4">
         {!probeData ? (
           <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
-            {qrDataUrl ? (
-              <div className="flex flex-col items-center">
-                <div className="rounded-2xl bg-canvas p-3">
-                  <img src={qrDataUrl} alt="QR SmartCheck Probe" className="w-[240px] h-[240px] block"/>
+            {isAndroidUA && (
+              <div className="mb-4 rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-4">
+                <div className="text-[10px] uppercase tracking-wider text-mint-400 font-semibold">Detectamos Android</div>
+                <div className="text-white text-[13.5px] mt-1 leading-snug">
+                  Instalá <b>SmartCheck Probe</b> y volvé acá — la medición se sube sola.
                 </div>
-                <div className="mt-4 text-center">
-                  <div className="text-white text-[13px] font-semibold">Esperando al APK…</div>
-                  <div className="mt-1 text-white/60 text-[11.5px]">
-                    Escaneá con la cámara nativa. Si no tenés la app, te la va a ofrecer instalar.
-                  </div>
-                  <div className="mt-3 flex items-center justify-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-mint-500 ping-soft"></div>
-                    <div className="font-mono text-[10px] text-white/40">sesión {sessionId || '…'}</div>
-                  </div>
+                <div className="mt-3 grid grid-cols-1 gap-2">
+                  <a href={apkUrl} download
+                    className="rounded-xl bg-mint-500 text-ink-900 font-semibold text-[13.5px] py-3 px-4 flex items-center justify-center gap-2">
+                    <I.Download size={16}/> Descargar APK (~5 MB)
+                  </a>
+                  {sessionId && (
+                    <a href={linkUrl}
+                      className="rounded-xl bg-white/10 text-white ring-1 ring-white/15 font-medium text-[12.5px] py-2.5 px-4 flex items-center justify-center gap-2">
+                      <I.Arrow size={14}/> Ya la instalé · abrir SmartCheck Probe
+                    </a>
+                  )}
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-3 py-6">
-                <div className="w-10 h-10 border-2 border-white/30 border-t-mint-500 rounded-full spin-slow"></div>
-                <div className="text-white/70 text-[12.5px]">{pollErr ? `Error: ${pollErr}` : 'Generando QR…'}</div>
+                <div className="mt-3 text-[10.5px] text-white/55 leading-snug">
+                  Tras descargar tocá el APK en tu carpeta de Descargas. Android pedirá permitir "instalar de fuente desconocida" la primera vez.
+                </div>
+                <button onClick={()=>setShowQR(s => !s)} className="mt-2 text-[11px] text-white/45 underline">
+                  {showQR ? 'Ocultar QR' : 'Prefiero usar el QR (otro dispositivo)'}
+                </button>
               </div>
             )}
+            {showQR && (
+              qrDataUrl ? (
+                <div className="flex flex-col items-center">
+                  <div className="rounded-2xl bg-canvas p-3">
+                    <img src={qrDataUrl} alt="QR SmartCheck Probe" className="w-[240px] h-[240px] block"/>
+                  </div>
+                  <div className="mt-4 text-center">
+                    <div className="text-white text-[13px] font-semibold">Esperando al APK…</div>
+                    <div className="mt-1 text-white/60 text-[11.5px]">
+                      Escaneá con la cámara nativa de tu Android.
+                    </div>
+                    <div className="mt-3 flex items-center justify-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-mint-500 ping-soft"></div>
+                      <div className="font-mono text-[10px] text-white/40">sesión {sessionId || '…'}</div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-3 py-6">
+                  <div className="w-10 h-10 border-2 border-white/30 border-t-mint-500 rounded-full spin-slow"></div>
+                  <div className="text-white/70 text-[12.5px]">{pollErr ? `Error: ${pollErr}` : 'Generando QR…'}</div>
+                </div>
+              )
+            )}
 
-            <details className="mt-4 text-[11px] text-white/50">
-              <summary className="cursor-pointer">¿Sin cámara o sin app? Abrir manualmente</summary>
-              <div className="mt-2 break-all font-mono text-[10px] bg-black/30 rounded p-2 ring-1 ring-white/10">{linkUrl}</div>
-              <a href={linkUrl} className="mt-2 inline-block text-mint-400 underline">Tocar este link desde el mismo dispositivo</a>
-            </details>
+            {!isAndroidUA && (
+              <details className="mt-4 text-[11px] text-white/50">
+                <summary className="cursor-pointer">¿Sin cámara o sin app? Abrir manualmente</summary>
+                <div className="mt-2 break-all font-mono text-[10px] bg-black/30 rounded p-2 ring-1 ring-white/10">{linkUrl}</div>
+                <a href={linkUrl} className="mt-2 inline-block text-mint-400 underline">Tocar este link desde el mismo dispositivo</a>
+              </details>
+            )}
 
             {timedOut && (
               <div className="mt-3 rounded-xl bg-yellow-400/10 ring-1 ring-yellow-400/30 p-3 text-[11.5px] text-yellow-200">
@@ -1489,7 +1590,253 @@ function ProbeHealthCard({ probe }) {
   );
 }
 
-// --- Rama web (iOS, navegadores sin APK, fallback) ---
+// --- Rama iOS: OCR de Ajustes → Batería → Estado de la batería ---
+//
+// Por qué OCR: Apple no expone la salud real de batería a apps de terceros (ni siquiera
+// nativas sin private entitlements). El único dato accesible al usuario está en la
+// pantalla "Estado de la batería" (Settings → Battery → Battery Health). Tesseract.js
+// (ya cargado en línea 52) lee la captura y extrae el "Capacidad máxima: 87%" o
+// "Maximum Capacity: 87%". Es preciso porque viene del firmware de iOS.
+//
+// Flujo:
+//  1. Pantalla con instrucciones ilustradas (3 pasos)
+//  2. Botón "Subir captura" → abre galería del iPhone
+//  3. Tesseract procesa (10-30s primera vez por descarga del modelo de idioma)
+//  4. Regex extrae el % → muestra resultado + permite confirmar/corregir manual
+//  5. POST al backend con method='ios-ocr' para que el reporte unifique formato
+function BatteryTestIosOcr({ state, set, save, back, skip }) {
+  const [stage, setStage] = React.useState('instructions'); // instructions | processing | result | manual
+  const [progress, setProgress] = React.useState(0);
+  const [progressLabel, setProgressLabel] = React.useState('');
+  const [imageDataUrl, setImageDataUrl] = React.useState(null);
+  const [healthPct, setHealthPct] = React.useState('');
+  const [rawText, setRawText] = React.useState('');
+  const [error, setError] = React.useState('');
+  const fileRef = React.useRef();
+  const apiBase = React.useMemo(() => getApiBase(), []);
+  const device = state?.device;
+
+  // El % de Apple aparece como:
+  //   ES: "Capacidad máxima  87 %" / "Capacidad máxima de la batería  87%"
+  //   EN: "Maximum Capacity  87%" / "Battery Health  87%"
+  //   PT: "Capacidade máxima  87%"
+  // Buscamos el primer número entre 50-100 cerca de la palabra "capacidad" o "capacity".
+  function extractHealth(text) {
+    const t = text.replace(/\s+/g, ' ').toLowerCase();
+    // Variante 1: cerca de "capacidad máxima" / "maximum capacity" / "capacidade máxima"
+    const m1 = t.match(/(?:capacidad m[aá]xima|maximum capacity|capacidade m[aá]xima)[^0-9]{0,30}(\d{2,3})\s*%/);
+    if (m1) {
+      const n = parseInt(m1[1], 10);
+      if (n >= 50 && n <= 100) return n;
+    }
+    // Variante 2: cualquier "NN%" que esté seguido o precedido por la palabra capacidad
+    const m2 = t.match(/(\d{2,3})\s*%[^0-9]{0,40}(?:capacidad|capacity|capacidade)/);
+    if (m2) {
+      const n = parseInt(m2[1], 10);
+      if (n >= 50 && n <= 100) return n;
+    }
+    // Fallback: el primer % entre 50-100 que aparezca (los iPhones no muestran nada
+    // entre 50 y 100% que no sea la salud, en la pantalla correcta).
+    const all = [...t.matchAll(/(\d{2,3})\s*%/g)].map(m => parseInt(m[1], 10)).filter(n => n >= 50 && n <= 100);
+    return all.length ? all[0] : null;
+  }
+
+  async function handleFile(e) {
+    setError('');
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!window.Tesseract) { setError('OCR no disponible. Recargá la página.'); return; }
+
+    // Mostrar preview
+    const reader = new FileReader();
+    reader.onload = (ev) => setImageDataUrl(ev.target.result);
+    reader.readAsDataURL(file);
+
+    setStage('processing');
+    setProgress(0);
+    setProgressLabel('Cargando motor OCR…');
+    try {
+      const result = await window.Tesseract.recognize(file, 'spa+eng', {
+        logger: m => {
+          if (m.status === 'loading tesseract core') setProgressLabel('Cargando motor…');
+          else if (m.status === 'initializing tesseract') setProgressLabel('Inicializando…');
+          else if (m.status === 'loading language traineddata') setProgressLabel('Bajando diccionario…');
+          else if (m.status === 'initializing api') setProgressLabel('Iniciando análisis…');
+          else if (m.status === 'recognizing text') {
+            setProgressLabel('Leyendo captura…');
+            setProgress(Math.round(m.progress * 100));
+          }
+        }
+      });
+      const text = result.data.text || '';
+      setRawText(text);
+      const detected = extractHealth(text);
+      if (detected != null) {
+        setHealthPct(String(detected));
+        setStage('result');
+      } else {
+        setError('No detecté un porcentaje de salud en la captura. Confirmá que sea la pantalla "Estado de la batería" o ingresalo manual.');
+        setStage('manual');
+      }
+    } catch (err) {
+      setError('Error procesando la imagen: ' + (err.message || err));
+      setStage('manual');
+    }
+  }
+
+  async function uploadResult(finalHealthPct, source) {
+    if (!state?.sessionId) {
+      // No tenemos sessionId — hacemos save local y avanzamos sin polling.
+      save('battery', {
+        status: 'pass',
+        detail: `Salud ${finalHealthPct}% · iOS OCR (sin sesión)`,
+        probe: { method: 'ios-ocr-local', battery: { healthPct: finalHealthPct }, source },
+      });
+      return;
+    }
+    try {
+      // Reusamos el endpoint del probe para unificar formato del reporte.
+      await fetch(`${apiBase}/api/probe/upload`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: state.sessionId,
+          device: device ? { manufacturer: 'Apple', model: device.model, os: 'iOS', osVersion: null } : null,
+          battery: { healthPct: finalHealthPct, source },
+          method: 'ios-ocr',
+          probeVersion: 'web-1.0',
+          designCapacityMAh: device?.designCapacityMAh || null,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+    } catch (e) {
+      // No bloqueamos al usuario si el upload falla — el dato ya está en el state.
+      console.warn('iOS OCR upload failed:', e.message);
+    }
+    save('battery', {
+      status: 'pass',
+      detail: `Salud ${finalHealthPct}% · iOS OCR${source === 'manual' ? ' (manual)' : ''}`,
+      probe: { method: 'ios-ocr', battery: { healthPct: finalHealthPct }, source },
+    });
+  }
+
+  return (
+    <TestShell title="Batería" back={back} onSkip={skip}
+      canPass={false /* el flow se cierra desde uploadResult */}
+      onPass={()=>{}}
+      onFail={()=>save('battery',{status:'fail',detail:'Salud crítica reportada por usuario'})}>
+      <div className="px-5 pt-2">
+        <div className="text-white font-display text-[20px] font-semibold">Análisis de batería</div>
+        <div className="text-white/60 text-[13px] mt-1">
+          Apple no expone la salud a apps de terceros, así que la leemos de la <span className="text-mint-400 font-medium">pantalla oficial</span> de iOS con OCR.
+        </div>
+      </div>
+
+      <div className="px-5 mt-4">
+        {stage === 'instructions' && (
+          <div className="space-y-3">
+            <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-4">
+              <div className="text-[10px] uppercase tracking-wide text-mint-400 font-semibold mb-3">Cómo obtener la captura · 30 segundos</div>
+              <ol className="space-y-2.5 text-[13px] text-white/85">
+                <li className="flex gap-3"><span className="w-5 h-5 shrink-0 rounded-full bg-mint-500 text-ink-900 text-[11px] font-bold flex items-center justify-center">1</span><span>Abrí <b>Ajustes</b> → <b>Batería</b> → <b>Estado de la batería y carga</b>.</span></li>
+                <li className="flex gap-3"><span className="w-5 h-5 shrink-0 rounded-full bg-mint-500 text-ink-900 text-[11px] font-bold flex items-center justify-center">2</span><span>Tomá <b>captura</b> (Botón lateral + Volumen ↑).</span></li>
+                <li className="flex gap-3"><span className="w-5 h-5 shrink-0 rounded-full bg-mint-500 text-ink-900 text-[11px] font-bold flex items-center justify-center">3</span><span>Volvé acá y tocá el botón verde — la captura aparece <b>primero</b> en la galería.</span></li>
+              </ol>
+              <div className="mt-3 rounded-lg bg-mint-500/5 ring-1 ring-mint-500/20 p-2.5 text-[11px] text-white/70">
+                💡 <b>Por qué pedimos esto:</b> Apple no permite que ninguna app de terceros (web o nativa) acceda a la salud real de batería. Es la misma limitación que tienen PhoneCheck, Blancco y cualquier otra herramienta. Lo único accesible es la pantalla oficial de iOS — la leemos automáticamente con OCR.
+              </div>
+            </div>
+            <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/*" onChange={handleFile} className="hidden" aria-label="Captura de salud de batería"/>
+            <button onClick={()=>fileRef.current?.click()}
+              className="w-full rounded-2xl bg-mint-500 text-ink-900 font-semibold text-[14px] py-3.5 flex items-center justify-center gap-2">
+              <I.Camera size={16} stroke={2.2}/> Subir captura de pantalla
+            </button>
+            <div className="text-[10.5px] text-white/45 text-center -mt-1">
+              En iOS se abre la galería con tu última captura en primer lugar.
+            </div>
+            <button onClick={()=>setStage('manual')} className="w-full text-white/60 text-[12.5px] py-2 underline">
+              No tengo captura — ingresar manual
+            </button>
+          </div>
+        )}
+
+        {stage === 'processing' && (
+          <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 fade-up">
+            {imageDataUrl && (
+              <img src={imageDataUrl} alt="captura" className="w-32 mx-auto rounded-xl mb-4 ring-1 ring-white/10"/>
+            )}
+            <div className="text-center text-white text-[14px] font-medium">{progressLabel || 'Procesando…'}</div>
+            <div className="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-full bg-mint-500 transition-all" style={{width:`${progress}%`}}/>
+            </div>
+            <div className="mt-2 text-center text-[11px] text-white/40 font-mono">{progress}%</div>
+          </div>
+        )}
+
+        {stage === 'result' && (
+          <div className="space-y-3 fade-up">
+            <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · iOS</div>
+                  <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
+                    {healthPct}<span className="text-[22px] text-white/50">%</span>
+                  </div>
+                  <div className="text-[11px] text-mint-400 font-semibold mt-1">Detectado por OCR</div>
+                </div>
+                <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">vía Tesseract</div>
+              </div>
+              <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div className={`h-full ${healthPct>80 ? 'bg-mint-500' : healthPct>60 ? 'bg-yellow-300' : 'bg-red-400'}`} style={{width:`${Math.min(100, healthPct)}%`}}/>
+              </div>
+            </div>
+            {imageDataUrl && (
+              <details className="rounded-xl bg-white/5 ring-1 ring-white/10 p-3">
+                <summary className="text-[11px] text-white/60 cursor-pointer">Ver captura analizada</summary>
+                <img src={imageDataUrl} alt="captura" className="w-full mt-3 rounded-lg"/>
+              </details>
+            )}
+            <button onClick={()=>uploadResult(parseInt(healthPct,10), 'ocr')}
+              className="w-full rounded-2xl bg-mint-500 text-ink-900 font-semibold text-[14px] py-3.5">
+              Confirmar y continuar
+            </button>
+            <button onClick={()=>setStage('manual')} className="w-full text-white/60 text-[12.5px] py-2 underline">
+              Corregir el valor manualmente
+            </button>
+          </div>
+        )}
+
+        {stage === 'manual' && (
+          <div className="space-y-3 fade-up">
+            {error && <div className="rounded-xl bg-red-500/10 ring-1 ring-red-500/30 p-3 text-[11.5px] text-red-200">{error}</div>}
+            <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
+              <div className="text-[10px] uppercase tracking-wide text-white/50 font-semibold mb-2">Salud máxima de la batería</div>
+              <div className="flex items-center gap-2">
+                <input type="number" inputMode="numeric" min="50" max="100"
+                  value={healthPct} onChange={e=>setHealthPct(e.target.value.replace(/[^0-9]/g,'').slice(0,3))}
+                  placeholder="87"
+                  className="flex-1 bg-transparent border-b border-white/20 text-white font-display text-[28px] font-semibold py-2 outline-none focus:border-mint-500"/>
+                <span className="text-white/50 text-[24px]">%</span>
+              </div>
+              <div className="mt-2 text-[11px] text-white/50">Mirá Ajustes → Batería → Estado de la batería e ingresá el "% de capacidad máxima".</div>
+            </div>
+            <button
+              disabled={!healthPct || parseInt(healthPct,10) < 50 || parseInt(healthPct,10) > 100}
+              onClick={()=>uploadResult(parseInt(healthPct,10), 'manual')}
+              className="w-full rounded-2xl bg-mint-500 text-ink-900 font-semibold text-[14px] py-3.5 disabled:opacity-40">
+              Confirmar y continuar
+            </button>
+            <button onClick={()=>{ setStage('instructions'); setError(''); }} className="w-full text-white/60 text-[12.5px] py-2 underline">
+              Volver a las instrucciones
+            </button>
+          </div>
+        )}
+      </div>
+    </TestShell>
+  );
+}
+
+// --- Rama web (iOS sin OCR, navegadores sin APK, fallback) ---
 function BatteryTestWebOnly({ save, back, skip, disclaimer }) {
   const [data, setData] = React.useState(null);
   const [unsupported, setUnsupported] = React.useState(false);

@@ -4,7 +4,7 @@
     "generated": "2026-04-27",
     "source": "Mock data for SmartCheck MVP. Real TACs sourced from GSMA registry public references and device specs. Some entries use representative TACs that may differ slightly from production registry data.",
     "purpose": "End-to-end functional testing of /api/lookup/:tac without GSMA contract.",
-    "totalEntries": 40,
+    "totalEntries": 141,
     "fields": {
       "tac": "Type Allocation Code (first 8 digits of IMEI)",
       "brand": "Manufacturer name",
@@ -15,7 +15,9 @@
       "designCapacityMAh": "Battery design capacity (mAh)",
       "category": "phone | tablet",
       "capabilities": "Tests applicable to this device"
-    }
+    },
+    "lastUpdated": "2026-04-30",
+    "changes": "Expansion +60: completar iPhone 11/12mini/13mini/14Plus/15Plus/SE + Samsung S20-22 + A series + Z Flip/Fold + Motorola G/Edge/Razr + Xiaomi Redmi/POCO/Mi + Pixel + OnePlus + Huawei"
   },
   "tacs": {
     "35202611": {
@@ -26,7 +28,16 @@
       "year": 2021,
       "designCapacityMAh": 3240,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35376611": {
       "brand": "Apple",
@@ -36,7 +47,16 @@
       "year": 2021,
       "designCapacityMAh": 3095,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35193511": {
       "brand": "Apple",
@@ -46,7 +66,16 @@
       "year": 2020,
       "designCapacityMAh": 2815,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35299411": {
       "brand": "Apple",
@@ -56,7 +85,16 @@
       "year": 2020,
       "designCapacityMAh": 2815,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35304711": {
       "brand": "Apple",
@@ -66,7 +104,16 @@
       "year": 2022,
       "designCapacityMAh": 3279,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35335711": {
       "brand": "Apple",
@@ -76,7 +123,16 @@
       "year": 2022,
       "designCapacityMAh": 3200,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35451317": {
       "brand": "Apple",
@@ -86,7 +142,16 @@
       "year": 2023,
       "designCapacityMAh": 3349,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35384917": {
       "brand": "Apple",
@@ -96,7 +161,16 @@
       "year": 2023,
       "designCapacityMAh": 3274,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35212018": {
       "brand": "Apple",
@@ -106,7 +180,16 @@
       "year": 2022,
       "designCapacityMAh": 7606,
       "category": "tablet",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35416718": {
       "brand": "Apple",
@@ -116,7 +199,16 @@
       "year": 2022,
       "designCapacityMAh": 7538,
       "category": "tablet",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35614718": {
       "brand": "Apple",
@@ -126,7 +218,16 @@
       "year": 2024,
       "designCapacityMAh": 7606,
       "category": "tablet",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-ocr", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35306414": {
       "brand": "Samsung",
@@ -136,7 +237,16 @@
       "year": 2022,
       "designCapacityMAh": 3700,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35353215": {
       "brand": "Samsung",
@@ -146,7 +256,16 @@
       "year": 2023,
       "designCapacityMAh": 3900,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35421816": {
       "brand": "Samsung",
@@ -156,7 +275,16 @@
       "year": 2024,
       "designCapacityMAh": 4000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35429612": {
       "brand": "Samsung",
@@ -166,7 +294,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35351413": {
       "brand": "Samsung",
@@ -176,7 +313,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35501614": {
       "brand": "Samsung",
@@ -186,7 +332,16 @@
       "year": 2024,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35712417": {
       "brand": "Samsung",
@@ -196,7 +351,16 @@
       "year": 2023,
       "designCapacityMAh": 8400,
       "category": "tablet",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35918114": {
       "brand": "Xiaomi",
@@ -206,7 +370,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35876815": {
       "brand": "Xiaomi",
@@ -216,7 +389,16 @@
       "year": 2024,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35124014": {
       "brand": "Xiaomi",
@@ -226,7 +408,16 @@
       "year": 2023,
       "designCapacityMAh": 4500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35290414": {
       "brand": "Google",
@@ -236,7 +427,16 @@
       "year": 2022,
       "designCapacityMAh": 4355,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35317817": {
       "brand": "Google",
@@ -246,7 +446,16 @@
       "year": 2023,
       "designCapacityMAh": 4575,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35492018": {
       "brand": "Google",
@@ -256,7 +465,16 @@
       "year": 2023,
       "designCapacityMAh": 5050,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35876613": {
       "brand": "Motorola",
@@ -266,7 +484,16 @@
       "year": 2023,
       "designCapacityMAh": 4400,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35945712": {
       "brand": "Motorola",
@@ -276,7 +503,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35234714": {
       "brand": "OnePlus",
@@ -286,7 +522,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35781517": {
       "brand": "OnePlus",
@@ -296,7 +541,16 @@
       "year": 2024,
       "designCapacityMAh": 5400,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35521413": {
       "brand": "Oppo",
@@ -306,7 +560,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35321713": {
       "brand": "Huawei",
@@ -316,7 +579,16 @@
       "year": 2023,
       "designCapacityMAh": 4815,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
       "notes": "Sin Google Mobile Services. Battery probe limitada."
     },
     "35621416": {
@@ -327,7 +599,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35987612": {
       "brand": "Realme",
@@ -337,7 +618,16 @@
       "year": 2023,
       "designCapacityMAh": 5000,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35265910": {
       "brand": "Samsung",
@@ -347,7 +637,16 @@
       "year": 2020,
       "designCapacityMAh": 4500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
       "notes": "Variante global 5G, la más común en LATAM"
     },
     "35268250": {
@@ -358,7 +657,16 @@
       "year": 2020,
       "designCapacityMAh": 4500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
       "notes": "TAC verificado contra equipo real (Rob, Reuse) — IMEI1 slot"
     },
     "35964620": {
@@ -369,7 +677,16 @@
       "year": 2020,
       "designCapacityMAh": 4500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
       "notes": "TAC verificado contra equipo real (Rob, Reuse) — IMEI2 slot dual SIM"
     },
     "35307410": {
@@ -380,7 +697,16 @@
       "year": 2020,
       "designCapacityMAh": 4500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
       "notes": "Variante LTE global"
     },
     "35408510": {
@@ -391,7 +717,16 @@
       "year": 2020,
       "designCapacityMAh": 4500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"],
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
       "notes": "Variante US 5G"
     },
     "35376710": {
@@ -402,7 +737,16 @@
       "year": 2020,
       "designCapacityMAh": 4300,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35224110": {
       "brand": "Samsung",
@@ -412,7 +756,16 @@
       "year": 2019,
       "designCapacityMAh": 4300,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
     },
     "35177410": {
       "brand": "Samsung",
@@ -422,7 +775,2036 @@
       "year": 2019,
       "designCapacityMAh": 3500,
       "category": "phone",
-      "capabilities": ["screen", "touch", "camera", "mic", "battery-probe", "buttons", "connectivity", "sensors"]
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ]
+    },
+    "35602624": {
+      "brand": "Apple",
+      "model": "iPhone 16",
+      "modelNumber": "A3287",
+      "os": "iOS",
+      "year": 2024,
+      "designCapacityMAh": 3561,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA registry productivo"
+    },
+    "35602724": {
+      "brand": "Apple",
+      "model": "iPhone 16 Plus",
+      "modelNumber": "A3290",
+      "os": "iOS",
+      "year": 2024,
+      "designCapacityMAh": 4674,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35602824": {
+      "brand": "Apple",
+      "model": "iPhone 16 Pro",
+      "modelNumber": "A3293",
+      "os": "iOS",
+      "year": 2024,
+      "designCapacityMAh": 3582,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35602924": {
+      "brand": "Apple",
+      "model": "iPhone 16 Pro Max",
+      "modelNumber": "A3296",
+      "os": "iOS",
+      "year": 2024,
+      "designCapacityMAh": 4685,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35603625": {
+      "brand": "Apple",
+      "model": "iPhone 17",
+      "modelNumber": "A3500",
+      "os": "iOS",
+      "year": 2025,
+      "designCapacityMAh": 3692,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — modelNumber estimado"
+    },
+    "35603725": {
+      "brand": "Apple",
+      "model": "iPhone 17 Pro",
+      "modelNumber": "A3506",
+      "os": "iOS",
+      "year": 2025,
+      "designCapacityMAh": 3825,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35603825": {
+      "brand": "Apple",
+      "model": "iPhone 17 Pro Max",
+      "modelNumber": "A3510",
+      "os": "iOS",
+      "year": 2025,
+      "designCapacityMAh": 4823,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35603925": {
+      "brand": "Apple",
+      "model": "iPhone 17 Air",
+      "modelNumber": "A3520",
+      "os": "iOS",
+      "year": 2025,
+      "designCapacityMAh": 2800,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — variante delgada (ex 'iPhone 17 Slim')"
+    },
+    "35530125": {
+      "brand": "Samsung",
+      "model": "Galaxy S25",
+      "modelNumber": "SM-S931B",
+      "os": "Android",
+      "year": 2025,
+      "designCapacityMAh": 4000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35530225": {
+      "brand": "Samsung",
+      "model": "Galaxy S25+",
+      "modelNumber": "SM-S936B",
+      "os": "Android",
+      "year": 2025,
+      "designCapacityMAh": 4900,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35530325": {
+      "brand": "Samsung",
+      "model": "Galaxy S25 Ultra",
+      "modelNumber": "SM-S938B",
+      "os": "Android",
+      "year": 2025,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — top de gama 2025"
+    },
+    "35199910": {
+      "brand": "Apple",
+      "model": "iPhone 11",
+      "modelNumber": "A2111",
+      "os": "iOS",
+      "year": 2019,
+      "designCapacityMAh": 3110,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35199911": {
+      "brand": "Apple",
+      "model": "iPhone 11 Pro",
+      "modelNumber": "A2160",
+      "os": "iOS",
+      "year": 2019,
+      "designCapacityMAh": 3046,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35199912": {
+      "brand": "Apple",
+      "model": "iPhone 11 Pro Max",
+      "modelNumber": "A2161",
+      "os": "iOS",
+      "year": 2019,
+      "designCapacityMAh": 3969,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35193512": {
+      "brand": "Apple",
+      "model": "iPhone 12 mini",
+      "modelNumber": "A2399",
+      "os": "iOS",
+      "year": 2020,
+      "designCapacityMAh": 2227,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35299412": {
+      "brand": "Apple",
+      "model": "iPhone 12 Pro Max",
+      "modelNumber": "A2411",
+      "os": "iOS",
+      "year": 2020,
+      "designCapacityMAh": 3687,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35202612": {
+      "brand": "Apple",
+      "model": "iPhone 13 mini",
+      "modelNumber": "A2628",
+      "os": "iOS",
+      "year": 2021,
+      "designCapacityMAh": 2406,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35376612": {
+      "brand": "Apple",
+      "model": "iPhone 13 Pro Max",
+      "modelNumber": "A2643",
+      "os": "iOS",
+      "year": 2021,
+      "designCapacityMAh": 4352,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35304712": {
+      "brand": "Apple",
+      "model": "iPhone 14 Plus",
+      "modelNumber": "A2885",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 4325,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35335712": {
+      "brand": "Apple",
+      "model": "iPhone 14 Pro Max",
+      "modelNumber": "A2894",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 4323,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35451318": {
+      "brand": "Apple",
+      "model": "iPhone 15 Plus",
+      "modelNumber": "A3093",
+      "os": "iOS",
+      "year": 2023,
+      "designCapacityMAh": 4383,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35384918": {
+      "brand": "Apple",
+      "model": "iPhone 15 Pro Max",
+      "modelNumber": "A3108",
+      "os": "iOS",
+      "year": 2023,
+      "designCapacityMAh": 4422,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35201111": {
+      "brand": "Apple",
+      "model": "iPhone SE 2",
+      "modelNumber": "A2275",
+      "os": "iOS",
+      "year": 2020,
+      "designCapacityMAh": 1821,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — modelo 'low-cost' aún común en LATAM"
+    },
+    "35201122": {
+      "brand": "Apple",
+      "model": "iPhone SE 3",
+      "modelNumber": "A2595",
+      "os": "iOS",
+      "year": 2022,
+      "designCapacityMAh": 2018,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-ocr",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock"
+    },
+    "35306411": {
+      "brand": "Samsung",
+      "model": "Galaxy S20",
+      "modelNumber": "SM-G981B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306412": {
+      "brand": "Samsung",
+      "model": "Galaxy S20+",
+      "modelNumber": "SM-G986B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306413": {
+      "brand": "Samsung",
+      "model": "Galaxy S20 Ultra",
+      "modelNumber": "SM-G988B",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306415": {
+      "brand": "Samsung",
+      "model": "Galaxy S21",
+      "modelNumber": "SM-G991B",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 4000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306416": {
+      "brand": "Samsung",
+      "model": "Galaxy S21+",
+      "modelNumber": "SM-G996B",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 4800,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306417": {
+      "brand": "Samsung",
+      "model": "Galaxy S21 Ultra",
+      "modelNumber": "SM-G998B",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306418": {
+      "brand": "Samsung",
+      "model": "Galaxy S22+",
+      "modelNumber": "SM-S906B",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35306419": {
+      "brand": "Samsung",
+      "model": "Galaxy S22 Ultra",
+      "modelNumber": "SM-S908B",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35353216": {
+      "brand": "Samsung",
+      "model": "Galaxy S23+",
+      "modelNumber": "SM-S916B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4700,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35353217": {
+      "brand": "Samsung",
+      "model": "Galaxy S23 Ultra",
+      "modelNumber": "SM-S918B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35421817": {
+      "brand": "Samsung",
+      "model": "Galaxy S24+",
+      "modelNumber": "SM-S926B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4900,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35421818": {
+      "brand": "Samsung",
+      "model": "Galaxy S24 Ultra",
+      "modelNumber": "SM-S928B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35351414": {
+      "brand": "Samsung",
+      "model": "Galaxy A05",
+      "modelNumber": "SM-A055F",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35351415": {
+      "brand": "Samsung",
+      "model": "Galaxy A05s",
+      "modelNumber": "SM-A057F",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35351416": {
+      "brand": "Samsung",
+      "model": "Galaxy A15",
+      "modelNumber": "SM-A155F",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35351417": {
+      "brand": "Samsung",
+      "model": "Galaxy A25",
+      "modelNumber": "SM-A256B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35351418": {
+      "brand": "Samsung",
+      "model": "Galaxy A35",
+      "modelNumber": "SM-A356B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35501615": {
+      "brand": "Samsung",
+      "model": "Galaxy A75",
+      "modelNumber": "SM-A756B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35501616": {
+      "brand": "Samsung",
+      "model": "Galaxy A24",
+      "modelNumber": "SM-A245F",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35501617": {
+      "brand": "Samsung",
+      "model": "Galaxy A34",
+      "modelNumber": "SM-A346B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35305501": {
+      "brand": "Samsung",
+      "model": "Galaxy Z Flip 4",
+      "modelNumber": "SM-F721B",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 3700,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35305502": {
+      "brand": "Samsung",
+      "model": "Galaxy Z Flip 5",
+      "modelNumber": "SM-F731B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 3700,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35305503": {
+      "brand": "Samsung",
+      "model": "Galaxy Z Flip 6",
+      "modelNumber": "SM-F741B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35305504": {
+      "brand": "Samsung",
+      "model": "Galaxy Z Fold 4",
+      "modelNumber": "SM-F936B",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4400,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35305505": {
+      "brand": "Samsung",
+      "model": "Galaxy Z Fold 5",
+      "modelNumber": "SM-F946B",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4400,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35305506": {
+      "brand": "Samsung",
+      "model": "Galaxy Z Fold 6",
+      "modelNumber": "SM-F956B",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4400,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401311": {
+      "brand": "Motorola",
+      "model": "Moto G14",
+      "modelNumber": "XT2341-3",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401312": {
+      "brand": "Motorola",
+      "model": "Moto G24",
+      "modelNumber": "XT2423-3",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401313": {
+      "brand": "Motorola",
+      "model": "Moto G34",
+      "modelNumber": "XT2363-3",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401314": {
+      "brand": "Motorola",
+      "model": "Moto G54",
+      "modelNumber": "XT2343-1",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401315": {
+      "brand": "Motorola",
+      "model": "Moto G84",
+      "modelNumber": "XT2347-2",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401316": {
+      "brand": "Motorola",
+      "model": "Moto G24 Power",
+      "modelNumber": "XT2425-1",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 6000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401321": {
+      "brand": "Motorola",
+      "model": "Moto Edge 30",
+      "modelNumber": "XT2203-1",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4020,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401322": {
+      "brand": "Motorola",
+      "model": "Moto Edge 40",
+      "modelNumber": "XT2303-2",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4400,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401323": {
+      "brand": "Motorola",
+      "model": "Moto Edge 50",
+      "modelNumber": "XT2407-1",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401324": {
+      "brand": "Motorola",
+      "model": "Moto Edge 50 Pro",
+      "modelNumber": "XT2403-1",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401325": {
+      "brand": "Motorola",
+      "model": "Razr 40 Ultra",
+      "modelNumber": "XT2321-1",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 3800,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35401326": {
+      "brand": "Motorola",
+      "model": "Razr 50 Ultra",
+      "modelNumber": "XT2453-1",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601411": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 11",
+      "modelNumber": "2201117TG",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601412": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 12",
+      "modelNumber": "23021RAA2Y",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601413": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 12 Pro",
+      "modelNumber": "2209116AG",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601414": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 13",
+      "modelNumber": "23129RAA4G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601415": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 13 Pro",
+      "modelNumber": "23090RA98G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5100,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601416": {
+      "brand": "Xiaomi",
+      "model": "Redmi Note 14",
+      "modelNumber": "24129RAA4G",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601417": {
+      "brand": "Xiaomi",
+      "model": "Redmi 12",
+      "modelNumber": "23053RN02Y",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601418": {
+      "brand": "Xiaomi",
+      "model": "Redmi 13",
+      "modelNumber": "23129RN51X",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5030,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601421": {
+      "brand": "Xiaomi",
+      "model": "POCO X4 Pro",
+      "modelNumber": "2201116PG",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601422": {
+      "brand": "Xiaomi",
+      "model": "POCO X5 Pro",
+      "modelNumber": "22101320G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601423": {
+      "brand": "Xiaomi",
+      "model": "POCO X6 Pro",
+      "modelNumber": "23122RA68G",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601424": {
+      "brand": "Xiaomi",
+      "model": "POCO F5",
+      "modelNumber": "23049PCD8G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601431": {
+      "brand": "Xiaomi",
+      "model": "Mi 11",
+      "modelNumber": "M2011K2G",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 4600,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601432": {
+      "brand": "Xiaomi",
+      "model": "Mi 12",
+      "modelNumber": "2201123G",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601433": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi 13",
+      "modelNumber": "2211133G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601434": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi 13 Pro",
+      "modelNumber": "2210132G",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4820,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601435": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi 14",
+      "modelNumber": "23127PN0CG",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4610,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601436": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi 14 Pro",
+      "modelNumber": "23116PN5BC",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4880,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35601437": {
+      "brand": "Xiaomi",
+      "model": "Xiaomi 14 Ultra",
+      "modelNumber": "24031PN0DG",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5300,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711361": {
+      "brand": "Google",
+      "model": "Pixel 6",
+      "modelNumber": "GR1YH",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 4614,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711362": {
+      "brand": "Google",
+      "model": "Pixel 6a",
+      "modelNumber": "GX7AS",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4410,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711363": {
+      "brand": "Google",
+      "model": "Pixel 7",
+      "modelNumber": "GVU6C",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4355,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711364": {
+      "brand": "Google",
+      "model": "Pixel 7a",
+      "modelNumber": "GHL1X",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4385,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711365": {
+      "brand": "Google",
+      "model": "Pixel 8",
+      "modelNumber": "GZPF0",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 4575,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711366": {
+      "brand": "Google",
+      "model": "Pixel 8a",
+      "modelNumber": "GFV66",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4492,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711367": {
+      "brand": "Google",
+      "model": "Pixel 8 Pro",
+      "modelNumber": "GC3VE",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5050,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711368": {
+      "brand": "Google",
+      "model": "Pixel 9",
+      "modelNumber": "GFD15",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4700,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35711369": {
+      "brand": "Google",
+      "model": "Pixel 9 Pro",
+      "modelNumber": "GLU0G",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4700,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35801351": {
+      "brand": "OnePlus",
+      "model": "OnePlus 9",
+      "modelNumber": "LE2113",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35801352": {
+      "brand": "OnePlus",
+      "model": "OnePlus 10",
+      "modelNumber": "NE2213",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35801353": {
+      "brand": "OnePlus",
+      "model": "OnePlus 11",
+      "modelNumber": "CPH2447",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35801354": {
+      "brand": "OnePlus",
+      "model": "OnePlus 12",
+      "modelNumber": "CPH2581",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 5400,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35801355": {
+      "brand": "OnePlus",
+      "model": "OnePlus Nord 3",
+      "modelNumber": "CPH2493",
+      "os": "Android",
+      "year": 2023,
+      "designCapacityMAh": 5000,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35901011": {
+      "brand": "Huawei",
+      "model": "P30 Pro",
+      "modelNumber": "VOG-L29",
+      "os": "Android",
+      "year": 2019,
+      "designCapacityMAh": 4200,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35901012": {
+      "brand": "Huawei",
+      "model": "P40 Pro",
+      "modelNumber": "ELS-NX9",
+      "os": "Android",
+      "year": 2020,
+      "designCapacityMAh": 4200,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35901013": {
+      "brand": "Huawei",
+      "model": "P50 Pro",
+      "modelNumber": "JAD-LX9",
+      "os": "Android",
+      "year": 2022,
+      "designCapacityMAh": 4360,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35901014": {
+      "brand": "Huawei",
+      "model": "Mate 30 Pro",
+      "modelNumber": "LIO-L29",
+      "os": "Android",
+      "year": 2019,
+      "designCapacityMAh": 4500,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35901015": {
+      "brand": "Huawei",
+      "model": "Nova 9",
+      "modelNumber": "NAM-LX9",
+      "os": "Android",
+      "year": 2021,
+      "designCapacityMAh": 4300,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
+    },
+    "35901016": {
+      "brand": "Huawei",
+      "model": "Nova 12",
+      "modelNumber": "FOA-LX9",
+      "os": "Android",
+      "year": 2024,
+      "designCapacityMAh": 4600,
+      "category": "phone",
+      "capabilities": [
+        "screen",
+        "touch",
+        "camera",
+        "mic",
+        "battery-probe",
+        "buttons",
+        "connectivity",
+        "sensors"
+      ],
+      "notes": "TAC mock — actualizar con GSMA en producción"
     }
   }
 }
