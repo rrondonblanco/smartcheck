@@ -1388,9 +1388,12 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
   // Detectamos si el usuario está navegando desde un Android. En ese caso, en vez de
   // QR, ofrecemos botones directos: Instalar APK + Abrir App (deep-link). El QR queda
   // como fallback para el caso "estoy mirando esto desde mi PC".
-  // El APK se sirve desde el mismo HTTPS server local: /smartcheck-probe.apk
+  // APK URL: GitHub Releases es lo canónico (TLS válido, no depende del Mac de Rob).
+  // Override vía window.SMARTCHECK_APK_URL si el operador quiere apuntar a local
+  // (p. ej. demo offline donde el repo aún no es público).
   const isAndroidUA = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent || '');
-  const apkUrl = `${typeof location !== 'undefined' ? location.origin : ''}/smartcheck-probe.apk`;
+  const apkUrl = (typeof window !== 'undefined' && window.SMARTCHECK_APK_URL)
+    || 'https://github.com/rrondonblanco/smartcheck/releases/latest/download/smartcheck-probe.apk';
   const [showQR, setShowQR] = React.useState(!isAndroidUA);
 
   return (

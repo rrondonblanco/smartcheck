@@ -18,6 +18,9 @@ concurrency:
   group: probe-apk-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write   # necesario para crear/actualizar releases automáticamente
+
 jobs:
   build:
     name: Build debug APK
@@ -45,10 +48,10 @@ jobs:
         # Eso evita tener que commitear el gradle-wrapper.jar binario al repo.
         run: gradle assembleDebug --stacktrace --no-daemon
 
-      - name: Show APK info
+      - name: Rename APK to canonical name
         run: |
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/smartcheck-probe.apk
           ls -la app/build/outputs/apk/debug/
-          du -h app/build/outputs/apk/debug/*.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
@@ -58,8 +61,36 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Attach APK to release
+      # Publicación automática a GitHub Releases con tag 'latest' (rolling).
+      # Cada push a main que toque app-probe-android/** sobrescribe la release anterior.
+      # URL pública estable: https://github.com/<owner>/<repo>/releases/latest/download/smartcheck-probe.apk
+      # Requiere que el repo sea público para descarga sin auth.
+      - name: Publish rolling 'latest' release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: SmartCheck Probe (latest debug build)
+          body: |
+            APK debug auto-publicado por CI desde el commit `${{ github.sha }}`.
+
+            **Descarga directa:**
+            https://github.com/${{ github.repository }}/releases/latest/download/smartcheck-probe.apk
+
+            ⚠️ Build de DEBUG. No firmado para producción. Solo para pruebas internas
+            del prototipo SmartCheck.
+          files: |
+            app-probe-android/app/build/outputs/apk/debug/smartcheck-probe.apk
+            app-probe-android/app/build/outputs/apk/debug/app-debug.apk
+          fail_on_unmatched_files: true
+          make_latest: true
+
+      # Releases formales por tag (ej. v0.2.0). Útiles cuando saquemos versión estable
+      # para entregar a TI.
+      - name: Attach APK to tagged release
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: app-probe-android/app/build/outputs/apk/debug/*.apk
+          files: |
+            app-probe-android/app/build/outputs/apk/debug/smartcheck-probe.apk
+            app-probe-android/app/build/outputs/apk/debug/app-debug.apk
