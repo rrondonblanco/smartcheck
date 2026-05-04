@@ -21,8 +21,8 @@
     <string name="consent_no_session">No detecté la sesión. Volvé al diagnóstico web y escaneá el QR de nuevo.</string>
 
     <!-- Measuring -->
-    <string name="measuring_title">Midiendo batería…</string>
-    <string name="measuring_subtitle">Esto demora 3 a 5 segundos.</string>
+    <string name="measuring_title">Analizando batería</string>
+    <string name="measuring_subtitle">Estimamos la salud por Coulomb counting (60 segundos).</string>
 
     <!-- Done -->
     <string name="done_title">¡Listo!</string>
@@ -30,6 +30,15 @@
     <string name="done_health">Salud de batería</string>
     <string name="done_health_unavailable">No disponible</string>
     <string name="done_health_restricted_note">Tu fabricante restringe el acceso a Salud y Ciclos para apps sin permisos de sistema. En producción esto se obtiene vía partnership con el OEM. Mientras tanto, te dejo todo lo que sí pude leer.</string>
+    <string name="done_estimate_label">Estimación SmartCheck</string>
+    <string name="done_estimate_method">Coulomb counting · pasamos de %1$d%% a %2$d%% en %3$ds</string>
+    <string name="done_estimate_confidence_high">Confianza alta</string>
+    <string name="done_estimate_confidence_medium">Confianza media</string>
+    <string name="done_estimate_confidence_low">Confianza baja</string>
+    <string name="done_estimate_no_design">Estimamos %1$d mAh actuales pero no tenemos la capacidad de fábrica de tu modelo en la TAC db. Pasala desde la web para calcular % salud.</string>
+    <string name="done_estimate_insufficient">El nivel cambió sólo %1$d%% en 60s. Conectá el cargador o dejá el equipo idle y reintentá — necesitamos al menos 2%% de cambio.</string>
+    <string name="done_estimate_no_counter">Tu equipo no expone el contador de carga. La estimación no funciona en este modelo.</string>
+    <string name="done_estimate_temp_warning">⚠ Temperatura fuera de rango durante la medición — la estimación puede ser menos precisa.</string>
     <string name="done_cycles">Ciclos</string>
     <string name="done_temp">Temperatura</string>
     <string name="done_voltage">Voltaje</string>

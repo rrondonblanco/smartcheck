@@ -20,11 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cl.reuse.smartcheck.probe.BatteryReading
+import cl.reuse.smartcheck.probe.HealthEstimator
 import cl.reuse.smartcheck.probe.R
 
 @Composable
 fun DoneScreen(
     reading: BatteryReading,
+    estimate: HealthEstimator.Result,
     onClose: () -> Unit,
 ) {
     Column(
@@ -35,11 +37,11 @@ fun DoneScreen(
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(20.dp))
 
         Box(
             Modifier
-                .size(80.dp)
+                .size(72.dp)
                 .clip(CircleShape)
                 .background(Mint500),
             contentAlignment = Alignment.Center
@@ -48,76 +50,32 @@ fun DoneScreen(
                 Icons.Default.Check,
                 contentDescription = null,
                 tint = Ink900,
-                modifier = Modifier.size(48.dp),
+                modifier = Modifier.size(40.dp),
             )
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.done_title),
             color = Color.White,
-            fontSize = 26.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.SemiBold,
         )
         Spacer(Modifier.height(4.dp))
         Text(
             text = stringResource(R.string.done_subtitle),
             color = Color.White.copy(alpha = 0.6f),
-            fontSize = 13.sp,
+            fontSize = 12.sp,
         )
 
         Spacer(Modifier.height(20.dp))
 
-        // --- Health card (siempre visible, dice "no disponible" si el OEM lo bloquea) ---
-        Surface(
-            color = Color.White.copy(alpha = 0.05f),
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Column(Modifier.padding(18.dp)) {
-                Text(
-                    text = stringResource(R.string.done_health).uppercase(),
-                    color = Color.White.copy(alpha = 0.5f),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-                Spacer(Modifier.height(6.dp))
-                if (reading.healthPct != null) {
-                    Text(
-                        text = "${"%.1f".format(reading.healthPct)}%",
-                        color = Color.White,
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-                } else {
-                    Text(
-                        text = stringResource(R.string.done_health_unavailable),
-                        color = Color.White.copy(alpha = 0.7f),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Medium,
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Row(verticalAlignment = Alignment.Top) {
-                        Icon(
-                            Icons.Default.Info,
-                            contentDescription = null,
-                            tint = Color.White.copy(alpha = 0.5f),
-                            modifier = Modifier.size(14.dp),
-                        )
-                        Spacer(Modifier.width(6.dp))
-                        Text(
-                            text = stringResource(R.string.done_health_restricted_note),
-                            color = Color.White.copy(alpha = 0.55f),
-                            fontSize = 11.sp,
-                        )
-                    }
-                }
-            }
-        }
+        // --- Card de salud (estimación SmartCheck cuando hay) ---
+        EstimateCard(estimate, reading.healthPct)
 
         Spacer(Modifier.height(10.dp))
 
-        // --- Métricas que SÍ leemos: temperatura, voltaje, carga, ciclos ---
+        // --- Métricas que SÍ leemos ---
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
@@ -152,9 +110,7 @@ fun DoneScreen(
             )
             MetricCard(
                 label = stringResource(R.string.done_capacity),
-                value = reading.currentCapacityUAh
-                    ?.let { "${(it / 1000)} mAh" }
-                    ?: "—",
+                value = reading.currentCapacityUAh?.let { "${(it / 1000)} mAh" } ?: "—",
                 modifier = Modifier.weight(1f),
             )
             MetricCard(
@@ -166,7 +122,7 @@ fun DoneScreen(
 
         Spacer(Modifier.height(8.dp))
 
-        // Estado de carga, full width
+        // Estado de carga
         Surface(
             color = Color.White.copy(alpha = 0.05f),
             shape = RoundedCornerShape(14.dp),
@@ -215,6 +171,125 @@ fun DoneScreen(
         }
 
         Spacer(Modifier.height(12.dp))
+    }
+}
+
+/** Card grande arriba que muestra el resultado del estimador. Cuatro estados:
+ *  Ok  → big % + confianza + descripción del método
+ *  NoDesign → "estimamos X mAh, falta capacidad de fábrica"
+ *  InsufficientChange → "necesito más cambio de nivel"
+ *  NoCounter → "tu equipo no soporta esta medición"
+ */
+@Composable
+private fun EstimateCard(estimate: HealthEstimator.Result, oemHealthPct: Double?) {
+    Surface(
+        color = Color.White.copy(alpha = 0.05f),
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(18.dp)) {
+            Text(
+                text = stringResource(R.string.done_estimate_label).uppercase(),
+                color = Mint500,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Spacer(Modifier.height(8.dp))
+
+            when (estimate) {
+                is HealthEstimator.Result.Ok -> {
+                    Text(
+                        text = "${"%.1f".format(estimate.healthPct)}%",
+                        color = Color.White,
+                        fontSize = 44.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    val confidenceText = when (estimate.confidence) {
+                        HealthEstimator.Confidence.HIGH -> stringResource(R.string.done_estimate_confidence_high)
+                        HealthEstimator.Confidence.MEDIUM -> stringResource(R.string.done_estimate_confidence_medium)
+                        HealthEstimator.Confidence.LOW -> stringResource(R.string.done_estimate_confidence_low)
+                    }
+                    val confidenceColor = when (estimate.confidence) {
+                        HealthEstimator.Confidence.HIGH -> Mint500
+                        HealthEstimator.Confidence.MEDIUM -> Color(0xFFE6CB5E)
+                        HealthEstimator.Confidence.LOW -> Color(0xFFE69E5E)
+                    }
+                    Text(confidenceText, color = confidenceColor, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = "${estimate.estimatedCapacityUAh / 1000} mAh actuales · ${estimate.designCapacityUAh / 1000} mAh de fábrica · Δ${estimate.deltaLevelPct}% en ${estimate.durationMs / 1000}s · ${estimate.sampleCount} muestras",
+                        color = Color.White.copy(alpha = 0.55f),
+                        fontSize = 11.sp,
+                    )
+                    if (estimate.tempWarning) {
+                        Spacer(Modifier.height(6.dp))
+                        Text(
+                            text = stringResource(R.string.done_estimate_temp_warning),
+                            color = Color(0xFFE69E5E),
+                            fontSize = 11.sp,
+                        )
+                    }
+                    if (oemHealthPct != null) {
+                        Spacer(Modifier.height(6.dp))
+                        Text(
+                            text = "OEM (sysfs) reporta: ${"%.1f".format(oemHealthPct)}% — para cross-check",
+                            color = Color.White.copy(alpha = 0.45f),
+                            fontSize = 10.sp,
+                        )
+                    }
+                }
+                is HealthEstimator.Result.NoDesign -> {
+                    Text(
+                        text = "${estimate.estimatedCapacityUAh / 1000} mAh",
+                        color = Color.White,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    InfoNote(stringResource(R.string.done_estimate_no_design, (estimate.estimatedCapacityUAh / 1000).toInt()))
+                }
+                is HealthEstimator.Result.InsufficientChange -> {
+                    Text(
+                        text = stringResource(R.string.done_health_unavailable),
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    InfoNote(stringResource(R.string.done_estimate_insufficient, estimate.deltaLevelPct))
+                }
+                is HealthEstimator.Result.NoCounter -> {
+                    Text(
+                        text = stringResource(R.string.done_health_unavailable),
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    InfoNote(stringResource(R.string.done_estimate_no_counter))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun InfoNote(text: String) {
+    Row(verticalAlignment = Alignment.Top) {
+        Icon(
+            Icons.Default.Info,
+            contentDescription = null,
+            tint = Color.White.copy(alpha = 0.5f),
+            modifier = Modifier.size(14.dp),
+        )
+        Spacer(Modifier.width(6.dp))
+        Text(
+            text = text,
+            color = Color.White.copy(alpha = 0.6f),
+            fontSize = 11.sp,
+        )
     }
 }
 

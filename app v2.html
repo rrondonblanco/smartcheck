@@ -1263,7 +1263,11 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
   // hasta 8s) y si nunca aparece, caemos a un fallback usando un canvas mínimo embebido.
   React.useEffect(() => {
     if (!sessionId) return;
-    const deepLink = `smartcheck://probe?sessionId=${encodeURIComponent(sessionId)}`;
+    // Pasamos designCapacityMAh al APK para que pueda calcular % salud por Coulomb counting.
+    // Si la TAC db no tenía designCapacity, va sin él y el APK reporta "no_design_capacity".
+    const designCap = state?.device?.designCapacityMAh;
+    const deepLink = `smartcheck://probe?sessionId=${encodeURIComponent(sessionId)}` +
+      (designCap ? `&designCapacityMAh=${designCap}` : '');
     let cancelled = false;
     let attempts = 0;
     const tryGen = () => {
@@ -1314,13 +1318,17 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
 
   const canPass = !!probeData;
   const battery = probeData?.battery;
-  const linkUrl = sessionId ? `smartcheck://probe?sessionId=${sessionId}` : '';
+  const linkUrl = sessionId
+    ? `smartcheck://probe?sessionId=${sessionId}` + (state?.device?.designCapacityMAh ? `&designCapacityMAh=${state.device.designCapacityMAh}` : '')
+    : '';
 
   return (
     <TestShell title="Batería" back={back} onSkip={skip} canPass={canPass}
       onPass={()=>save('battery',{
         status:'pass',
-        detail: battery?.healthPct != null ? `Salud ${battery.healthPct}% · ${battery.cycleCount ?? '?'} ciclos` : 'Medición recibida',
+        detail: probeData?.estimate?.status === 'ok'
+          ? `Salud ${Number(probeData.estimate.healthPct).toFixed(1)}% · estimación ${probeData.estimate.confidence} · ${probeData.estimate.sampleCount} muestras`
+          : (battery?.healthPct != null ? `Salud ${battery.healthPct}% (OEM)` : 'Medición recibida — salud no estimable'),
         probe: probeData,
       })}
       onFail={()=>save('battery',{status:'fail',detail:'Salud crítica'})}>
@@ -1369,23 +1377,7 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
           </div>
         ) : (
           <div className="space-y-3 fade-up">
-            <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud de batería</div>
-                  <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
-                    {battery?.healthPct != null ? `${Number(battery.healthPct).toFixed(1)}` : '—'}
-                    <span className="text-[22px] text-white/50">%</span>
-                  </div>
-                </div>
-                <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">vía APK</div>
-              </div>
-              {battery?.healthPct != null && (
-                <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div className={`h-full ${battery.healthPct>80 ? 'bg-mint-500' : battery.healthPct>60 ? 'bg-yellow-300' : 'bg-red-400'}`} style={{width:`${Math.min(100, battery.healthPct)}%`}}/>
-                </div>
-              )}
-            </div>
+            <ProbeHealthCard probe={probeData}/>
             <div className="grid grid-cols-3 gap-2">
               <Stat label="Ciclos" value={battery?.cycleCount ?? '—'}/>
               <Stat label="Carga" value={battery?.levelPct != null ? `${battery.levelPct}%` : '—'}/>
@@ -1412,6 +1404,87 @@ function Stat({ label, value }) {
     <div className="rounded-xl bg-white/5 ring-1 ring-white/10 p-3 text-center">
       <div className="text-[10px] text-white/40 uppercase tracking-wide">{label}</div>
       <div className="font-display text-white text-[16px] font-semibold mt-1">{value}</div>
+    </div>
+  );
+}
+
+// --- Card de salud que prioriza el estimate de Coulomb counting ---
+// El APK envía dos cosas: `battery` (snapshot crudo: temp, voltaje, etc.) y `estimate`
+// (salud estimada por Coulomb counting). Si tenemos un estimate.status==='ok' lo
+// mostramos arriba con su confianza. Si hay un healthPct del OEM (sysfs leído OK),
+// lo mostramos también como cross-check.
+function ProbeHealthCard({ probe }) {
+  const est = probe?.estimate;
+  const oemHealth = probe?.battery?.healthPct;
+  const confidenceColor = (c) => c==='high' ? 'text-mint-400' : c==='medium' ? 'text-yellow-300' : 'text-orange-300';
+  const confidenceLabel = (c) => c==='high' ? 'Confianza alta' : c==='medium' ? 'Confianza media' : 'Confianza baja';
+  const barColor = (h) => h>80 ? 'bg-mint-500' : h>60 ? 'bg-yellow-300' : 'bg-red-400';
+
+  if (est?.status === 'ok') {
+    return (
+      <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · estimación SmartCheck</div>
+            <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
+              {Number(est.healthPct).toFixed(1)}<span className="text-[22px] text-white/50">%</span>
+            </div>
+            <div className={`text-[11px] font-semibold mt-1 ${confidenceColor(est.confidence)}`}>{confidenceLabel(est.confidence)}</div>
+          </div>
+          <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">Coulomb</div>
+        </div>
+        <div className="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
+          <div className={`h-full ${barColor(est.healthPct)}`} style={{width:`${Math.min(100, est.healthPct)}%`}}/>
+        </div>
+        <div className="mt-3 text-[11px] text-white/55 font-mono">
+          {Math.round((est.estimatedCapacityUAh || 0) / 1000)} mAh actuales · {Math.round((est.designCapacityUAh || 0) / 1000)} mAh fábrica · Δ{est.deltaLevelPct}% en {Math.round((est.durationMs || 0) / 1000)}s · {est.sampleCount} muestras
+        </div>
+        {est.tempWarning && (
+          <div className="mt-2 text-[11px] text-orange-300">⚠ Temperatura fuera de rango — precisión reducida.</div>
+        )}
+        {oemHealth != null && (
+          <div className="mt-2 text-[10px] text-white/40">OEM (sysfs) cross-check: {Number(oemHealth).toFixed(1)}%</div>
+        )}
+      </div>
+    );
+  }
+
+  // Caso: el OEM SÍ expuso healthPct vía sysfs (raro en Samsung modernos).
+  if (oemHealth != null) {
+    return (
+      <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · OEM directo</div>
+            <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
+              {Number(oemHealth).toFixed(1)}<span className="text-[22px] text-white/50">%</span>
+            </div>
+          </div>
+          <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">vía APK</div>
+        </div>
+        <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
+          <div className={`h-full ${barColor(oemHealth)}`} style={{width:`${Math.min(100, oemHealth)}%`}}/>
+        </div>
+      </div>
+    );
+  }
+
+  // Casos sin salud calculable: explicamos por qué.
+  const messages = {
+    no_design_capacity: 'Estimamos la capacidad actual pero falta la capacidad de fábrica del modelo en la TAC db.',
+    insufficient_change: 'El % de batería casi no cambió durante la medición. Conectá el cargador y reintentá — necesitamos ≥2% de cambio.',
+    no_charge_counter: 'Tu equipo no expone el contador de carga. La estimación no funciona en este modelo.',
+  };
+  const msg = messages[est?.status] || 'No se pudo estimar la salud.';
+
+  return (
+    <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
+      <div className="text-[10px] text-white/50 uppercase tracking-wide">Salud de batería</div>
+      <div className="text-[22px] text-white/70 font-semibold mt-1">No disponible</div>
+      <div className="mt-2 text-[11px] text-white/55">{msg}</div>
+      {est?.estimatedCapacityUAh && (
+        <div className="mt-2 text-[11px] text-white/40 font-mono">Capacidad estimada: {Math.round(est.estimatedCapacityUAh / 1000)} mAh</div>
+      )}
     </div>
   );
 }

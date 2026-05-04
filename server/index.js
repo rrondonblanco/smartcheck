@@ -260,6 +260,8 @@ app.post('/api/probe/upload', (req, res) => {
     imei,            // opcional — el APK puede no tenerlo (flujo principal: la Web ya lo capturó)
     device,
     battery,
+    estimate,        // NUEVO — resultado del Coulomb counting (HealthEstimator del APK)
+    designCapacityMAh, // NUEVO — eco del valor que la web pasó vía deep-link
     method,
     probeVersion,
     timestamp,
@@ -288,6 +290,8 @@ app.post('/api/probe/upload', (req, res) => {
     imei: imei || null,
     device: device || null,
     battery,
+    estimate: estimate || null,
+    designCapacityMAh: designCapacityMAh || null,
     method: method || 'android-probe',
     probeVersion: probeVersion || 'unknown',
     timestamp: timestamp || new Date().toISOString(),
@@ -300,7 +304,8 @@ app.post('/api/probe/upload', (req, res) => {
     receivedAt: measurement.receivedAt,
   });
 
-  console.log(`[Probe] upload OK · session=${sessionId} · ${device?.manufacturer || '?'}/${device?.model || '?'} · health=${battery.healthPct ?? '?'}%`);
+  const estHealth = estimate?.status === 'ok' ? `${estimate.healthPct?.toFixed?.(1) ?? estimate.healthPct}% (${estimate.confidence})` : (estimate?.status || 'n/a');
+  console.log(`[Probe] upload OK · session=${sessionId} · ${device?.manufacturer || '?'}/${device?.model || '?'} · OEM=${battery.healthPct ?? '?'}% · estimate=${estHealth} · design=${designCapacityMAh || '?'}mAh`);
 
   res.json({
     ok: true,

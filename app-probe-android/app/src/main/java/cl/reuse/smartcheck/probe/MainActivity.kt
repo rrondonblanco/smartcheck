@@ -40,13 +40,14 @@ class MainActivity : ComponentActivity() {
                         onAccept = { vm.startMeasurement() },
                         onCancel = { finish() },
                     )
-                    is ProbeUiState.Measuring -> MeasuringScreen()
+                    is ProbeUiState.Measuring -> MeasuringScreen(progress = s.progress, hint = s.hint)
                     is ProbeUiState.Done -> {
                         DoneScreen(
                             reading = s.reading,
+                            estimate = s.estimate,
                             onClose = { finishAndRemoveTask() },
                         )
-                        // Auto-cerrar a los 5 segundos para que el usuario vuelva a la web sin pelear.
+                        // Auto-cerrar a los 8 segundos (más tiempo porque ahora hay más data que mirar).
                         LaunchedEffect(s) {
                             Handler(Looper.getMainLooper()).postDelayed({
                                 if (!isFinishing) finishAndRemoveTask()
@@ -72,12 +73,16 @@ class MainActivity : ComponentActivity() {
         val data = intent?.data ?: return
         val sessionId = data.getQueryParameter("sessionId")
             ?: data.getQueryParameter("session_id")
-        Log.i(TAG, "deep-link received: $data → sessionId=$sessionId")
-        vm.onSessionIdReceived(sessionId)
+        // designCapacityMAh viene de la TAC db de SmartCheck (ej. Note 20 Ultra = 4500).
+        // Sin esto el estimador devuelve sólo capacidad estimada, no % salud.
+        val designCapacityMAh = data.getQueryParameter("designCapacityMAh")?.toIntOrNull()
+            ?: data.getQueryParameter("design_capacity_mah")?.toIntOrNull()
+        Log.i(TAG, "deep-link: $data → sessionId=$sessionId designCapacity=${designCapacityMAh}mAh")
+        vm.onDeepLink(sessionId, designCapacityMAh)
     }
 
     companion object {
         private const val TAG = "SmartCheck/MainActivity"
-        private const val AUTO_CLOSE_DELAY_MS = 5_000L
+        private const val AUTO_CLOSE_DELAY_MS = 8_000L
     }
 }

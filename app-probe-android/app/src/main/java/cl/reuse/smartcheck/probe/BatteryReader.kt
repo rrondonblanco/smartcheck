@@ -206,4 +206,18 @@ object BatteryReader {
         BatteryManager.BATTERY_HEALTH_COLD -> "cold"
         else -> "unknown"
     }
+
+    /**
+     * Helper expuesto para [HealthEstimator]: lee temperatura (°C) y voltaje (mV)
+     * desde el sticky broadcast. Pair(temp, voltage); cualquiera puede ser null si
+     * el OEM no lo expone.
+     */
+    fun readTemperatureAndVoltage(context: Context): Pair<Double?, Int?> {
+        val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            ?: return null to null
+        val tempC = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1)
+            .takeIf { it >= 0 }?.let { it / 10.0 }
+        val voltMv = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1).takeIf { it >= 0 }
+        return tempC to voltMv
+    }
 }
