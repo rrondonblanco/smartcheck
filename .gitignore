@@ -10,3 +10,4 @@ build/
 *.keystore
 .idea/
 *.iml
+.claude/worktrees/
