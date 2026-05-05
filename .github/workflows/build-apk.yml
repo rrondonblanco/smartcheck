@@ -43,6 +43,28 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      # Cacheamos el debug keystore entre builds para que todos los APKs queden firmados
+      # con la misma llave. Sin esto, cada build genera un keystore nuevo y Android
+      # rechaza la actualización con "conflicto con paquete existente".
+      # Para release de producción TI configurará un keystore enterprise via GitHub Secret.
+      - name: Cache debug keystore
+        id: keystore-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: smartcheck-debug-keystore-v1
+
+      - name: Generate debug keystore (only on first build, después se reutiliza por cache)
+        if: steps.keystore-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.android
+          keytool -genkey -v \
+            -keystore ~/.android/debug.keystore \
+            -storepass android -keypass android \
+            -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=SmartCheck Probe Debug,O=Reuse,L=Santiago,C=CL"
+
       - name: Build debug APK
         # Usamos `gradle` directo (no `./gradlew`) porque setup-gradle ya lo provee.
         # Eso evita tener que commitear el gradle-wrapper.jar binario al repo.

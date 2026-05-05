@@ -152,23 +152,31 @@ fun DoneScreen(
 
         Spacer(Modifier.height(20.dp))
 
+        // Botón principal: el operador termina cuando quiere. Si no hace nada,
+        // la app se cierra sola a los 15s (configurado en MainActivity).
         Button(
             onClick = onClose,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp),
+                .height(52.dp),
             shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White.copy(alpha = 0.1f),
-                contentColor = Color.White,
+                containerColor = Mint500,
+                contentColor = Ink900,
             ),
         ) {
             Text(
-                text = stringResource(R.string.done_close),
+                text = "Cerrar y volver a SmartCheck",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.SemiBold,
             )
         }
+        Spacer(Modifier.height(6.dp))
+        Text(
+            text = "(se cierra solo a los 15s)",
+            color = Color.White.copy(alpha = 0.4f),
+            fontSize = 10.sp,
+        )
 
         Spacer(Modifier.height(12.dp))
     }

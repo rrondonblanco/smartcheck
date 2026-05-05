@@ -1355,27 +1355,49 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
     return () => { cancelled = true; };
   }, [sessionId]);
 
-  // 3. Polling cada 3s hasta state==='done' o timeout
+  // 3. Polling cada 3s + re-fetch cuando la pestaña vuelve a foreground.
+  // El re-fetch es importante porque cuando el usuario va a la APK y vuelve a Chrome,
+  // los setTimeout de la pestaña pueden quedar throttled/dormidos. Al volver a foreground,
+  // forzamos un fetch inmediato y reanudamos el ciclo.
+  const pollNow = React.useCallback(async () => {
+    if (!sessionId) return;
+    try {
+      const r = await fetch(`${apiBase}/api/probe/${sessionId}/status`);
+      const j = await r.json();
+      if (j.state === 'done' && j.data) { setProbeData(j.data); return true; }
+    } catch (e) { setPollErr(e.message); }
+    return false;
+  }, [sessionId, apiBase]);
+
   React.useEffect(() => {
     if (!sessionId || probeData || fallback) return;
     let cancelled = false;
+    let timer = null;
     const t0 = Date.now();
     const poll = async () => {
       if (cancelled) return;
-      try {
-        const r = await fetch(`${apiBase}/api/probe/${sessionId}/status`);
-        const j = await r.json();
-        if (cancelled) return;
-        if (j.state === 'done' && j.data) { setProbeData(j.data); return; }
-        if (Date.now() - t0 > TIMEOUT_MS) { setTimedOut(true); return; }
-        setTimeout(poll, 3000);
-      } catch (e) {
-        if (!cancelled) { setPollErr(e.message); setTimeout(poll, 5000); }
-      }
+      const ok = await pollNow();
+      if (cancelled || ok) return;
+      if (Date.now() - t0 > TIMEOUT_MS) { setTimedOut(true); return; }
+      timer = setTimeout(poll, 3000);
     };
     poll();
-    return () => { cancelled = true; };
-  }, [sessionId, probeData, fallback, apiBase]);
+    // Re-fetch al volver a foreground (caso "fui al APK y volví")
+    const onVisibility = () => {
+      if (!document.hidden && !cancelled && !probeData) {
+        if (timer) clearTimeout(timer);
+        poll();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('focus', onVisibility);
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('focus', onVisibility);
+    };
+  }, [sessionId, probeData, fallback, pollNow]);
 
   if (fallback) return <BatteryTestWebOnly state={state} save={save} back={back} skip={skip} disclaimer="No llegó la medición del APK. Continuamos con datos parciales del navegador."/>;
 
@@ -1471,6 +1493,18 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
                 <div className="mt-2 break-all font-mono text-[10px] bg-black/30 rounded p-2 ring-1 ring-white/10">{linkUrl}</div>
                 <a href={linkUrl} className="mt-2 inline-block text-mint-400 underline">Tocar este link desde el mismo dispositivo</a>
               </details>
+            )}
+
+            {sessionId && (
+              <button
+                onClick={async () => {
+                  setPollErr(null);
+                  const ok = await pollNow();
+                  if (!ok) setPollErr('La medición todavía no llegó. Probá de nuevo en unos segundos.');
+                }}
+                className="mt-3 w-full rounded-xl bg-white/5 ring-1 ring-white/10 text-white/80 text-[12px] font-medium py-2.5 hover:bg-white/10">
+                Verificar ahora
+              </button>
             )}
 
             {timedOut && (

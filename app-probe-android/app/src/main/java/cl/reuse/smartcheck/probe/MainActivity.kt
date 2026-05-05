@@ -83,6 +83,8 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val TAG = "SmartCheck/MainActivity"
-        private const val AUTO_CLOSE_DELAY_MS = 8_000L
+        // 15s para que el operador pueda leer todo. Si quiere cerrar antes, hay botón
+        // "Cerrar ahora" en la pantalla Done.
+        private const val AUTO_CLOSE_DELAY_MS = 15_000L
     }
 }
