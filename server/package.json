@@ -1,8 +1,9 @@
 {
   "name": "smartcheck-server",
   "version": "0.1.0",
-  "description": "SmartCheck MVP backend — Express + mock DB. Handoff target: equipo TI Reuse.",
+  "description": "SmartCheck MVP backend + frontend static (Express). Production target: Render free tier.",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js"

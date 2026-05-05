@@ -40,6 +40,25 @@ const HTTPS_PORT = process.env.HTTPS_PORT || 8768;
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 
+// Servir archivos estáticos del root del repo (web del prototipo).
+// En producción (Render) esto hace que la web y la API vivan en la misma URL,
+// eliminando los problemas de cert separado por puerto que tienen los iPhones.
+// En local sigue funcionando — Express sirve el HTML, pero podés seguir usando
+// el server Ruby para iterar más rápido sin reiniciar Express.
+const WEB_ROOT = path.join(__dirname, '..');
+app.use(express.static(WEB_ROOT, {
+  index: false,                          // queremos controlar la ruta '/' explícitamente
+  extensions: ['html'],
+  setHeaders: (res, filePath) => {
+    // El HTML cambia seguido durante iteración; no queremos cache agresivo.
+    if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+    if (filePath.endsWith('.apk'))  res.setHeader('Content-Type', 'application/vnd.android.package-archive');
+  },
+}));
+
+// Ruta '/' redirige al HTML principal del prototipo
+app.get('/', (_req, res) => res.redirect('/app%20v2.html'));
+
 // Carga el catálogo TAC al arranque
 const TAC_DB_PATH = path.join(__dirname, 'db', 'tacs.json');
 let TAC_DB = { tacs: {} };

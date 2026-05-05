@@ -1,0 +1,19 @@
+# Render Blueprint para SmartCheck.
+# Si Rob conecta este repo via "Blueprint Instance" en el dashboard de Render, esto
+# define todo el deploy automáticamente. Si lo crea manualmente como "Web Service",
+# el dashboard pregunta los mismos campos y Render se entera igual.
+services:
+  - type: web
+    name: smartcheck-prototype
+    runtime: node
+    plan: free
+    region: oregon            # más barato/rápido para LATAM dentro del free tier
+    rootDir: server           # entry point de Node está en ./server/
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true          # cada push a main re-despliega
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # PORT lo inyecta Render automáticamente
