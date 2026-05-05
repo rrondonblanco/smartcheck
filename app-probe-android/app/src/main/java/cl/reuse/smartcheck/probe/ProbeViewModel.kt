@@ -175,8 +175,8 @@ class ProbeViewModel(app: Application) : AndroidViewModel(app) {
         private const val HINT_INITIAL = "Leyendo el equipo, no toques nada por unos segundos."
         // Estos textos los lee el operador y se los puede explicar al cliente en el local.
         // Lenguaje claro, sin jerga técnica, dejando explícito que NO es un test agresivo.
-        private const val HINT_CHARGING = "Estamos midiendo cuánta energía entra a la batería mientras carga, y comparándolo con la capacidad de fábrica de tu modelo. No la descargamos ni la estresamos. Mantené el cable conectado los 60 segundos para precisión alta."
-        private const val HINT_NOT_CHARGING = "Estamos midiendo cuánta energía sale de la batería mientras se descarga lentamente. No la cargamos ni la estresamos. Para mejor precisión: conectá el cargador y reiniciamos la medición — sube de baja a alta confianza."
+        private const val HINT_CHARGING = "Estamos midiendo cuánta energía entra a la batería mientras carga y comparándolo con la capacidad de fábrica. No descargamos ni estresamos nada. Mantené conectado los 90 segundos. Tip: si tu cargador es lento o la batería está sobre 80%, la confianza puede bajar — usá un cargador rápido (>=15W) o reintentá con la batería entre 30-70%."
+        private const val HINT_NOT_CHARGING = "Estamos midiendo cuánta energía sale de la batería mientras se descarga lento. No cargamos ni estresamos nada. Para mejor precisión: conectá el cargador y volvé a empezar — la confianza sube significativamente."
     }
 }
 

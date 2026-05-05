@@ -1735,8 +1735,8 @@ function ProbeHealthCard({ probe }) {
   // Casos sin salud calculable: explicamos por qué.
   const messages = {
     no_design_capacity: 'Estimamos la capacidad actual pero falta la capacidad de fábrica del modelo en la TAC db.',
-    insufficient_change: 'El % de batería casi no cambió durante la medición. Conectá el cargador y reintentá — necesitamos ≥2% de cambio.',
-    no_charge_counter: 'Tu equipo no expone el contador de carga. La estimación no funciona en este modelo.',
+    insufficient_change: 'El % de batería casi no se movió durante los 90 segundos. Causas comunes: cargador lento (<10W), batería sobre 80% (los Android cargan más lento ahí), o cable USB en mal estado. Probá con un cargador rápido o esperá a que baje a 30-70% y reintentá.',
+    no_charge_counter: 'Tu equipo no expone el contador de carga. La estimación por Coulomb counting no funciona en este modelo. Resolveremos con partnership OEM en producción.',
   };
   const msg = messages[est?.status] || 'No se pudo estimar la salud.';
 

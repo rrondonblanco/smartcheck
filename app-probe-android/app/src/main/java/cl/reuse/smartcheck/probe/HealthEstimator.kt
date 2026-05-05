@@ -208,20 +208,23 @@ class HealthEstimator(
         durationMs: Long,
         tempWarning: Boolean,
     ): Confidence {
-        // Heurística simple. Refinable con telemetría real.
+        // Hard cap: con 1% de cambio el error de cuantización (±0.5% en level)
+        // hace que la estimación sea ±10-15%. No subimos de "low" sin importar el resto.
+        if (absDeltaLevel <= 1) return Confidence.LOW
+
         val deltaScore = when {
-            absDeltaLevel >= 4 -> 2
-            absDeltaLevel >= 2 -> 1
+            absDeltaLevel >= 5 -> 2
+            absDeltaLevel >= 3 -> 1
             else -> 0
         }
         val sampleScore = when {
-            sampleCount >= 20 -> 2
-            sampleCount >= 8 -> 1
+            sampleCount >= 25 -> 2
+            sampleCount >= 12 -> 1
             else -> 0
         }
         val durationScore = when {
-            durationMs >= 60_000 -> 2
-            durationMs >= 30_000 -> 1
+            durationMs >= 90_000 -> 2
+            durationMs >= 60_000 -> 1
             else -> 0
         }
         val total = deltaScore + sampleScore + durationScore - (if (tempWarning) 1 else 0)
@@ -244,8 +247,14 @@ class HealthEstimator(
 
     companion object {
         private const val TAG = "SmartCheck/HealthEst"
-        const val DEFAULT_DURATION_MS = 60_000L     // 60s default
-        const val DEFAULT_INTERVAL_MS = 3_000L      // muestrea cada 3s → ~20 samples
-        const val MIN_DELTA_LEVEL_PCT = 2           // mínimo aceptable; debajo es ruido
+        // 90s en vez de 60s: en cargadores lentos o cuando la batería está >80%, 60s a veces
+        // sólo da 1% de cambio. 90s aumenta la probabilidad de capturar 2%+ sin alargar
+        // demasiado la espera del cliente en mostrador.
+        const val DEFAULT_DURATION_MS = 90_000L
+        const val DEFAULT_INTERVAL_MS = 3_000L      // muestrea cada 3s → ~30 samples en 90s
+        // Mínimo absoluto: 1%. Si tenemos exactamente 1%, devolvemos resultado pero con
+        // confianza baja (la precisión cae a ±10-15% por error de cuantización).
+        // Con 2%+ la confianza puede subir a media/alta según las otras señales.
+        const val MIN_DELTA_LEVEL_PCT = 1
     }
 }

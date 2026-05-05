@@ -22,7 +22,7 @@
 
     <!-- Measuring -->
     <string name="measuring_title">Analizando batería</string>
-    <string name="measuring_subtitle">Medición de 60 segundos. No descargamos ni estresamos la batería.</string>
+    <string name="measuring_subtitle">Medición de 90 segundos. No descargamos ni estresamos la batería.</string>
     <string name="tip_what_we_do_headline">QUÉ ESTÁ PASANDO</string>
 
     <!-- Done -->
