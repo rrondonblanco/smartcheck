@@ -651,8 +651,8 @@
     },
     "35268250": {
       "brand": "Samsung",
-      "model": "Galaxy Note 20 Ultra 5G",
-      "modelNumber": "SM-N986B",
+      "model": "Galaxy Note 20 Ultra LTE",
+      "modelNumber": "SM-N985F",
       "os": "Android",
       "year": 2020,
       "designCapacityMAh": 4500,
@@ -667,7 +667,7 @@
         "connectivity",
         "sensors"
       ],
-      "notes": "TAC verificado contra equipo real (Rob, Reuse) — IMEI1 slot"
+      "notes": "TAC verificado contra equipo real (Rob, Reuse) — Note 20 Ultra 4G/LTE, IMEI1 slot"
     },
     "35964620": {
       "brand": "Samsung",
