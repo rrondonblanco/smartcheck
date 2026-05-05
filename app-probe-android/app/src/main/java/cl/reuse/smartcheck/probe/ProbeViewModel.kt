@@ -172,9 +172,11 @@ class ProbeViewModel(app: Application) : AndroidViewModel(app) {
 
     companion object {
         private const val TAG = "SmartCheck/ProbeVM"
-        private const val HINT_INITIAL = "Leyendo el equipo…"
-        private const val HINT_CHARGING = "Mantené el cargador conectado durante 60s. Cuanto más cambie el % mejor la precisión."
-        private const val HINT_NOT_CHARGING = "Sin cargador: medimos por descarga (60s). Para mejor precisión, dejá el equipo idle o conectalo."
+        private const val HINT_INITIAL = "Leyendo el equipo, no toques nada por unos segundos."
+        // Estos textos los lee el operador y se los puede explicar al cliente en el local.
+        // Lenguaje claro, sin jerga técnica, dejando explícito que NO es un test agresivo.
+        private const val HINT_CHARGING = "Estamos midiendo cuánta energía entra a la batería mientras carga, y comparándolo con la capacidad de fábrica de tu modelo. No la descargamos ni la estresamos. Mantené el cable conectado los 60 segundos para precisión alta."
+        private const val HINT_NOT_CHARGING = "Estamos midiendo cuánta energía sale de la batería mientras se descarga lentamente. No la cargamos ni la estresamos. Para mejor precisión: conectá el cargador y reiniciamos la medición — sube de baja a alta confianza."
     }
 }
 

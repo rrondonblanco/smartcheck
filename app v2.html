@@ -66,6 +66,8 @@ const I = {
   Arrow: (p) => <Icon {...p}><path d="M5 12h14M13 6l6 6-6 6"/></Icon>,
   Play: (p) => <Icon {...p}><path d="M7 5v14l12-7z"/></Icon>,
   Pause: (p) => <Icon {...p}><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></Icon>,
+  Info: (p) => <Icon {...p}><circle cx="12" cy="12" r="9"/><path d="M12 8v0M11 12h1v5h1"/></Icon>,
+  Lightbulb: (p) => <Icon {...p}><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.5V17h8v-2.5A7 7 0 0 0 12 2z"/></Icon>,
   Shield: (p) => <Icon {...p}><path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></Icon>,
   Scan: (p) => <Icon {...p}><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></Icon>,
   Phone: (p) => <Icon {...p}><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></Icon>,
@@ -615,14 +617,11 @@ function ImeiCheckScreen({ state, set, next, back }) {
         </div>
 
         {needsManualPick && (
-          <div className="mt-4 rounded-2xl bg-yellow-500/10 ring-1 ring-yellow-500/30 p-4 fade-up">
-            <div className="flex items-start gap-2.5 mb-3">
-              <div className="w-7 h-7 rounded-full bg-yellow-400 text-ink-900 flex items-center justify-center shrink-0 text-[13px] font-bold">!</div>
-              <div className="flex-1">
-                <div className="text-white text-[13.5px] font-semibold">No identificamos tu modelo automáticamente</div>
-                <div className="text-white/60 text-[11.5px] mt-0.5">El TAC <span className="font-mono">{state.imei.substring(0,8)}</span> no está en nuestra base mock. Elegí tu modelo y seguimos.</div>
-              </div>
-            </div>
+          <div className="mt-4 fade-up space-y-3">
+            <TipCard variant="important" headline="No identificamos tu modelo" icon={I.Info}>
+              El TAC <span className="font-mono text-yellow-300">{state.imei.substring(0,8)}</span> no está en nuestra base mock (141 modelos). En producción esto se resuelve con el contrato GSMA que tiene 80.000+ TACs. Mientras tanto, <b>elegí tu modelo manualmente</b> abajo y seguimos:
+            </TipCard>
+            <div className="rounded-2xl bg-yellow-500/10 ring-1 ring-yellow-500/30 p-4">
             <select
               value={pickedKey}
               onChange={(e) => {
@@ -661,6 +660,7 @@ function ImeiCheckScreen({ state, set, next, back }) {
               className="mt-3 w-full text-white/55 text-[11.5px] py-1.5 underline">
               Continuar con detección genérica (tests limitados)
             </button>
+            </div>
           </div>
         )}
 
@@ -1429,16 +1429,25 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
     || 'https://github.com/rrondonblanco/smartcheck/releases/latest/download/smartcheck-probe.apk';
   const [showQR, setShowQR] = React.useState(!isAndroidUA);
 
+  // Verdict computado para que onPass propague el nivel correcto (pass/warning/fail)
+  // al SummaryScreen y al reporte final.
+  const verdict = probeData ? computeBatteryVerdict({
+    healthPct: probeData.estimate?.status === 'ok' ? probeData.estimate.healthPct : battery?.healthPct,
+    healthStatus: battery?.healthStatus,
+    confidence: probeData.estimate?.confidence,
+    tempWarning: probeData.estimate?.tempWarning,
+    cycleCount: battery?.cycleCount,
+  }) : null;
+
   return (
     <TestShell title="Batería" back={back} onSkip={skip} canPass={canPass}
       onPass={()=>save('battery',{
-        status:'pass',
-        detail: probeData?.estimate?.status === 'ok'
-          ? `Salud ${Number(probeData.estimate.healthPct).toFixed(1)}% · estimación ${probeData.estimate.confidence} · ${probeData.estimate.sampleCount} muestras`
-          : (battery?.healthPct != null ? `Salud ${battery.healthPct}% (OEM)` : 'Medición recibida — salud no estimable'),
+        status: verdict?.level === 'fail' ? 'fail' : verdict?.level === 'warning' ? 'warning' : 'pass',
+        detail: verdict ? `${verdict.label}: ${verdict.reason}` : 'Medición recibida',
         probe: probeData,
+        verdict,
       })}
-      onFail={()=>save('battery',{status:'fail',detail:'Salud crítica'})}>
+      onFail={()=>save('battery',{status:'fail',detail:'Marcado manual como falla por el operador',probe: probeData, verdict})}>
       <div className="px-5 pt-2">
         <div className="text-white font-display text-[20px] font-semibold">Análisis profundo de batería</div>
         <div className="text-white/60 text-[13px] mt-1">Para medir <span className="text-mint-400 font-medium">salud real</span>, instalá la app SmartCheck Probe escaneando el QR.</div>
@@ -1448,27 +1457,26 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
         {!probeData ? (
           <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
             {isAndroidUA && (
-              <div className="mb-4 rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-4">
-                <div className="text-[10px] uppercase tracking-wider text-mint-400 font-semibold">Detectamos Android</div>
-                <div className="text-white text-[13.5px] mt-1 leading-snug">
-                  Instalá <b>SmartCheck Probe</b> y volvé acá — la medición se sube sola.
-                </div>
-                <div className="mt-3 grid grid-cols-1 gap-2">
+              <div className="mb-4 space-y-3">
+                <TipCard variant="info" headline="Detectamos Android — flujo simplificado" icon={I.Phone}>
+                  Para medir la salud real de batería instalá <b>SmartCheck Probe</b> (app liviana ~5MB) y volvé. La medición se sube sola — vos no tenés que hacer nada extra.
+                </TipCard>
+                <div className="grid grid-cols-1 gap-2">
                   <a href={apkUrl} download
-                    className="rounded-xl bg-mint-500 text-ink-900 font-semibold text-[13.5px] py-3 px-4 flex items-center justify-center gap-2">
+                    className="rounded-xl bg-mint-500 text-ink-900 font-semibold text-[13.5px] py-3.5 px-4 flex items-center justify-center gap-2 shadow-lg">
                     <I.Download size={16}/> Descargar APK (~5 MB)
                   </a>
                   {sessionId && (
                     <a href={linkUrl}
-                      className="rounded-xl bg-white/10 text-white ring-1 ring-white/15 font-medium text-[12.5px] py-2.5 px-4 flex items-center justify-center gap-2">
+                      className="rounded-xl bg-white/10 text-white ring-1 ring-white/15 font-medium text-[12.5px] py-3 px-4 flex items-center justify-center gap-2">
                       <I.Arrow size={14}/> Ya la instalé · abrir SmartCheck Probe
                     </a>
                   )}
                 </div>
-                <div className="mt-3 text-[10.5px] text-white/55 leading-snug">
-                  Tras descargar tocá el APK en tu carpeta de Descargas. Android pedirá permitir "instalar de fuente desconocida" la primera vez.
-                </div>
-                <button onClick={()=>setShowQR(s => !s)} className="mt-2 text-[11px] text-white/45 underline">
+                <TipCard variant="important" headline="Antes de instalar" icon={I.Info}>
+                  Tras la descarga, tocá el APK en tu carpeta de <b>Descargas</b>. Android te pide permitir <b>"instalar de fuente desconocida"</b> la primera vez — es normal y seguro, lo descargás directo de GitHub Releases.
+                </TipCard>
+                <button onClick={()=>setShowQR(s => !s)} className="text-[11px] text-white/55 underline mx-auto block">
                   {showQR ? 'Ocultar QR' : 'Prefiero usar el QR (otro dispositivo)'}
                 </button>
               </div>
@@ -1557,6 +1565,96 @@ function Stat({ label, value }) {
   );
 }
 
+// computeBatteryVerdict: motor de decisión que combina salud + estado + confianza + temp.
+// Se usa tanto en la card de batería del probe Android como en la rama OCR de iOS.
+// Devuelve { level, label, reason, score, color } para renderizar consistente en toda la app.
+function computeBatteryVerdict({ healthPct, healthStatus, confidence, tempWarning, cycleCount }) {
+  // Hard fails primero (estado del firmware OEM o sin datos)
+  if (healthStatus === 'dead' || healthStatus === 'over_voltage') {
+    return { level: 'fail', label: 'Rechazado', reason: `Estado de firmware: ${healthStatus} (defecto crítico)`, score: 0 };
+  }
+  if (healthStatus === 'overheat') {
+    return { level: 'fail', label: 'Rechazado · sobrecalentamiento', reason: 'Firmware reporta overheat — riesgo térmico', score: 0 };
+  }
+  // Confianza baja → no podemos juzgar todavía
+  if (confidence === 'low') {
+    return { level: 'warning', label: 'Verificación incompleta', reason: 'Estimación con confianza baja. Repetir con cargador conectado y batería entre 30-90%.', score: null };
+  }
+  // Decisión por % salud
+  if (healthPct == null) {
+    return { level: 'warning', label: 'Salud no estimable', reason: 'No tenemos % de salud confiable. Validá manualmente.', score: null };
+  }
+  let base;
+  if (healthPct >= 90)      base = { level: 'pass',    label: 'Excelente',  score: 100, reason: 'Batería en condiciones óptimas (>90% de capacidad).' };
+  else if (healthPct >= 80) base = { level: 'pass',    label: 'Aprobado',   score: 90,  reason: 'Batería en buen estado (80-90% de capacidad).' };
+  else if (healthPct >= 70) base = { level: 'warning', label: 'Aceptable',  score: 70,  reason: 'Capacidad ligeramente degradada (70-80%). Apto con descuento.' };
+  else if (healthPct >= 60) base = { level: 'warning', label: 'Degradado',  score: 50,  reason: 'Capacidad reducida (60-70%). Recomendar reemplazo o descuento fuerte.' };
+  else                      base = { level: 'fail',    label: 'Rechazado',  score: 20,  reason: `Salud crítica (${healthPct.toFixed(1)}%). No apto para trade-in estándar.` };
+  // Modificadores
+  const notes = [];
+  if (tempWarning) notes.push('temp fuera de rango durante medición — precisión reducida');
+  if (cycleCount && cycleCount > 1000) notes.push(`alto kilometraje (${cycleCount} ciclos)`);
+  if (notes.length) base.reason += ' · ' + notes.join('; ');
+  return base;
+}
+
+// Componente reutilizable para tips, instrucciones y avisos importantes.
+// Variantes:
+//   - "info"      (mint, default): tip educativo / explicación de qué hace la app
+//   - "important" (yellow): atención, aviso a leer antes de seguir
+//   - "warning"   (orange): cuidado, hay un problema o limitación
+//   - "step"      (mint, sin icono, con número grande): paso de instrucción
+// Todos tienen icono prominente, headline en uppercase + body legible.
+// Reemplaza textos chiquitos en gris que se perdían visualmente.
+function TipCard({ variant = 'info', headline, children, icon, step, className = '' }) {
+  const variants = {
+    info:      { bg: 'bg-mint-500/10',  ring: 'ring-mint-500/30',  iconBg: 'bg-mint-500',     iconColor: 'text-ink-900', headColor: 'text-mint-400' },
+    important: { bg: 'bg-yellow-500/10', ring: 'ring-yellow-500/30', iconBg: 'bg-yellow-400',  iconColor: 'text-ink-900', headColor: 'text-yellow-300' },
+    warning:   { bg: 'bg-orange-500/10', ring: 'ring-orange-500/30', iconBg: 'bg-orange-400',  iconColor: 'text-ink-900', headColor: 'text-orange-300' },
+    step:      { bg: 'bg-white/5',       ring: 'ring-white/10',     iconBg: 'bg-mint-500',     iconColor: 'text-ink-900', headColor: 'text-mint-400' },
+  }[variant] || variants.info;
+  const Ico = icon || I.Info || (() => <I.CheckCircle size={16}/>);
+  return (
+    <div className={`rounded-2xl ${variants.bg} ring-1 ${variants.ring} p-4 ${className}`}>
+      <div className="flex items-start gap-3">
+        <div className={`shrink-0 w-8 h-8 rounded-full ${variants.iconBg} ${variants.iconColor} flex items-center justify-center font-bold text-[14px]`}>
+          {step != null ? step : <Ico size={16} stroke={2.2}/>}
+        </div>
+        <div className="flex-1 min-w-0">
+          {headline && <div className={`text-[10px] uppercase tracking-wider font-semibold ${variants.headColor} mb-1`}>{headline}</div>}
+          <div className="text-white/90 text-[13px] leading-snug">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VerdictBadge({ verdict }) {
+  if (!verdict) return null;
+  const styles = {
+    pass:    { bg: 'bg-mint-500',     text: 'text-ink-900', accent: 'bg-mint-500/15 ring-mint-500/30 text-mint-400' },
+    warning: { bg: 'bg-yellow-400',   text: 'text-ink-900', accent: 'bg-yellow-500/15 ring-yellow-500/30 text-yellow-300' },
+    fail:    { bg: 'bg-red-500',      text: 'text-white',   accent: 'bg-red-500/15 ring-red-500/30 text-red-300' },
+  }[verdict.level] || {};
+  return (
+    <div className={`rounded-2xl ${styles.bg} ${styles.text} p-4 mb-3`}>
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <div className="text-[10px] uppercase tracking-wider opacity-70 font-semibold">Veredicto SmartCheck</div>
+          <div className="font-display text-[22px] font-semibold mt-0.5 leading-tight">{verdict.label}</div>
+        </div>
+        {verdict.score != null && (
+          <div className="text-right">
+            <div className="text-[10px] uppercase tracking-wider opacity-70">Score</div>
+            <div className="font-display text-[24px] font-semibold">{verdict.score}</div>
+          </div>
+        )}
+      </div>
+      <div className="mt-2 text-[12px] opacity-90 leading-snug">{verdict.reason}</div>
+    </div>
+  );
+}
+
 // --- Card de salud que prioriza el estimate de Coulomb counting ---
 // El APK envía dos cosas: `battery` (snapshot crudo: temp, voltaje, etc.) y `estimate`
 // (salud estimada por Coulomb counting). Si tenemos un estimate.status==='ok' lo
@@ -1564,57 +1662,73 @@ function Stat({ label, value }) {
 // lo mostramos también como cross-check.
 function ProbeHealthCard({ probe }) {
   const est = probe?.estimate;
-  const oemHealth = probe?.battery?.healthPct;
+  const battery = probe?.battery;
+  const oemHealth = battery?.healthPct;
   const confidenceColor = (c) => c==='high' ? 'text-mint-400' : c==='medium' ? 'text-yellow-300' : 'text-orange-300';
   const confidenceLabel = (c) => c==='high' ? 'Confianza alta' : c==='medium' ? 'Confianza media' : 'Confianza baja';
   const barColor = (h) => h>80 ? 'bg-mint-500' : h>60 ? 'bg-yellow-300' : 'bg-red-400';
 
+  // Veredicto unificado: usa estimate.healthPct si está disponible, sino el OEM
+  const verdict = computeBatteryVerdict({
+    healthPct: est?.status === 'ok' ? est.healthPct : oemHealth,
+    healthStatus: battery?.healthStatus,
+    confidence: est?.confidence,
+    tempWarning: est?.tempWarning,
+    cycleCount: battery?.cycleCount,
+  });
+
   if (est?.status === 'ok') {
     return (
-      <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
-        <div className="flex items-end justify-between">
-          <div>
-            <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · estimación SmartCheck</div>
-            <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
-              {Number(est.healthPct).toFixed(1)}<span className="text-[22px] text-white/50">%</span>
+      <>
+        <VerdictBadge verdict={verdict}/>
+        <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
+          <div className="flex items-end justify-between">
+            <div>
+              <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · estimación SmartCheck</div>
+              <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
+                {Number(est.healthPct).toFixed(1)}<span className="text-[22px] text-white/50">%</span>
+              </div>
+              <div className={`text-[11px] font-semibold mt-1 ${confidenceColor(est.confidence)}`}>{confidenceLabel(est.confidence)}</div>
             </div>
-            <div className={`text-[11px] font-semibold mt-1 ${confidenceColor(est.confidence)}`}>{confidenceLabel(est.confidence)}</div>
+            <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">Coulomb</div>
           </div>
-          <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">Coulomb</div>
+          <div className="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
+            <div className={`h-full ${barColor(est.healthPct)}`} style={{width:`${Math.min(100, est.healthPct)}%`}}/>
+          </div>
+          <div className="mt-3 text-[11px] text-white/55 font-mono">
+            {Math.round((est.estimatedCapacityUAh || 0) / 1000)} mAh actuales · {Math.round((est.designCapacityUAh || 0) / 1000)} mAh fábrica · Δ{est.deltaLevelPct}% en {Math.round((est.durationMs || 0) / 1000)}s · {est.sampleCount} muestras
+          </div>
+          {est.tempWarning && (
+            <div className="mt-2 text-[11px] text-orange-300">⚠ Temperatura fuera de rango — precisión reducida.</div>
+          )}
+          {oemHealth != null && (
+            <div className="mt-2 text-[10px] text-white/40">OEM (sysfs) cross-check: {Number(oemHealth).toFixed(1)}%</div>
+          )}
         </div>
-        <div className="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
-          <div className={`h-full ${barColor(est.healthPct)}`} style={{width:`${Math.min(100, est.healthPct)}%`}}/>
-        </div>
-        <div className="mt-3 text-[11px] text-white/55 font-mono">
-          {Math.round((est.estimatedCapacityUAh || 0) / 1000)} mAh actuales · {Math.round((est.designCapacityUAh || 0) / 1000)} mAh fábrica · Δ{est.deltaLevelPct}% en {Math.round((est.durationMs || 0) / 1000)}s · {est.sampleCount} muestras
-        </div>
-        {est.tempWarning && (
-          <div className="mt-2 text-[11px] text-orange-300">⚠ Temperatura fuera de rango — precisión reducida.</div>
-        )}
-        {oemHealth != null && (
-          <div className="mt-2 text-[10px] text-white/40">OEM (sysfs) cross-check: {Number(oemHealth).toFixed(1)}%</div>
-        )}
-      </div>
+      </>
     );
   }
 
   // Caso: el OEM SÍ expuso healthPct vía sysfs (raro en Samsung modernos).
   if (oemHealth != null) {
     return (
-      <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
-        <div className="flex items-end justify-between">
-          <div>
-            <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · OEM directo</div>
-            <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
-              {Number(oemHealth).toFixed(1)}<span className="text-[22px] text-white/50">%</span>
+      <>
+        <VerdictBadge verdict={verdict}/>
+        <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
+          <div className="flex items-end justify-between">
+            <div>
+              <div className="text-[10px] text-mint-400 uppercase tracking-wide">Salud · OEM directo</div>
+              <div className="font-display text-white text-[40px] font-semibold leading-none mt-1">
+                {Number(oemHealth).toFixed(1)}<span className="text-[22px] text-white/50">%</span>
+              </div>
             </div>
+            <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">vía APK</div>
           </div>
-          <div className="rounded-full bg-mint-500 text-ink-900 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">vía APK</div>
+          <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
+            <div className={`h-full ${barColor(oemHealth)}`} style={{width:`${Math.min(100, oemHealth)}%`}}/>
+          </div>
         </div>
-        <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
-          <div className={`h-full ${barColor(oemHealth)}`} style={{width:`${Math.min(100, oemHealth)}%`}}/>
-        </div>
-      </div>
+      </>
     );
   }
 
@@ -1627,14 +1741,17 @@ function ProbeHealthCard({ probe }) {
   const msg = messages[est?.status] || 'No se pudo estimar la salud.';
 
   return (
-    <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
-      <div className="text-[10px] text-white/50 uppercase tracking-wide">Salud de batería</div>
-      <div className="text-[22px] text-white/70 font-semibold mt-1">No disponible</div>
-      <div className="mt-2 text-[11px] text-white/55">{msg}</div>
-      {est?.estimatedCapacityUAh && (
-        <div className="mt-2 text-[11px] text-white/40 font-mono">Capacidad estimada: {Math.round(est.estimatedCapacityUAh / 1000)} mAh</div>
-      )}
-    </div>
+    <>
+      <VerdictBadge verdict={verdict}/>
+      <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
+        <div className="text-[10px] text-white/50 uppercase tracking-wide">Salud de batería</div>
+        <div className="text-[22px] text-white/70 font-semibold mt-1">No disponible</div>
+        <div className="mt-2 text-[11px] text-white/55">{msg}</div>
+        {est?.estimatedCapacityUAh && (
+          <div className="mt-2 text-[11px] text-white/40 font-mono">Capacidad estimada: {Math.round(est.estimatedCapacityUAh / 1000)} mAh</div>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -1733,13 +1850,15 @@ function BatteryTestIosOcr({ state, set, save, back, skip }) {
   }
 
   async function uploadResult(finalHealthPct, source) {
+    // Computamos veredicto unificado (mismo motor que la rama Android)
+    const verdict = computeBatteryVerdict({ healthPct: finalHealthPct });
+    const probePayload = { method: 'ios-ocr', battery: { healthPct: finalHealthPct }, source, verdict };
+    const saveStatus = verdict.level === 'fail' ? 'fail' : verdict.level === 'warning' ? 'warning' : 'pass';
+    const detailText = `${verdict.label}: ${verdict.reason}${source === 'manual' ? ' · ingreso manual' : ' · OCR'}`;
+
     if (!state?.sessionId) {
       // No tenemos sessionId — hacemos save local y avanzamos sin polling.
-      save('battery', {
-        status: 'pass',
-        detail: `Salud ${finalHealthPct}% · iOS OCR (sin sesión)`,
-        probe: { method: 'ios-ocr-local', battery: { healthPct: finalHealthPct }, source },
-      });
+      save('battery', { status: saveStatus, detail: detailText, probe: { ...probePayload, method: 'ios-ocr-local' } });
       return;
     }
     try {
@@ -1751,6 +1870,7 @@ function BatteryTestIosOcr({ state, set, save, back, skip }) {
           sessionId: state.sessionId,
           device: device ? { manufacturer: 'Apple', model: device.model, os: 'iOS', osVersion: null } : null,
           battery: { healthPct: finalHealthPct, source },
+          estimate: { status: 'ok', healthPct: finalHealthPct, confidence: source === 'ocr' ? 'high' : 'medium', source },
           method: 'ios-ocr',
           probeVersion: 'web-1.0',
           designCapacityMAh: device?.designCapacityMAh || null,
@@ -1761,11 +1881,7 @@ function BatteryTestIosOcr({ state, set, save, back, skip }) {
       // No bloqueamos al usuario si el upload falla — el dato ya está en el state.
       console.warn('iOS OCR upload failed:', e.message);
     }
-    save('battery', {
-      status: 'pass',
-      detail: `Salud ${finalHealthPct}% · iOS OCR${source === 'manual' ? ' (manual)' : ''}`,
-      probe: { method: 'ios-ocr', battery: { healthPct: finalHealthPct }, source },
-    });
+    save('battery', { status: saveStatus, detail: detailText, probe: probePayload });
   }
 
   return (
@@ -1785,15 +1901,16 @@ function BatteryTestIosOcr({ state, set, save, back, skip }) {
           <div className="space-y-3">
             <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-4">
               <div className="text-[10px] uppercase tracking-wide text-mint-400 font-semibold mb-3">Cómo obtener la captura · 30 segundos</div>
-              <ol className="space-y-2.5 text-[13px] text-white/85">
-                <li className="flex gap-3"><span className="w-5 h-5 shrink-0 rounded-full bg-mint-500 text-ink-900 text-[11px] font-bold flex items-center justify-center">1</span><span>Abrí <b>Ajustes</b> → <b>Batería</b> → <b>Estado de la batería y carga</b>.</span></li>
-                <li className="flex gap-3"><span className="w-5 h-5 shrink-0 rounded-full bg-mint-500 text-ink-900 text-[11px] font-bold flex items-center justify-center">2</span><span>Tomá <b>captura</b> (Botón lateral + Volumen ↑).</span></li>
-                <li className="flex gap-3"><span className="w-5 h-5 shrink-0 rounded-full bg-mint-500 text-ink-900 text-[11px] font-bold flex items-center justify-center">3</span><span>Volvé acá y tocá el botón verde — la captura aparece <b>primero</b> en la galería.</span></li>
-              </ol>
-              <div className="mt-3 rounded-lg bg-mint-500/5 ring-1 ring-mint-500/20 p-2.5 text-[11px] text-white/70">
-                💡 <b>Por qué pedimos esto:</b> Apple no permite que ninguna app de terceros (web o nativa) acceda a la salud real de batería. Es la misma limitación que tienen PhoneCheck, Blancco y cualquier otra herramienta. Lo único accesible es la pantalla oficial de iOS — la leemos automáticamente con OCR.
+              <div className="space-y-2.5">
+                <TipCard variant="step" step="1">Abrí <b>Ajustes</b> → <b>Batería</b> → <b>Estado de la batería y carga</b>.</TipCard>
+                <TipCard variant="step" step="2">Tomá <b>captura</b> de pantalla (Botón lateral + Volumen ↑).</TipCard>
+                <TipCard variant="step" step="3">Volvé acá y tocá el botón verde — la captura aparece <b>primero</b> en tu galería.</TipCard>
               </div>
             </div>
+
+            <TipCard variant="info" headline="Por qué pedimos esto" icon={I.Lightbulb}>
+              Apple <b>no permite</b> que ninguna app de terceros (web o nativa) acceda a la salud real de batería. Es la misma limitación que tienen <b>PhoneCheck</b>, <b>Blancco</b> y cualquier otra herramienta del mercado. Lo único accesible es la pantalla oficial de iOS — la leemos automáticamente con OCR.
+            </TipCard>
             <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/*" onChange={handleFile} className="hidden" aria-label="Captura de salud de batería"/>
             <button onClick={()=>fileRef.current?.click()}
               className="w-full rounded-2xl bg-mint-500 text-ink-900 font-semibold text-[14px] py-3.5 flex items-center justify-center gap-2">
@@ -1823,6 +1940,7 @@ function BatteryTestIosOcr({ state, set, save, back, skip }) {
 
         {stage === 'result' && (
           <div className="space-y-3 fade-up">
+            <VerdictBadge verdict={computeBatteryVerdict({ healthPct: parseInt(healthPct, 10) })}/>
             <div className="rounded-2xl bg-mint-500/10 ring-1 ring-mint-500/30 p-5">
               <div className="flex items-end justify-between">
                 <div>
