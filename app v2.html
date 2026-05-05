@@ -1448,106 +1448,140 @@ function BatteryTestAndroidProbe({ state, set, save, back, skip }) {
         verdict,
       })}
       onFail={()=>save('battery',{status:'fail',detail:'Marcado manual como falla por el operador',probe: probeData, verdict})}>
-      <div className="px-5 pt-2">
-        <div className="text-white font-display text-[20px] font-semibold">Análisis profundo de batería</div>
-        <div className="text-white/60 text-[13px] mt-1">Para medir <span className="text-mint-400 font-medium">salud real</span>, instalá la app SmartCheck Probe escaneando el QR.</div>
+      <div className="px-5 pt-3 pb-1">
+        <div className="text-[10px] uppercase tracking-[0.18em] text-mint-400 font-semibold">Test 6 de 8</div>
+        <div className="text-white font-display text-[22px] font-semibold mt-1">Análisis de batería</div>
+        <div className="text-white/60 text-[13px] mt-1.5 leading-snug">
+          Medimos la <span className="text-mint-400 font-medium">salud real</span> de tu batería con SmartCheck Probe. El proceso es seguro y no consume datos de tu equipo.
+        </div>
       </div>
 
-      <div className="px-5 mt-4">
+      <div className="px-5 mt-6">
         {!probeData ? (
-          <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
+          <div className="space-y-6">
             {isAndroidUA && (
-              <div className="mb-4 space-y-3">
-                <TipCard variant="info" headline="Detectamos Android — flujo simplificado" icon={I.Phone}>
-                  Para medir la salud real de batería instalá <b>SmartCheck Probe</b> (app liviana ~5MB) y volvé. La medición se sube sola — vos no tenés que hacer nada extra.
-                </TipCard>
-                <div className="grid grid-cols-1 gap-2">
-                  <a href={apkUrl} download
-                    className="rounded-xl bg-mint-500 text-ink-900 font-semibold text-[13.5px] py-3.5 px-4 flex items-center justify-center gap-2 shadow-lg">
-                    <I.Download size={16}/> Descargar APK (~5 MB)
-                  </a>
-                  {sessionId && (
-                    <a href={linkUrl}
-                      className="rounded-xl bg-white/10 text-white ring-1 ring-white/15 font-medium text-[12.5px] py-3 px-4 flex items-center justify-center gap-2">
-                      <I.Arrow size={14}/> Ya la instalé · abrir SmartCheck Probe
+              <>
+                {/* === SECCIÓN 1 · Explicación qué vamos a hacer === */}
+                <section>
+                  <SectionLabel>Cómo funciona</SectionLabel>
+                  <TipCard variant="info" headline="Detectamos Android — flujo simplificado" icon={I.Phone}>
+                    Instalá <b>SmartCheck Probe</b> (app liviana de ~5 MB), aceptás el consentimiento, y la medición se sube sola en 90 segundos. <b>No descarga ni estresa la batería</b> — sólo lee datos públicos del sistema.
+                  </TipCard>
+                </section>
+
+                {/* === SECCIÓN 2 · Acciones principales === */}
+                <section>
+                  <SectionLabel>Empezar el análisis</SectionLabel>
+                  <div className="space-y-2.5">
+                    <a href={apkUrl} download
+                      className="rounded-2xl bg-mint-500 text-ink-900 font-semibold text-[14px] py-4 px-5 flex items-center justify-center gap-2.5 shadow-lg active:scale-[0.98] transition">
+                      <I.Download size={17}/> Descargar SmartCheck Probe
                     </a>
-                  )}
-                </div>
-                <TipCard variant="important" headline="Antes de instalar" icon={I.Info}>
-                  Tras la descarga, tocá el APK en tu carpeta de <b>Descargas</b>. Android te pide permitir <b>"instalar de fuente desconocida"</b> la primera vez — es normal y seguro, lo descargás directo de GitHub Releases.
-                </TipCard>
-                <button onClick={()=>setShowQR(s => !s)} className="text-[11px] text-white/55 underline mx-auto block">
-                  {showQR ? 'Ocultar QR' : 'Prefiero usar el QR (otro dispositivo)'}
-                </button>
-              </div>
+                    {sessionId && (
+                      <a href={linkUrl}
+                        className="rounded-2xl bg-white/10 text-white ring-1 ring-white/15 font-medium text-[13px] py-3.5 px-5 flex items-center justify-center gap-2 active:bg-white/15 transition">
+                        <I.Arrow size={15}/> Ya la tengo instalada — abrir
+                      </a>
+                    )}
+                  </div>
+                </section>
+
+                {/* === SECCIÓN 3 · Aviso importante === */}
+                <section>
+                  <SectionLabel>Antes de instalar</SectionLabel>
+                  <TipCard variant="important" icon={I.Info}>
+                    Tras la descarga, tocá el archivo APK en tu carpeta de <b>Descargas</b>. Android te va a pedir permiso para <b>"instalar desde fuente desconocida"</b>: aceptá. La app se descarga directo desde <span className="font-mono text-[11px]">github.com</span>, es segura.
+                  </TipCard>
+                </section>
+
+                {/* === SECCIÓN 4 · Alternativas === */}
+                <section className="pt-2">
+                  <button onClick={()=>setShowQR(s => !s)} className="w-full text-[12px] text-white/55 hover:text-white/80 underline py-2">
+                    {showQR ? '— Ocultar opción QR —' : '¿Querés usar QR para escanear desde otro dispositivo?'}
+                  </button>
+                </section>
+              </>
             )}
             {showQR && (
-              qrDataUrl ? (
-                <div className="flex flex-col items-center">
-                  <div className="rounded-2xl bg-canvas p-3">
-                    <img src={qrDataUrl} alt="QR SmartCheck Probe" className="w-[240px] h-[240px] block"/>
-                  </div>
-                  <div className="mt-4 text-center">
-                    <div className="text-white text-[13px] font-semibold">Esperando al APK…</div>
-                    <div className="mt-1 text-white/60 text-[11.5px]">
-                      Escaneá con la cámara nativa de tu Android.
+              <section>
+                <SectionLabel>Escaneo QR</SectionLabel>
+                <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5">
+                  {qrDataUrl ? (
+                    <div className="flex flex-col items-center">
+                      <div className="rounded-2xl bg-canvas p-3">
+                        <img src={qrDataUrl} alt="QR SmartCheck Probe" className="w-[220px] h-[220px] block"/>
+                      </div>
+                      <div className="mt-4 text-center">
+                        <div className="text-white text-[13px] font-semibold">Esperando al APK…</div>
+                        <div className="mt-1 text-white/60 text-[11.5px]">Escaneá con la cámara nativa de tu Android.</div>
+                        <div className="mt-3 flex items-center justify-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-mint-500 ping-soft"></div>
+                          <div className="font-mono text-[10px] text-white/40">sesión {sessionId || '…'}</div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-3 flex items-center justify-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-mint-500 ping-soft"></div>
-                      <div className="font-mono text-[10px] text-white/40">sesión {sessionId || '…'}</div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-3 py-6">
+                      <div className="w-10 h-10 border-2 border-white/30 border-t-mint-500 rounded-full spin-slow"></div>
+                      <div className="text-white/70 text-[12.5px]">{pollErr ? `Error: ${pollErr}` : 'Generando QR…'}</div>
                     </div>
-                  </div>
+                  )}
+                  {!isAndroidUA && (
+                    <details className="mt-4 pt-4 border-t border-white/10 text-[11px] text-white/50">
+                      <summary className="cursor-pointer">¿Sin cámara o sin app? Abrir manualmente</summary>
+                      <div className="mt-2 break-all font-mono text-[10px] bg-black/30 rounded p-2 ring-1 ring-white/10">{linkUrl}</div>
+                      <a href={linkUrl} className="mt-2 inline-block text-mint-400 underline">Tocar este link desde el mismo dispositivo</a>
+                    </details>
+                  )}
                 </div>
-              ) : (
-                <div className="flex flex-col items-center gap-3 py-6">
-                  <div className="w-10 h-10 border-2 border-white/30 border-t-mint-500 rounded-full spin-slow"></div>
-                  <div className="text-white/70 text-[12.5px]">{pollErr ? `Error: ${pollErr}` : 'Generando QR…'}</div>
-                </div>
-              )
-            )}
-
-            {!isAndroidUA && (
-              <details className="mt-4 text-[11px] text-white/50">
-                <summary className="cursor-pointer">¿Sin cámara o sin app? Abrir manualmente</summary>
-                <div className="mt-2 break-all font-mono text-[10px] bg-black/30 rounded p-2 ring-1 ring-white/10">{linkUrl}</div>
-                <a href={linkUrl} className="mt-2 inline-block text-mint-400 underline">Tocar este link desde el mismo dispositivo</a>
-              </details>
+              </section>
             )}
 
             {sessionId && (
-              <button
-                onClick={async () => {
-                  setPollErr(null);
-                  const ok = await pollNow();
-                  if (!ok) setPollErr('La medición todavía no llegó. Probá de nuevo en unos segundos.');
-                }}
-                className="mt-3 w-full rounded-xl bg-white/5 ring-1 ring-white/10 text-white/80 text-[12px] font-medium py-2.5 hover:bg-white/10">
-                Verificar ahora
-              </button>
+              <section className="pt-1">
+                <button
+                  onClick={async () => {
+                    setPollErr(null);
+                    const ok = await pollNow();
+                    if (!ok) setPollErr('La medición todavía no llegó. Probá de nuevo en unos segundos.');
+                  }}
+                  className="w-full rounded-xl bg-white/5 ring-1 ring-white/10 text-white/80 text-[12.5px] font-medium py-3 hover:bg-white/10">
+                  Verificar ahora
+                </button>
+              </section>
             )}
 
             {timedOut && (
-              <div className="mt-3 rounded-xl bg-yellow-400/10 ring-1 ring-yellow-400/30 p-3 text-[11.5px] text-yellow-200">
-                No llegó la medición en 60s. <button onClick={()=>setFallback(true)} className="underline ml-1">Continuar con análisis web (parcial)</button>
-              </div>
+              <TipCard variant="important" headline="Medición no llegó" icon={I.Info}>
+                Pasaron 60 segundos sin recibir datos del APK. Esto puede pasar si la app no terminó de subir o si hay problema de red. Podés <button onClick={()=>setFallback(true)} className="underline text-mint-400 hover:text-mint-300">continuar con análisis web (parcial)</button> y volver a esto después.
+              </TipCard>
             )}
           </div>
         ) : (
-          <div className="space-y-3 fade-up">
-            <ProbeHealthCard probe={probeData}/>
-            <div className="grid grid-cols-3 gap-2">
-              <Stat label="Ciclos" value={battery?.cycleCount ?? '—'}/>
-              <Stat label="Carga" value={battery?.levelPct != null ? `${battery.levelPct}%` : '—'}/>
-              <Stat label="Temp." value={battery?.temperatureCelsius != null ? `${Number(battery.temperatureCelsius).toFixed(1)}°` : '—'}/>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <Stat label="Voltaje" value={battery?.voltageMv != null ? `${battery.voltageMv} mV` : '—'}/>
-              <Stat label="Tecnología" value={battery?.technology || '—'}/>
-            </div>
-            {battery?.warnings && (
-              <div className="rounded-xl bg-yellow-400/10 ring-1 ring-yellow-400/30 p-3 text-[11px] text-yellow-200">
-                Avisos del probe: {battery.warnings}
+          <div className="space-y-5 fade-up">
+            <section>
+              <SectionLabel>Resultado del análisis</SectionLabel>
+              <ProbeHealthCard probe={probeData}/>
+            </section>
+            <section>
+              <SectionLabel>Métricas detalladas</SectionLabel>
+              <div className="grid grid-cols-3 gap-2">
+                <Stat label="Ciclos" value={battery?.cycleCount ?? '—'}/>
+                <Stat label="Carga" value={battery?.levelPct != null ? `${battery.levelPct}%` : '—'}/>
+                <Stat label="Temp." value={battery?.temperatureCelsius != null ? `${Number(battery.temperatureCelsius).toFixed(1)}°` : '—'}/>
               </div>
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                <Stat label="Voltaje" value={battery?.voltageMv != null ? `${battery.voltageMv} mV` : '—'}/>
+                <Stat label="Tecnología" value={battery?.technology || '—'}/>
+              </div>
+            </section>
+            {battery?.warnings && (
+              <section>
+                <SectionLabel>Avisos técnicos</SectionLabel>
+                <TipCard variant="important" icon={I.Info}>
+                  {battery.warnings}
+                </TipCard>
+              </section>
             )}
           </div>
         )}
@@ -1576,9 +1610,18 @@ function computeBatteryVerdict({ healthPct, healthStatus, confidence, tempWarnin
   if (healthStatus === 'overheat') {
     return { level: 'fail', label: 'Rechazado · sobrecalentamiento', reason: 'Firmware reporta overheat — riesgo térmico', score: 0 };
   }
-  // Confianza baja → no podemos juzgar todavía
+  // Confianza baja → la medición se completó pero con precisión limitada (±10-15%).
+  // No usar para decisión comercial sin remedir; sí útil como señal preliminar.
   if (confidence === 'low') {
-    return { level: 'warning', label: 'Verificación incompleta', reason: 'Estimación con confianza baja. Repetir con cargador conectado y batería entre 30-90%.', score: null };
+    const range = healthPct != null
+      ? ` Rango probable: ${Math.max(0, Math.round(healthPct - 12))}–${Math.min(100, Math.round(healthPct + 12))}%`
+      : '';
+    return {
+      level: 'warning',
+      label: 'Resultado preliminar',
+      reason: `La medición se completó pero con baja precisión.${range}. El número exacto requiere remedición con la batería entre 40-70% y pantalla bloqueada durante los 90s. No usar para decisión comercial sin repetir.`,
+      score: null,
+    };
   }
   // Decisión por % salud
   if (healthPct == null) {
@@ -1596,6 +1639,17 @@ function computeBatteryVerdict({ healthPct, healthStatus, confidence, tempWarnin
   if (cycleCount && cycleCount > 1000) notes.push(`alto kilometraje (${cycleCount} ciclos)`);
   if (notes.length) base.reason += ' · ' + notes.join('; ');
   return base;
+}
+
+// Etiqueta de sección — uppercase pequeño con color de marca + un poco de espacio
+// debajo. La usamos para separar bloques en pantallas largas (test de batería) y
+// que el ojo encuentre rápidamente cada paso.
+function SectionLabel({ children, className = '' }) {
+  return (
+    <div className={`text-[10px] uppercase tracking-[0.16em] text-white/45 font-semibold mb-2.5 ${className}`}>
+      {children}
+    </div>
+  );
 }
 
 // Componente reutilizable para tips, instrucciones y avisos importantes.
