@@ -18,10 +18,11 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         // El backend default; se puede sobreescribir por buildType o resource
-        // Hostname mDNS/Bonjour del Mac de Rob. No depende de la IP LAN — sigue funcionando
-        // aunque cambie de WiFi. Cuando esté hosting productivo en TI, cambiar a smartcheck.reuse.cl.
-        // El APK debug confía en certs autofirmados (ver ApiClient.applyDebugInsecureTrust).
-        resValue("string", "smartcheck_api_base", "https://macbook-pro-de-roberto-2.local:8768")
+        // Backend en Render (TLS válido, accesible desde cualquier red).
+        // Reemplaza el setup local con cert autofirmado — el APK ahora puede usar el
+        // truststore por defecto del sistema sin trust-all en debug.
+        // Cuando TI haga handoff, esto cambia a smartcheck.reuse.cl o equivalente.
+        resValue("string", "smartcheck_api_base", "https://smartcheck-vsmv.onrender.com")
     }
 
     buildTypes {
