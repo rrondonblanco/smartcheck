@@ -240,6 +240,11 @@ function ResultBadge({ ok }) {
       <I.Check size={10} stroke={3}/> OK
     </span>
   );
+  if (ok === 'warning') return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-yellow-500/15 text-yellow-300 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">
+      <I.Check size={10} stroke={3}/> OK · revisar
+    </span>
+  );
   if (ok === 'fail') return (
     <span className="inline-flex items-center gap-1 rounded-full bg-red-500/15 text-red-400 text-[10.5px] font-semibold uppercase tracking-wide px-2 py-0.5">
       <I.X size={10} stroke={3}/> FALLA
@@ -785,7 +790,7 @@ function TestMenuScreen({ state, next, back, goTo }) {
             return (
               <button key={t.id} onClick={()=>goTo(t.id)}
                 className="w-full text-left rounded-2xl bg-white/5 ring-1 ring-white/10 p-4 flex items-center gap-3 hover:bg-white/[0.08] transition">
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${ok==='pass' ? 'bg-mint-500/15 text-mint-400' : ok==='fail' ? 'bg-red-500/15 text-red-400' : 'bg-white/10 text-white'}`}>
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${ok==='pass' ? 'bg-mint-500/15 text-mint-400' : ok==='warning' ? 'bg-yellow-500/15 text-yellow-300' : ok==='fail' ? 'bg-red-500/15 text-red-400' : 'bg-white/10 text-white'}`}>
                   {t.icon}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -2313,8 +2318,10 @@ function SummaryScreen({ state, next, back }) {
     ['buttons','Botones / carga',<I.Plug size={14}/>],
   ];
   const passCount = testList.filter(([k])=>results[k]?.status==='pass').length;
+  const warningCount = testList.filter(([k])=>results[k]?.status==='warning').length;
   const failCount = testList.filter(([k])=>results[k]?.status==='fail').length;
-  const score = Math.round((passCount / testList.length) * 100);
+  // Score: pass cuenta 1, warning cuenta 0.5 (mitad), fail/skip 0
+  const score = Math.round(((passCount + warningCount * 0.5) / testList.length) * 100);
 
   return (
     <div className="absolute inset-0 bg-ink-900 flex flex-col">
